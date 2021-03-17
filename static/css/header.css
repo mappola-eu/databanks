@@ -1,0 +1,38 @@
+header {
+    background-color: var(--header-col);
+    padding: 0.25rem;
+}
+
+header .header-container {
+    display: flex;
+    align-items: center;
+}
+
+header a {
+    display: block;
+    text-align: center;
+    color: #ffffffee;
+    padding: 0.5rem 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 0.25rem;
+    transition: all .3s ease;
+    font-size: 0.95em;
+    margin: 0 0.05rem;
+}
+header a.header-brand {
+    font-size: 1.05em;
+    color: #ffffff;
+    margin-right: 0.5rem;
+}
+header a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+header a:active,
+header a.active {
+    color: var(--header-col);
+    background-color: #ffffff;
+}
+
+
+header .header-flush { flex-grow: 1; }

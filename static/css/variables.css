@@ -1,0 +1,12 @@
+:root {
+    --brand-col:    #fe1e0a;
+    --dark-col:     #2b303a;
+    --medium-col:   #939393;
+    --light-col:    #ebebeb;
+
+    --header-col:   #662e9b;
+    --action-col:   #f9c80e;
+
+
+    --layout-width:  1024px;
+}

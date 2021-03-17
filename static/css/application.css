@@ -1,0 +1,13 @@
+/*
+ * MAPPOLA DATABANKS CSS
+ * Color scheme: https://coolors.co/fe1e0a-2b303a-ebebeb-939393-662e9b-f9c80e
+ */
+
+
+@import "normalize.css";
+
+@import "variables.css";
+@import "layout.css";
+@import "typography.css";
+
+@import "header.css";
