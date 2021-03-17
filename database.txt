@@ -1,0 +1,114 @@
+17.3. 14:30 -
+
+Inscriptions
+    Title
+    TrismegistosNr
+
+    PlaceID ->
+    FindCommentary
+    CurrentLocationID ->
+
+    ObjectTypeID ->
+    ObjectMaterialID ->
+    ObjectPreservationStateID ->
+    (Dimensions)
+    ObjectExecutionTechniqueID ->
+    ObjectDecorationComment
+    ObjectTextLayoutComment
+
+    TextFunctionID ->
+    TextDiplomaticForm
+    TextInterpretativeForm
+    TextMetricsVisualisedForm
+
+    TextApparatusCriticusComment
+
+    GeneralComment
+
+    Date
+
+
+InscriptionDecorationTagAssoc
+    Inscriptions <-> ObjectDecorationTags
+
+InscriptionLanguageAssoc
+    Inscriptions <-> Languages
+
+InscriptionDatingCriteriaAssoc
+    Inscriptions <-> DatingCriteria
+
+Inscription <-> VerseTypes
+    VerseTimingTypeID
+
+PURE-LOOKUP-TABLES {
+    ObjectTypes
+    ObjectMaterials
+    ObjectPreservationStates
+    ObjectExecutionTechniques
+    ObjectDecorationTags
+    TextFunctions
+    VerseTimingTypes
+    Languages
+
+    CurrentLocations
+    Places
+    Provinces
+
+    PeopleGenders
+    PeopleAges
+    PeopleAgeExpressions
+    PeopleAgePrecisions
+    PeopleOrigins
+    PeopleLegalStatus
+    PeopleRank
+    PeopleProfessions
+
+    DatingCriteria
+}
+
+VerseTypes
+    Name
+    ParentVerseTypeID ->
+
+Translations
+    InscriptionID ->
+    TranslatedForm
+    Language
+    LinkToPublishedTranslation
+
+Publications
+    InscriptionID ->
+    ReferenceComment
+
+People
+    Name
+    ReferenceLink
+    PeopleGenderID ->
+    PeopleAgeExpressionID ->
+    PeopleAgeID ->
+    PeopleAgePrecisionID ->
+    PeopleOriginID ->
+    PeopleLegalStatusID ->
+    PeopleRankID ->
+    PeopleProfessionID ->
+
+
+HISTORY-TABLES-FOR {
+    Inscriptions
+    InscriptionDecorationTagAssoc
+    InscriptionLanguageAssoc
+    InscriptionDatingCriteriaAssoc
+    Translations
+    Publications
+    People
+} ::: {
+    EditingHistory
+        InscriptionID ->
+        Field
+        OldValue
+        NewValue
+        EditedBy
+}
+
+Users
+Roles
