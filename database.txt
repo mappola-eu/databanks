@@ -3,7 +3,7 @@ Inscriptions
     TrismegistosNr
 
     PlaceID ->
-    FindCommentary
+    FindComment
     CurrentLocationID ->
 
     ObjectTypeID ->
@@ -35,7 +35,8 @@ InscriptionLanguageAssoc
 InscriptionDatingCriteriaAssoc
     Inscriptions <-> DatingCriteria
 
-Inscription <-> VerseTypes
+InscriptionVerseTypeAssoc
+    Inscriptions <-> VerseTypes
     VerseTimingTypeID
 
 PURE-LOOKUP-TABLES {

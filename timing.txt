@@ -1,3 +1,5 @@
 TIMING
 
 2021-03-17  14:30 - 15:50   1h 20m      Database creation and inital setup
+2021-04-06  13:20 - 13:40
+            14:12 -                    

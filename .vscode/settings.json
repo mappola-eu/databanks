@@ -1,0 +1,12 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "Mappola DB (dev)",
+            "group": "Mappola",
+            "database": "${workspaceFolder:Databanks}/mappola_dev.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
