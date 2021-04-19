@@ -15,3 +15,18 @@
         })
     });
 })();
+
+// Insc cards
+(() => {
+    const insc_cards = document.querySelectorAll('.insc--card .insc--card-header');
+    insc_cards.forEach(card => {
+        card.addEventListener('click', e => {
+            const tgt = e.target;
+
+            tgt.parentNode.classList.toggle('__active');
+            tgt.classList.toggle('__active');
+
+            e.preventDefault();
+        })
+    });
+})();

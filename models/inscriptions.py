@@ -82,6 +82,14 @@ class Inscriptions(db.Model):
     object_material = db.relationship('ObjectMaterials', backref='inscriptions')
     object_preservation_state = db.relationship('ObjectPreservationStates', backref='inscriptions')
     object_execution_technique = db.relationship('ObjectExecutionTechniques', backref='inscriptions')
+    text_function = db.relationship('TextFunctions', backref='inscriptions')
+
+    languages = db.relationship('Languages', secondary=inscription_language_assoc, backref='inscriptions')
+    decoration_tags = db.relationship('ObjectDecorationTags', secondary=inscription_decoration_tag_assoc, backref='inscriptions')
+    dating_criteria = db.relationship('DatingCriteria', secondary=inscription_dating_criterion_assoc, backref='inscriptions')
+    verse_types = db.relationship('VerseTypes', secondary=inscription_verse_type_assoc, backref='inscriptions')
+
+    translations = db.relationship('Translations', backref='inscription')
 
 
 class ObjectTypes(db.Model):
@@ -175,6 +183,8 @@ class Translations(db.Model):
     translated_form = db.Column(db.Text)
     language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
     link_to_published_transition = db.Column(db.Text)
+
+    language = db.relationship('Languages')
 
 class Publications(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

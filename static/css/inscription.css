@@ -107,20 +107,25 @@
     cursor: pointer;
     position: relative;
     padding-left: 3rem;
+    border-radius: 0.25rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #fafafa;
 }
 .insc .insc--card .insc--card-header:hover {
-    background-color: #fafafa;
+    text-decoration: underline;
 }
 .insc .insc--card .insc--card-header::after {
     content: '';
     height: 1rem;
     width: 1rem;
-    border-bottom: 5px solid #ddd;
-    border-left: 5px solid #ddd;
+    border-bottom: 5px solid rgba(0,0,0,0.2);
+    border-left: 5px solid rgba(0,0,0,0.2);
     position: absolute;
-    left: 1rem;
-    bottom: 1rem;
-    transform: rotate(-45deg);
+    left: 0.65rem;
+    bottom: 0.75rem;
+    transform: rotate(225deg);
+    border-bottom-left-radius: 0.125rem;
 }
 .insc .insc--card .insc--card-body {
     padding: 1rem;
@@ -128,10 +133,19 @@
 .insc .insc--card .insc--card-body h4:first-child {
     margin-top: 0;
 }
+.insc .insc--card .insc--card-body:not(:last-child) {
+    border-bottom: 1px solid rgba(230, 230, 235, 0.9);
+}
 
 .insc .insc--card:not(.__active) .insc--card-body {
     display: none;
 }
 .insc .insc--card:not(.__active) .insc--card-header {
     border-bottom: none;
+    border-radius: 0.25rem;
+}
+.insc .insc--card.__active .insc--card-header::after {
+    transform: rotate(-45deg);
+    left: 1rem;
+    bottom: 1rem;
 }

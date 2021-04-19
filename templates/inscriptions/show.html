@@ -73,9 +73,58 @@
         <div class="insc--card-body">
             <h4>Decoration and Iconography</h4>
             {{ inscription.object_decoration_comment }}
+            <h4>Decoration tags</h4>
+            <ul>
+                {% for lang in inscription.decoration_tags %}
+                <li>{{ lang.title }}</li>
+                {% endfor %}
+            </ul>
             <h4>Text Layout</h4>
             {{ inscription.object_text_layout_comment }}
         </div>
+    </div>
+
+    <div class="insc--title">
+        <h2>Text</h2>
+    </div>
+
+    <div class="insc--card">
+        <div class="insc--card-header" role="button">
+            Text Details
+        </div>
+        <div class="insc--card-body">
+            <h4>Function</h4>
+            {{ inscription.text_function.title }}
+            <h4>Language(s)</h4>
+            <ul>
+                {% for lang in inscription.languages %}
+                <li>{{ lang.title }}</li>
+                {% endfor %}
+            </ul>
+            <h4>Verse Types</h4>
+            <ul>
+                {% for lang in inscription.verse_types %}
+                <li>{{ lang.title }}</li>
+                {% endfor %}
+            </ul>
+            <h4>Apparatus criticus</h4>
+            {{ inscription.apparatus_criticus }}
+        </div>
+    </div>
+
+    <div class="insc--card __active">
+        <div class="insc--card-header" role="button">
+            Translations
+        </div>
+        {% for translation in inscription.translations %}
+        <div class="insc--card-body">
+            <h4>Translation to {{ translation.language.title }}</h4>
+            <p>{{ translation.translated_form }}</p>
+            {% if translation.link_to_published_transition %}
+            <p><em>Source:</em> {{ translation.link_to_published_transition }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
