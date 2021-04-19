@@ -2,4 +2,6 @@ TIMING
 
 2021-03-17  14:30 - 15:50   1h 20m      Database creation and inital setup
 2021-04-06  13:20 - 13:40
-            14:12 -                    
+            14:10 - 16:00   2h 10m      Initial display of inscriptions (begun)                   
+2021-04-19  15:58 - 16:05
+            16:45 -

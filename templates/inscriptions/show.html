@@ -1,0 +1,34 @@
+{% set title = "Index page" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<div class="insc">
+    <div class="insc--header">
+        <h1>{{ inscription.title }}</h1>
+        <dl>
+            <dt>
+                Reference as:
+            </dt>
+            <dd>
+                MAPPOLA {{ inscription.id }}
+            </dd>
+            <dt>
+                Trismegistos-No.
+            </dt>
+            <dd>
+                {{ inscription.trismegistos_nr }}
+            </dd>
+        </dl>
+    </div>
+    <div class="insc--text">
+        <div class="insc--presentation-switches">
+            <a href="#text-diplomatic" class="__active">Diplomatic</a>
+            <a href="#text-interpretative">Interpretative</a>
+            <a href="#text-metrics-visualised">Metrics Visualised</a>
+        </div>
+        <div class="insc--presentation __active" id="text-diplomatic">{{ inscription.text_diplomatic_form }}</div>
+        <div class="insc--presentation" id="text-interpretative">{{ inscription.text_interpretative_form }}</div>
+        <div class="insc--presentation" id="text-metrics-visualised">{{ inscription.text_metrics_visualised_form }}</div>
+    </div>
+</div>
+{% endblock %}
