@@ -76,6 +76,13 @@ class Inscriptions(db.Model):
     general_comment = db.Column(db.Text)
     date = db.Column(db.Text)
 
+    place = db.relationship('Places', backref='inscriptions')
+    current_location = db.relationship('CurrentLocations', backref='inscriptions')
+    object_type = db.relationship('ObjectTypes', backref='inscriptions')
+    object_material = db.relationship('ObjectMaterials', backref='inscriptions')
+    object_preservation_state = db.relationship('ObjectPreservationStates', backref='inscriptions')
+    object_execution_technique = db.relationship('ObjectExecutionTechniques', backref='inscriptions')
+
 
 class ObjectTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

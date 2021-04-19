@@ -30,5 +30,52 @@
         <div class="insc--presentation" id="text-interpretative">{{ inscription.text_interpretative_form }}</div>
         <div class="insc--presentation" id="text-metrics-visualised">{{ inscription.text_metrics_visualised_form }}</div>
     </div>
+
+    <div class="insc--title">
+        <h2>Object</h2>
+    </div>
+
+    <div class="insc--card">
+        <div class="insc--card-header" role="button">
+            Provenance and Location
+        </div>
+        <div class="insc--card-body">
+            <h4>Find place</h4>
+            {{ inscription.place.title }}
+            <h4>Find context</h4>
+            {{ inscription.find_comment }}
+            <h4>Current location</h4>
+            {{ inscription.current_location.title }}
+        </div>
+    </div>
+
+    <div class="insc--card">
+        <div class="insc--card-header" role="button">
+            Object Details
+        </div>
+        <div class="insc--card-body">
+            <h4>Object Type</h4>
+            {{ inscription.object_type.title }}
+            <h4>Material</h4>
+            {{ inscription.object_material.title }}
+            <h4>State of Preservation</h4>
+            {{ inscription.object_preservation_state.title }}
+            <h4>Dimensions</h4>
+            <h4>Execution Technique</h4>
+            {{ inscription.object_execution_technique.title }}
+        </div>
+    </div>
+
+    <div class="insc--card">
+        <div class="insc--card-header" role="button">
+            Decoration and Layout
+        </div>
+        <div class="insc--card-body">
+            <h4>Decoration and Iconography</h4>
+            {{ inscription.object_decoration_comment }}
+            <h4>Text Layout</h4>
+            {{ inscription.object_text_layout_comment }}
+        </div>
+    </div>
 </div>
 {% endblock %}
