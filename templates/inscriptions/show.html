@@ -1,4 +1,4 @@
-{% set title = "Index page" %}
+{% set title = "Inscription: " + inscription.title %}
 {% extends "layouts/application.html" %}
 
 {% block body %}
@@ -29,6 +29,21 @@
         <div class="insc--presentation __active" id="text-diplomatic">{{ inscription.text_diplomatic_form }}</div>
         <div class="insc--presentation" id="text-interpretative">{{ inscription.text_interpretative_form }}</div>
         <div class="insc--presentation" id="text-metrics-visualised">{{ inscription.text_metrics_visualised_form }}</div>
+    </div>
+
+    <div class="insc--card __no-mt">
+        <div class="insc--card-header" role="button">
+            Translations
+        </div>
+        {% for translation in inscription.translations %}
+        <div class="insc--card-body">
+            <h4>Translation to {{ translation.language.title }}</h4>
+            <p>{{ translation.translated_form }}</p>
+            {% if translation.link_to_published_transition %}
+            <p><em>Source:</em> {{ translation.link_to_published_transition }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
     </div>
 
     <div class="insc--title">
@@ -112,19 +127,8 @@
         </div>
     </div>
 
-    <div class="insc--card __active">
-        <div class="insc--card-header" role="button">
-            Translations
-        </div>
-        {% for translation in inscription.translations %}
-        <div class="insc--card-body">
-            <h4>Translation to {{ translation.language.title }}</h4>
-            <p>{{ translation.translated_form }}</p>
-            {% if translation.link_to_published_transition %}
-            <p><em>Source:</em> {{ translation.link_to_published_transition }}</p>
-            {% endif %}
-        </div>
-        {% endfor %}
+    <div class="insc--title">
+        <h2>Prosopographical Information</h2>
     </div>
 </div>
 {% endblock %}
