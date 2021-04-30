@@ -50,6 +50,17 @@ inscription_verse_type_assoc = db.Table(
         db.Integer(),
         db.ForeignKey('verse_timing_types.id')))
 
+inscription_people_assoc = db.Table(
+    'inscription_people_assoc',
+    db.Column(
+        'inscription_id',
+        db.Integer(),
+        db.ForeignKey('inscriptions.id')),
+    db.Column(
+        'people_id',
+        db.Integer(),
+        db.ForeignKey('people.id')))
+
 class Inscriptions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(180))
@@ -195,10 +206,10 @@ class People(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     reference_link = db.Column(db.Text)
     people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
-    people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
-    people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
-    people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
-    people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
-    people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
-    people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
-    people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
+    people_age_id = db.Column(db.Integer, db.ForeignKey('people_ages.id'))
+    people_age_expression_id = db.Column(db.Integer, db.ForeignKey('people_age_expressions.id'))
+    people_age_precision_id = db.Column(db.Integer, db.ForeignKey('people_age_precision.id'))
+    people_origin_id = db.Column(db.Integer, db.ForeignKey('people_origins.id'))
+    people_legal_status_id = db.Column(db.Integer, db.ForeignKey('people_legal_status.id'))
+    people_rank_id = db.Column(db.Integer, db.ForeignKey('people_ranks.id'))
+    people_profession_id = db.Column(db.Integer, db.ForeignKey('people_professions.id'))
