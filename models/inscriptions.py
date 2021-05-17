@@ -99,6 +99,7 @@ class Inscriptions(db.Model):
     decoration_tags = db.relationship('ObjectDecorationTags', secondary=inscription_decoration_tag_assoc, backref='inscriptions')
     dating_criteria = db.relationship('DatingCriteria', secondary=inscription_dating_criterion_assoc, backref='inscriptions')
     verse_types = db.relationship('VerseTypes', secondary=inscription_verse_type_assoc, backref='inscriptions')
+    people = db.relationship('People', secondary=inscription_people_assoc, backref='inscriptions')
 
     translations = db.relationship('Translations', backref='inscription')
 
@@ -202,9 +203,12 @@ class Publications(db.Model):
     inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
     reference_comment = db.Column(db.Text)
 
+    inscription = db.relationship('Inscriptions', backref='publications')
+
 class People(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     reference_link = db.Column(db.Text)
+    name = db.Column(db.Text)
     people_gender_id = db.Column(db.Integer, db.ForeignKey('people_genders.id'))
     people_age_id = db.Column(db.Integer, db.ForeignKey('people_ages.id'))
     people_age_expression_id = db.Column(db.Integer, db.ForeignKey('people_age_expressions.id'))
@@ -213,3 +217,12 @@ class People(db.Model):
     people_legal_status_id = db.Column(db.Integer, db.ForeignKey('people_legal_status.id'))
     people_rank_id = db.Column(db.Integer, db.ForeignKey('people_ranks.id'))
     people_profession_id = db.Column(db.Integer, db.ForeignKey('people_professions.id'))
+
+    gender = db.relationship('PeopleGenders', backref='people')
+    age = db.relationship('PeopleAges', backref='people')
+    age_expression = db.relationship('PeopleAgeExpressions', backref='people')
+    age_precision = db.relationship('PeopleAgePrecision', backref='people')
+    origin = db.relationship('PeopleOrigins', backref='people')
+    legal_status = db.relationship('PeopleLegalStatus', backref='people')
+    rank = db.relationship('PeopleRanks', backref='people')
+    profession = db.relationship('PeopleProfessions', backref='people')

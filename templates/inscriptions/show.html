@@ -10,7 +10,7 @@
                 Reference as:
             </dt>
             <dd>
-                MAPPOLA {{ inscription.id }}
+                MPL {{ (""~inscription.id).zfill(5) }}
             </dd>
             <dt>
                 Trismegistos-No.
@@ -22,12 +22,12 @@
     </div>
     <div class="insc--text">
         <div class="insc--presentation-switches">
-            <a href="#text-diplomatic" class="__active">Diplomatic</a>
-            <a href="#text-interpretative">Interpretative</a>
+            <a href="#text-interpretative" class="__active">Interpretative</a>
+            <a href="#text-diplomatic">Diplomatic</a>
             <a href="#text-metrics-visualised">Metrics Visualised</a>
         </div>
-        <div class="insc--presentation __active" id="text-diplomatic">{{ inscription.text_diplomatic_form }}</div>
-        <div class="insc--presentation" id="text-interpretative">{{ inscription.text_interpretative_form }}</div>
+        <div class="insc--presentation" id="text-diplomatic">{{ inscription.text_diplomatic_form }}</div>
+        <div class="insc--presentation __active" id="text-interpretative">{{ inscription.text_interpretative_form }}</div>
         <div class="insc--presentation" id="text-metrics-visualised">{{ inscription.text_metrics_visualised_form }}</div>
     </div>
 
@@ -129,6 +129,78 @@
 
     <div class="insc--title">
         <h2>Prosopographical Information</h2>
+    </div>
+    {% for person in inscription.people %}
+        <div class="insc--card">
+            <div class="insc--card-header" role="button">
+                No. {{ loop.index }}: {{ person.name }}
+            </div>
+            <div class="insc--card-body">
+                <h4>Name of person</h4>
+                {{ person.name }}
+
+                <h4>Gender</h4>
+                {{ person.gender.title }}
+
+                <h4>Age</h4>
+                {{ person.age.title }}<br><em>(expression: {{ person.age_expression.title }}, precision: {{ person.age_precision.title }})</em>
+                
+                <h4>Origin</h4>
+                {{ person.origin.title }}
+                
+                <h4>Legal status</h4>
+                {{ person.legal_status.title }}
+                
+                <h4>Rank</h4>
+                {{ person.rank.title }}
+                
+                <h4>Profession</h4>
+                {{ person.profession.title }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="insc--title">
+        <h2>Further information</h2>
+    </div>
+
+    <div class="insc--card">
+        <div class="insc--card-header" role="button">
+            Comment
+        </div>
+        <div class="insc--card-body">
+            {{ inscription.general_comment }}
+        </div>
+    </div>
+
+    <div class="insc--card">
+        <div class="insc--card-header" role="button">
+            Dating information
+        </div>
+        <div class="insc--card-body">
+            <h4>Date</h4>
+            {{ inscription.date }}
+
+            <h4>Dating criteria</h4>
+            <ul>
+                {% for criterion in inscription.dating_criteria %}
+                <li>{{ criterion.title }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="insc--card">
+        <div class="insc--card-header" role="button">
+            Bibliography
+        </div>
+        <div class="insc--card-body">
+            <ul>
+                {% for publication in inscription.publications %}
+                <li>{{ publication.reference_comment }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}
