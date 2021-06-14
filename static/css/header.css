@@ -1,6 +1,6 @@
 header {
     background-color: var(--header-col);
-    padding: 0.25rem;
+    padding: 0.5rem;
 }
 
 header .header-container {
@@ -21,12 +21,13 @@ header a {
     margin: 0 0.05rem;
 }
 header a.header-brand {
-    font-size: 1.05em;
+    font-size: 1.5em;
     color: #ffffff;
     margin-right: 0.5rem;
 }
 header a:hover {
     background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 6px -3px rgba(0,0,0,0.4);
 }
 header a:active,
 header a.active {

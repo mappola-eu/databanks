@@ -4,7 +4,7 @@
     --medium-col:   #939393;
     --light-col:    #ebebeb;
 
-    --header-col:   #662e9b;
+    --header-col:   var(--dark-col);
     --action-col:   #f9c80e;
 
 
