@@ -16,15 +16,22 @@
         
         <div class="header-flush"></div>
 
+        {% if current_user.is_authenticated %}
         <a href="">
             <i class="fa fa-cog fa-fw"></i>
         </a>
         <a href="">
             <i class="fa fa-user"></i>
-            Paul Strobach
+            {{ current_user.full_name }}
         </a>
-        <a href="">
+        <a href="{{ url_for('security.logout') }}">
             <i class="fa fa-sign-out fa-fw"></i>
         </a>
+        {% else %}
+        <a href="{{ url_for('security.login') }}">
+            <i class="fa fa-sign-in fa-fw"></i>
+            Sign in
+        </a>
+        {% endif %}
     </div>
 </header>
