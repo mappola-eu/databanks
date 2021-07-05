@@ -21,3 +21,12 @@ h4 {
     margin-bottom: 0.75rem;
     margin-top: 1.5rem;
 }
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--dark-col);
+    padding: 0.1em 0.3em;
+}
+a:hover {
+    background-color: var(--action-col);
+}

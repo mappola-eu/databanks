@@ -1,6 +1,7 @@
 header {
     background-color: var(--header-col);
     padding: 0.5rem;
+    border-top: 0.25rem solid var(--brand-col);
 }
 
 header .header-container {
@@ -37,3 +38,8 @@ header a.active {
 
 
 header .header-flush { flex-grow: 1; }
+
+.flashed-messages {
+    background-color: var(--light-col);
+    padding: 0.25rem;
+}

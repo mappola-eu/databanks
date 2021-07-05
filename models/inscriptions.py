@@ -226,3 +226,34 @@ class People(db.Model):
     legal_status = db.relationship('PeopleLegalStatus', backref='people')
     rank = db.relationship('PeopleRanks', backref='people')
     profession = db.relationship('PeopleProfessions', backref='people')
+
+def get_enum(enum):
+    data = {
+        "ObjectTypes": ObjectTypes,
+        "ObjectMaterials": ObjectMaterials,
+        "ObjectPreservationStates": ObjectPreservationStates,
+        "ObjectExecutionTechniques": ObjectExecutionTechniques,
+        "ObjectDecorationTags": ObjectDecorationTags,
+        "TextFunctions": TextFunctions,
+        "VerseTimingTypes": VerseTimingTypes,
+        "Languages": Languages,
+        "CurrentLocations": CurrentLocations,
+        "Places": Places,
+        "Provinces": Provinces,
+        "PeopleGenders": PeopleGenders,
+        "PeopleAges": PeopleAges,
+        "PeopleAgeExpressions": PeopleAgeExpressions,
+        "PeopleAgePrecision": PeopleAgePrecision,
+        "PeopleOrigins": PeopleOrigins,
+        "PeopleLegalStatus": PeopleLegalStatus,
+        "PeopleRanks": PeopleRanks,
+        "PeopleProfessions": PeopleProfessions,
+        "DatingCriteria": DatingCriteria,
+        "VerseTypes": VerseTypes
+    }
+
+    if enum in data.keys():
+        return data[enum]
+    
+    else:
+        raise NameError("Enumeration not found: ", enum)

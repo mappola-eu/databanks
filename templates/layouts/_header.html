@@ -35,3 +35,17 @@
         {% endif %}
     </div>
 </header>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="flashed-messages">
+    <div class="container">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
