@@ -3,7 +3,7 @@
 
 {% block body %}
 <div class="float-right mt">
-    <a href="" class="button">New item</a>
+    <a href="{{ url_for('enum.new', name=name) }}" class="button">New item</a>
 </div>
 <h1>Edit {{ name }}</h1>
 

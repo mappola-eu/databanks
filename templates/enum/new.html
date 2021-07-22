@@ -1,0 +1,18 @@
+{% set title = name %}
+{% extends "layouts/innermodal.html" %}
+
+{% block body %}
+<form action="" method="post">
+    <div class="float-right">
+        <button type="submit">Create</button>
+        <a href="{{ url_for('enum.show', name=name) }}" class="button secondary">Cancel</a>
+    </div>
+    <h1>Edit {{ name }}</h1>
+
+    <p>Create new item named</p>
+    <div class="form-component">
+        <label for="enum__title">Name:</label>
+        <input type="text" id="enum__title" value="{{ item.title }}" name="title">
+    </div>
+</form>
+{% endblock %}
