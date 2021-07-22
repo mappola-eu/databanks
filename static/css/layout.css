@@ -20,6 +20,9 @@ main {
     float: right;
     padding-top: 0.5rem;
 }
+.float-right.mt {
+    padding-top: 1rem;
+}
 @media all and (max-width: 720px) {
     .float-right {
         float: none;

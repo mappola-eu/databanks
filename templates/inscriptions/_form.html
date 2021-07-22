@@ -1,0 +1,242 @@
+{% macro render_enum(key, val, id="_", multiple=False) %}
+<select name="{{ id }}" id="{{ id }}" data-enum="{{ key }}" {{ "multiple" if multiple }}>
+    {% for e in get_enum(key).query.all() %}
+    <option value="{{ e.id }}"
+    {% if multiple %}
+            {{ 'selected' if e.id in get_ids(val) }}>
+    {% else %}
+            {{ 'selected' if e.id == val.id }}>
+    {% endif %}
+        {{ e.title }}
+    </option>
+    {% endfor %}
+</select>
+<a href="{{ url_for('enum.show', name=key) }}" target="_blank" class="edit-enum-link" data-modal="#enum-modal">Edit enumeration</a>
+{% endmacro %}
+
+<form action="" method="post">
+    <div class="float-right">
+        <button type="submit">{{ form_submit_txt }}</button>
+        <a href="{{ form_cancel_url }}" class="button secondary">Cancel</a>
+    </div>
+    <h1>{{ form_title }}</h1>
+    <div class="insc">
+        <div class="insc--title">
+            <h2>
+                General Information
+            </h2>
+        </div>
+        <div class="insc--card __active">
+            <div class="insc--card-header" role="button">
+                Details
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="insc__title">Public title</label>
+                    <input type="text" id="insc__title" value="{{ inscription.title }}" name="title">
+                </div>
+                <div class="form-component">
+                    <label for="insc__trismegistos_nr">Trismegistos-No. (or "n/a" if not applicable)</label>
+                    <input type="text" id="insc__trismegistos_nr" value="{{ inscription.trismegistos_nr }}" name="trismegistos_nr">
+                </div>
+            </div>
+        </div>
+        <div class="insc--card __active">
+            <div class="insc--card-header" role="button">
+                Text
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="text__interpretative">Interpretative Form</label>
+                    <textarea id="text__interpretative" class="monotext" name="text_interpretative_form">{{ inscription.text_interpretative_form }}</textarea>
+                </div>
+                <div class="form-component">
+                    <label for="text__diplomatic">Diplomatic Form</label>
+                    <textarea id="text__diplomatic" class="monotext" name="text_diplomatic_form">{{ inscription.text_diplomatic_form }}</textarea>
+                </div>
+                <div class="form-component">
+                    <label for="text__with_metrics">Text Form with Metrics Visualised</label>
+                    <textarea id="text__with_metrics" class="monotext" name="text_metrics_visualised_form">{{ inscription.text_metrics_visualised_form }}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="insc--title">
+            <h2>Object</h2>
+        </div>
+        <div class="insc--card __active">
+            <div class="insc--card-header" role="button">
+                Provenance and Location
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="place_id">Find place</label>
+                    {{ render_enum("Places", inscription.place, id="place_id", multiple=False) }}
+                </div>
+                <div class="form-component">
+                    <label for="find_comment">Find context</label>
+                    <textarea id="find_comment" name="find_comment">{{ inscription.find_comment }}</textarea>
+                </div>
+                <div class="form-component">
+                    <label for="current_location_id">Current location</label>
+                    {{ render_enum("CurrentLocations", inscription.current_location, id="current_location_id", multiple=False) }}
+                </div>
+            </div>
+        </div>
+        <div class="insc--card">
+            <div class="insc--card-header" role="button">
+                Object Details
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="object_type_id">Object Type</label>
+                    {{ render_enum("ObjectTypes", inscription.object_type, id="object_type_id", multiple=False) }}
+                </div>
+                <div class="form-component">
+                    <label for="object_material_id">Material</label>
+                    {{ render_enum("ObjectMaterials", inscription.object_material, id="object_material_id", multiple=False) }}
+                </div>
+                <div class="form-component">
+                    <label for="object_preservation_state_id">State of Preservation</label>
+                    {{ render_enum("ObjectPreservationStates", inscription.object_preservation_state, id="object_preservation_state_id", multiple=False) }}
+                </div>
+                <div class="form-component">
+                    <label for="object_execution_technique_id">Execution Technique</label>
+                    {{ render_enum("ObjectExecutionTechniques", inscription.object_execution_technique, id="object_execution_technique_id", multiple=False) }}
+                </div>
+            </div>
+        </div>
+        <div class="insc--card">
+            <div class="insc--card-header" role="button">
+                Decoration and Layout
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="object_decoration_comment">Decoration and Iconography</label>
+                    <textarea id="object_decoration_comment" name="object_decoration_comment">{{ inscription.object_decoration_comment }}</textarea>
+                </div>
+                <div class="form-component">
+                    <label for="decoration_tags">Decoration tags</label>
+                    {{ render_enum("ObjectDecorationTags", inscription.decoration_tags, id="decoration_tags", multiple=True) }}
+                </div>
+                <div class="form-component">
+                    <label for="object_text_layout_comment">Text Layout</label>
+                    <textarea id="object_text_layout_comment" name="object_text_layout_comment">{{ inscription.object_text_layout_comment }}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="insc--title">
+            <h2>Text</h2>
+        </div>
+        <div class="insc--card">
+            <div class="insc--card-header" role="button">
+                Text Details
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="text_function_id">Function</label>
+                    {{ render_enum("TextFunctions", inscription.text_function, id="text_function_id", multiple=False) }}
+                </div>
+                <div class="form-component">
+                    <label for="languages">Language(s)</label>
+                    {{ render_enum("Languages", inscription.languages, id="languages", multiple=True) }}
+                </div>
+                <div class="form-component">
+                    <label for="verse_types">Verse Type(s)</label>
+                    {{ render_enum("VerseTypes", inscription.verse_types, id="verse_types", multiple=True) }}
+                </div>
+                <div class="form-component">
+                    <label for="apparatus_criticus">Apparatus criticus</label>
+                    <textarea id="apparatus_criticus" name="apparatus_criticus">{{ inscription.apparatus_criticus }}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="insc--title">
+            <h2>Further information</h2>
+        </div>
+        <div class="insc--card">
+            <div class="insc--card-header" role="button">
+                Comment
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="general_comment">General comment</label>
+                    <textarea id="general_comment" name="general_comment">{{ inscription.general_comment }}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="insc--card">
+            <div class="insc--card-header" role="button">
+                Dating information
+            </div>
+            <div class="insc--card-body">
+                <div class="form-component">
+                    <label for="date">Date</label>
+                    <textarea id="date" name="date">{{ inscription.date }}</textarea>
+                </div>
+                <div class="form-component">
+                    <label for="languages">Dating criteria</label>
+                    {{ render_enum("DatingCriteria", inscription.dating_criteria, id="dating_criteria", multiple=True) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal" id="enum-modal">
+    <div class="modal-dialog container">
+        <div class="modal-close">
+            <a href="#" class="modal-toggle" data-modal="#enum-modal">&times;</a>
+        </div>
+        <iframe src="/loading" frameborder="0"></iframe>
+    </div>
+</div>
+
+
+{#
+    <div class="insc">
+        
+        {% for person in inscription.people %}
+            <div class="insc--card">
+                <div class="insc--card-header" role="button">
+                    No. {{ loop.index }}: {{ person.name }}
+                </div>
+                <div class="insc--card-body">
+                    <h4>Name of person</h4>
+                    {{ person.name }}
+    
+                    <h4>Gender</h4>
+                    {{ person.gender.title }}
+    
+                    <h4>Age</h4>
+                    {{ person.age.title }}<br><em>(expression: {{ person.age_expression.title }}, precision: {{ person.age_precision.title }})</em>
+                    
+                    <h4>Origin</h4>
+                    {{ person.origin.title }}
+                    
+                    <h4>Legal status</h4>
+                    {{ person.legal_status.title }}
+                    
+                    <h4>Rank</h4>
+                    {{ person.rank.title }}
+                    
+                    <h4>Profession</h4>
+                    {{ person.profession.title }}
+                </div>
+            </div>
+        {% endfor %}
+    
+        
+    
+        <div class="insc--card">
+            <div class="insc--card-header" role="button">
+                Bibliography
+            </div>
+            <div class="insc--card-body">
+                <ul>
+                    {% for publication in inscription.publications %}
+                    <li>{{ publication.reference_comment }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>#}

@@ -1,0 +1,27 @@
+{% set title = name %}
+{% extends "layouts/innermodal.html" %}
+
+{% block body %}
+<div class="float-right mt">
+    <a href="" class="button">New item</a>
+</div>
+<h1>Edit {{ name }}</h1>
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th></th>
+    </tr>
+    {% for item in enum.query.all() %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ item.title }}</td>
+        <td>
+            <a href="">Edit</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

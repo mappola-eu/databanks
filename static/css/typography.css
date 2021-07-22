@@ -30,3 +30,18 @@ a {
 a:hover {
     background-color: var(--action-col);
 }
+
+table.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table.table td,
+table.table th {
+    border: 1px solid #d0d0d0;
+    padding: 0.5rem;
+    text-align: left;
+}
+table.table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
