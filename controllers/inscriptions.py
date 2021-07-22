@@ -4,6 +4,28 @@ from flask_security import login_required
 
 inscriptions = Blueprint('inscriptions', __name__)
 
+accepted_properties = [
+    "title",
+    "trismegistos_nr",
+    "text_interpretative_form",
+    "text_diplomatic_form",
+    "text_metrics_visualised_form",
+    "place_id",
+    "find_comment",
+    "current_location_id",
+    "object_type_id",
+    "object_material_id",
+    "object_preservation_state_id",
+    "object_execution_technique_id",
+    "object_decoration_comment",
+    #"decoration_tags"
+    "object_text_layout_comment",
+    "text_function_id",
+    #"languages",
+    #"verse_types",
+    "apparatus_criticus"
+]
+
 @inscriptions.route("/<id>")
 def show(id):
     inscription = Inscriptions.query.get_or_404(id)
@@ -15,28 +37,6 @@ def edit(id):
     inscription = Inscriptions.query.get_or_404(id)
 
     if request.method == "POST":
-        accepted_properties = [
-            "title",
-            "trismegistos_nr",
-            "text_interpretative_form",
-            "text_diplomatic_form",
-            "text_metrics_visualised_form",
-            "place_id",
-            "find_comment",
-            "current_location_id",
-            "object_type_id",
-            "object_material_id",
-            "object_preservation_state_id",
-            "object_execution_technique_id",
-            "object_decoration_comment",
-            #"decoration_tags"
-            "object_text_layout_comment",
-            "text_function_id",
-            #"languages",
-            #"verse_types",
-            "apparatus_criticus"
-        ]
-
         for prop in accepted_properties:
             inscription.__setattr__(prop, request.form[prop])
 
@@ -47,4 +47,26 @@ def edit(id):
         return redirect(url_for('inscriptions.edit', id=inscription.id))
 
     return render_template("inscriptions/edit.html", inscription=inscription, get_enum=get_enum,
+                           get_ids = lambda list: [i.id for i in list])
+
+@login_required
+@inscriptions.route("/new", methods=["GET", "POST"])
+def new():
+    inscription = Inscriptions()
+
+    for prop in accepted_properties:
+        inscription.__setattr__(prop, '')
+
+    if request.method == "POST":
+        for prop in accepted_properties:
+            inscription.__setattr__(prop, request.form[prop])
+
+        db.session.add(inscription)
+        db.session.commit()
+
+        flash('Changes committed successfully')
+
+        return redirect(url_for('inscriptions.edit', id=inscription.id))
+
+    return render_template("inscriptions/new.html", inscription=inscription, get_enum=get_enum,
                            get_ids = lambda list: [i.id for i in list])
