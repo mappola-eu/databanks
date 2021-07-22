@@ -18,7 +18,7 @@
         <td>{{ loop.index }}</td>
         <td>{{ item.title }}</td>
         <td>
-            <a href="">Edit</a>
+            <a href="{{ url_for('enum.edit', name=name, id=item.id) }}">Rename</a>
         </td>
     </tr>
     {% endfor %}

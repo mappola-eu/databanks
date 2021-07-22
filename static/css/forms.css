@@ -60,3 +60,7 @@ button.secondary,
     color: var(--dark-col);
     box-shadow: none;
 }
+
+.mark {
+    background-color: var(--mark-col);
+}
