@@ -8,6 +8,9 @@
     margin-bottom: 0.5rem;
     border-radius: 0.25rem;
 }
+.insc .insc--header .edit-link {
+    float: right;
+}
 .insc .insc--header h1 {
     margin: 0;
     margin-top: 4rem;

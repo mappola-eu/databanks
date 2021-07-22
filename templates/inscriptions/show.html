@@ -4,6 +4,9 @@
 {% block body %}
 <div class="insc">
     <div class="insc--header">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('inscriptions.edit', id=inscription.id) }}" class="edit-link">Edit</a>
+        {% endif %}
         <h1>{{ inscription.title }}</h1>
         <dl>
             <dt>
