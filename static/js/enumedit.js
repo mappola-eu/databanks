@@ -1,5 +1,7 @@
 document.querySelectorAll(".modal-toggle").forEach( (mt) => {
     mt.addEventListener("click", async (e) => {
+        e.preventDefault();
+
         const MODAL = document.querySelector(e.target.getAttribute("data-modal"));
         
         if(MODAL.hasAttribute("data-enum-key")) {
@@ -23,12 +25,13 @@ document.querySelectorAll(".modal-toggle").forEach( (mt) => {
         }
         
         MODAL.classList.toggle("__visible");
-        e.preventDefault();
     } );
 } );
 
 document.querySelectorAll(".edit-enum-link").forEach( (mt) => {
     mt.addEventListener("click", async (e) => {
+        e.preventDefault();
+
         const BASE_URL = e.target.getAttribute("href");
         const MODAL = document.querySelector(e.target.getAttribute("data-modal"));
 
@@ -42,6 +45,5 @@ document.querySelectorAll(".edit-enum-link").forEach( (mt) => {
 
         MODAL.setAttribute("data-enum-list", '#' + e.target.parentNode.querySelector("select").getAttribute("id"));
         MODAL.setAttribute("data-enum-key", BASE_URL + '/api');
-        e.preventDefault();
     } );
 } );
