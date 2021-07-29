@@ -2,8 +2,13 @@
 {% extends "layouts/application.html" %}
 
 {% block body %}
+{% if current_user.is_authenticated %}
+<div class="float-right mt">
+    <a href="{{ url_for('inscriptions.new') }}" class="button">Add inscription</a>
+</div>
+{% endif %}
 <h1>Inscriptions</h1>
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>#</th>
@@ -14,9 +19,19 @@
     <tbody>
         {% for insc in inscs %}
         <tr>
-            <td>{{ (""~insc.id).zfill(5) }}</td>
-            <td><a href="{{ url_for('inscriptions.show', id=insc.id) }}">{{ insc.title }}</a></td>
-            <td>{{ insc.trismegistos_nr }}</td>
+            <td>
+                <a href="{{ url_for('inscriptions.show', id=insc.id) }}" tabindex="-1">
+                    {{ (""~insc.id).zfill(5) }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ url_for('inscriptions.show', id=insc.id) }}">
+                    {{ insc.title }}
+                </a>
+            </td>
+            <td>
+                {{ insc.trismegistos_nr }}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
