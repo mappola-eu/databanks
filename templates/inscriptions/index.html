@@ -1,0 +1,24 @@
+{% set title = "Inscriptions" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Inscriptions</h1>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Trismegistos-ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for insc in inscs %}
+        <tr>
+            <td>{{ (""~insc.id).zfill(5) }}</td>
+            <td><a href="{{ url_for('inscriptions.show', id=insc.id) }}">{{ insc.title }}</a></td>
+            <td>{{ insc.trismegistos_nr }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

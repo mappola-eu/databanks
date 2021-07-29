@@ -26,6 +26,11 @@ accepted_properties = [
     "apparatus_criticus"
 ]
 
+@inscriptions.route("/")
+def index():
+    inscs = Inscriptions.query.all()
+    return render_template("inscriptions/index.html", inscs=inscs)
+
 @inscriptions.route("/<id>")
 def show(id):
     inscription = Inscriptions.query.get_or_404(id)
