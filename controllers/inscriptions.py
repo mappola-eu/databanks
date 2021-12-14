@@ -1,5 +1,6 @@
 from flask import *
 from ..models import Inscriptions, db, get_enum
+from ..models import ObjectDecorationTags, Languages, VerseTypes, DatingCriteria
 from flask_security import login_required
 
 inscriptions = Blueprint('inscriptions', __name__)
@@ -18,13 +19,16 @@ accepted_properties = [
     "object_preservation_state_id",
     "object_execution_technique_id",
     "object_decoration_comment",
-    #"decoration_tags"
     "object_text_layout_comment",
     "text_function_id",
-    #"languages",
-    #"verse_types",
     "apparatus_criticus"
 ]
+accepted_multiple_properties = {
+    "decoration_tags": ObjectDecorationTags,
+    "languages": Languages,
+    "verse_types": VerseTypes,
+    "dating_criteria": DatingCriteria
+}
 
 @inscriptions.route("/")
 def index():
@@ -45,6 +49,12 @@ def edit(id):
         for prop in accepted_properties:
             inscription.__setattr__(prop, request.form[prop])
 
+        db.session.commit()
+
+        for prop, conv in accepted_multiple_properties.items():
+            items = [conv.query.get(int(i)) for i in request.form.getlist(prop)]
+            inscription.__setattr__(prop, items)
+        
         db.session.commit()
 
         flash('Changes committed successfully')
