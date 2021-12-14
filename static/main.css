@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #ddd;
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+header [role="separator"] { flex-grow: 1; }
+header a {
+    color: black;
+    margin: 0 0.5rem;
+    text-decoration: none;
+}
+header a:hover {
+    background-color: #bbb;
+}
+header a[role="heading"] { font-weight: bold; }
+
+main {
+    padding: 0.5rem;
+}
+table[role="table"] {
+    border: 1px solid #aaa;
+}
+table[role="table"] th, table[role="table"] td {
+    border: 1px solid #aaa;
+    padding: 0.25rem;
+    text-align: left;
+    vertical-align: top;
+}
+table[role="table"] td ul, table[role="table"] td p {
+    margin: 0;
+    margin-bottom: 0.15rem;
+}
+form table[role="table"] {
+    width: 100%;
+    max-width: 840px;
+}
+form table[role="table"] th {
+    padding: 0.5rem;
+}
+form table[role="table"] td {
+    width: 620px;
+    padding: 0.5rem;
+}
+
+.text-presentation {
+    padding: 0.5rem;
+    background-color: #eee;
+    margin-bottom: 0.1rem;
+}
+.switch-list {
+    margin: 1rem 0;
+    display: flex;
+}
+.switch-list label {
+    margin-right: 1.5rem;
+}
+
+section {
+    margin: 2rem 0rem;
+    padding: 1rem;
+    border: 1px solid #000;
+}
+
+form label,
+form input,
+form textarea,
+form select {
+    display: block;
+    width: 100%;
+}
+
+form input,
+form textarea,
+form select {
+    max-width: 600px;
+    padding: 0.25rem;
+    font: inherit;
+    margin-top: 0.15rem;
+    margin-bottom: 1rem;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 112px;
+}
+
+form label,
+form select,
+button, [role="button"] {
+    cursor: pointer;
+}
+
+form select + a[role="complementary"] {
+    margin-top: -0.75rem;
+    margin-bottom: 1rem;
+    font-size:0.85rem;
+    display: block;
+}
+
+form table[role="table"] th label,
+form table[role="table"] td input,
+form table[role="table"] td textarea,
+form table[role="table"] td select {
+    margin: 0;
+    margin-bottom: 0.15rem;
+}
+
+form table[role="table"] select + a[role="complementary"] {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+
+[role="alert"] {
+    background-color: #ccffcc;
+    padding: 0.5rem;
+}
+[role="alert"] ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

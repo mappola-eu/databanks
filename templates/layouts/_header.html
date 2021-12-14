@@ -1,51 +1,43 @@
 <header>
-    <div class="container header-container">
-        <a href="{{ url_for('index') }}" class="header-brand" role="heading">MAPPOLA</a>
-        <a href="{{ url_for('inscriptions.index') }}">
-            <i class="fa fa-list-alt"></i>
-            Inscriptions
-        </a>
-        <a href="">
-            <i class="fa fa-search"></i>
-            Search
-        </a>
-        <a href="">
-            <i class="fa fa-filter"></i>
-            Query
-        </a>
-        
-        <div class="header-flush"></div>
+    <a href="{{ url_for('index') }}" role="heading">MAPPOLA</a>
+    <a href="{{ url_for('inscriptions.index') }}">
+        Inscriptions
+    </a>
+    <a href="">
+        Search
+    </a>
+    <a href="">
+        Query
+    </a>
 
-        {% if current_user.is_authenticated %}
-        <a href="">
-            <i class="fa fa-cog fa-fw"></i>
-        </a>
-        <a href="">
-            <i class="fa fa-user"></i>
-            {{ current_user.full_name }}
-        </a>
-        <a href="{{ url_for('security.logout') }}">
-            <i class="fa fa-sign-out fa-fw"></i>
-        </a>
-        {% else %}
-        <a href="{{ url_for('security.login') }}">
-            <i class="fa fa-sign-in fa-fw"></i>
-            Sign in
-        </a>
-        {% endif %}
-    </div>
+    <div role="separator"></div>
+
+    {% if current_user.is_authenticated %}
+    <a href="">
+        Settings
+    </a>
+    <a href="">
+        User
+        ({{ current_user.full_name }})
+    </a>
+    <a href="{{ url_for('security.logout') }}">
+        Sign Out
+    </a>
+    {% else %}
+    <a href="{{ url_for('security.login') }}">
+        Sign In
+    </a>
+    {% endif %}
 </header>
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<div class="flashed-messages">
-    <div class="container">
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+<div role="alert">
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
 </div>
 {% endif %}
 {% endwith %}

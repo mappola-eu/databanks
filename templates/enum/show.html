@@ -1,27 +1,27 @@
 {% set title = name %}
-{% extends "layouts/innermodal.html" %}
+{% extends "layouts/application.html" %}
 
 {% block body %}
-<div class="float-right mt">
-    <a href="{{ url_for('enum.new', name=name) }}" class="button">New item</a>
-</div>
 <h1>Edit {{ name }}</h1>
+<p><a href="{{ url_for('enum.new', name=name) }}" role="button">New Item</a></p>
 
-<table class="table">
-    <tr>
-        <th>#</th>
-        <th>Title</th>
-        <th></th>
-    </tr>
-    {% for item in enum.query.all() %}
-    <tr>
-        <td>{{ loop.index }}</td>
-        <td>{{ item.title }}</td>
-        <td>
-            <a href="{{ url_for('enum.edit', name=name, id=item.id) }}">Rename</a>
-        </td>
-    </tr>
-    {% endfor %}
+<table role="table">
+    <tbody>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th></th>
+        </tr>
+        {% for item in enum.query.all() %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ item.title }}</td>
+            <td>
+                <a href="{{ url_for('enum.edit', name=name, id=item.id) }}">Rename</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
 {% endblock %}

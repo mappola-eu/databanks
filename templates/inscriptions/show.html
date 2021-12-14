@@ -2,208 +2,245 @@
 {% extends "layouts/application.html" %}
 
 {% block body %}
-<div class="insc">
-    <div class="insc--header">
-        {% if current_user.is_authenticated %}
-        <a href="{{ url_for('inscriptions.edit', id=inscription.id) }}" class="edit-link">Edit</a>
-        {% endif %}
-        <h1>{{ inscription.title }}</h1>
-        <dl>
-            <dt>
-                Reference as:
-            </dt>
-            <dd>
-                MPL {{ (""~inscription.id).zfill(5) }}
-            </dd>
-            <dt>
-                Trismegistos-No.
-            </dt>
-            <dd>
-                {{ inscription.trismegistos_nr }}
-            </dd>
-        </dl>
-    </div>
-    <div class="insc--text">
-        <div class="insc--presentation-switches">
-            <a href="#text-interpretative" class="__active">Interpretative</a>
-            <a href="#text-diplomatic">Diplomatic</a>
-            <a href="#text-metrics-visualised">Metrics Visualised</a>
-        </div>
-        <div class="insc--presentation" id="text-diplomatic">{{ inscription.text_diplomatic_form }}</div>
-        <div class="insc--presentation __active" id="text-interpretative">{{ inscription.text_interpretative_form }}</div>
-        <div class="insc--presentation" id="text-metrics-visualised">{{ inscription.text_metrics_visualised_form }}</div>
-    </div>
+<h1>{{ inscription.title }}</h1>
+{% if current_user.is_authenticated %}
+<p><a href="{{ url_for('inscriptions.edit', id=inscription.id) }}">Edit This Inscription</a></p>
+{% endif %}
 
-    <div class="insc--card __no-mt">
-        <div class="insc--card-header" role="button">
-            Translations
-        </div>
-        {% for translation in inscription.translations %}
-        <div class="insc--card-body">
-            <h4>Translation to {{ translation.language.title }}</h4>
-            <p>{{ translation.translated_form }}</p>
-            {% if translation.link_to_published_transition %}
-            <p><em>Source:</em> {{ translation.link_to_published_transition }}</p>
-            {% endif %}
-        </div>
-        {% endfor %}
-    </div>
+<section role="doc-cover">
+    <h2>Identification</h2>
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>Reference as:</th>
+                <td>MPL {{ (""~inscription.id).zfill(5) }}</td>
+            </tr>
+            <tr>
+                <th>Trismegistos-No.</th>
+                <td>{{ inscription.trismegistos_nr }}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
-    <div class="insc--title">
-        <h2>Object</h2>
+<section role="doc-part">
+    <h2>Inscription &amp; Translations</h2>
+    
+    <div class="text-presentation">{{ inscription.text_diplomatic_form }}</div>
+    <div class="text-presentation">{{ inscription.text_interpretative_form }}</div>
+    <div class="text-presentation">{{ inscription.text_metrics_visualised_form }}</div>
+    <div class="switch-list">
+        <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
+        <label for="text-form--dipl">Diplomatic</label>
+        <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
+        <label for="text-form--intp">Interpretative</label>
+        <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
+        <label for="text-form--mevs">With Metrics Visualised</label>
     </div>
+    <h2>Translations</h2>
+    
+    <table role="table">
+        <tbody>
+            {% for translation in inscription.translations %}
+                <tr>
+                    <th>{{ translation.language.title }}</th>
+                    <td>
+                        <p>{{ translation.translated_form }}</p>
+                        {% if translation.link_to_published_transition %}
+                        <p><cite>{{ translation.link_to_published_transition }}</cite></p>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
 
-    <div class="insc--card">
-        <div class="insc--card-header" role="button">
-            Provenance and Location
-        </div>
-        <div class="insc--card-body">
-            <h4>Find place</h4>
-            {{ inscription.place.title }}
-            <h4>Find context</h4>
-            {{ inscription.find_comment }}
-            <h4>Current location</h4>
-            {{ inscription.current_location.title }}
-        </div>
-    </div>
+<section role="doc-part">
+    <h2>Object</h2>
 
-    <div class="insc--card">
-        <div class="insc--card-header" role="button">
-            Object Details
-        </div>
-        <div class="insc--card-body">
-            <h4>Object Type</h4>
-            {{ inscription.object_type.title }}
-            <h4>Material</h4>
-            {{ inscription.object_material.title }}
-            <h4>State of Preservation</h4>
-            {{ inscription.object_preservation_state.title }}
-            <h4>Dimensions</h4>
-            <h4>Execution Technique</h4>
-            {{ inscription.object_execution_technique.title }}
-        </div>
-    </div>
+    <h3>Provenance and Location</h3>
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>Find Place</th>
+                <td>{{ inscription.place.title }}</td>
+            </tr>
+            <tr>
+                <th>Find Context</th>
+                <td>{{ inscription.find_comment }}</td>
+            </tr>
+            <tr>
+                <th>Current Location</th>
+                <td>{{ inscription.current_location.title }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <div class="insc--card">
-        <div class="insc--card-header" role="button">
-            Decoration and Layout
-        </div>
-        <div class="insc--card-body">
-            <h4>Decoration and Iconography</h4>
-            {{ inscription.object_decoration_comment }}
-            <h4>Decoration tags</h4>
-            <ul>
-                {% for lang in inscription.decoration_tags %}
-                <li>{{ lang.title }}</li>
-                {% endfor %}
-            </ul>
-            <h4>Text Layout</h4>
-            {{ inscription.object_text_layout_comment }}
-        </div>
-    </div>
+    <h3>Object Details</h3>
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>Object Type</th>
+                <td>{{ inscription.object_type.title }}</td>
+            </tr>
+            <tr>
+                <th>Material</th>
+                <td>{{ inscription.object_material.title }}</td>
+            </tr>
+            <tr>
+                <th>State of Preservation</th>
+                <td>{{ inscription.object_preservation_state.title }}</td>
+            </tr>
+            <tr>
+                <th>Dimensions</th>
+                <td>&hellip;</td>
+            </tr>
+            <tr>
+                <th>Execution Technique</th>
+                <td>{{ inscription.object_execution_technique.title }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-    <div class="insc--title">
-        <h2>Text</h2>
-    </div>
+    <h3>Decoration and Layout</h3>
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>Decoration and Iconography</th>
+                <td>{{ inscription.object_decoration_comment }}</td>
+            </tr>
+            <tr>
+                <th>Decoration Tags</th>
+                <td>
+                    <ul>
+                        {% for lang in inscription.decoration_tags %}
+                        <li>{{ lang.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Text Layout</th>
+                <td>{{ inscription.object_text_layout_comment }}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
-    <div class="insc--card">
-        <div class="insc--card-header" role="button">
-            Text Details
-        </div>
-        <div class="insc--card-body">
-            <h4>Function</h4>
-            {{ inscription.text_function.title }}
-            <h4>Language(s)</h4>
-            <ul>
-                {% for lang in inscription.languages %}
-                <li>{{ lang.title }}</li>
-                {% endfor %}
-            </ul>
-            <h4>Verse Types</h4>
-            <ul>
-                {% for lang in inscription.verse_types %}
-                <li>{{ lang.title }}</li>
-                {% endfor %}
-            </ul>
-            <h4>Apparatus criticus</h4>
-            {{ inscription.apparatus_criticus }}
-        </div>
-    </div>
+<section role="doc-part">
+    <h2>Text</h2>
 
-    <div class="insc--title">
-        <h2>Prosopographical Information</h2>
-    </div>
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>Function</th>
+                <td>{{ inscription.text_function.title }}</td>
+            </tr>
+            <tr>
+                <th>Language(s)</th>
+                <td>
+                    <ul>
+                        {% for lang in inscription.languages %}
+                        <li>{{ lang.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Verse Type(s)</th>
+                <td>
+                    <ul>
+                        {% for lang in inscription.verse_types %}
+                        <li>{{ lang.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Apparatus Criticus</th>
+                <td>{{ inscription.apparatus_criticus }}</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section role="doc-part">
+    <h2>Prosopographical Information</h2>
+
     {% for person in inscription.people %}
-        <div class="insc--card">
-            <div class="insc--card-header" role="button">
-                No. {{ loop.index }}: {{ person.name }}
-            </div>
-            <div class="insc--card-body">
-                <h4>Name of person</h4>
-                {{ person.name }}
-
-                <h4>Gender</h4>
-                {{ person.gender.title }}
-
-                <h4>Age</h4>
-                {{ person.age.title }}<br><em>(expression: {{ person.age_expression.title }}, precision: {{ person.age_precision.title }})</em>
-                
-                <h4>Origin</h4>
-                {{ person.origin.title }}
-                
-                <h4>Legal status</h4>
-                {{ person.legal_status.title }}
-                
-                <h4>Rank</h4>
-                {{ person.rank.title }}
-                
-                <h4>Profession</h4>
-                {{ person.profession.title }}
-            </div>
-        </div>
+        <h3>No. {{ loop.index }}: {{ person.name }}</h3>
+        <table role="table">
+            <tbody>
+                <tr>
+                    <th>Name of Person</th>
+                    <td>{{ person.name }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ person.gender.title }}</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>
+                        <p>{{ person.age.title }}</p>
+                        <p>(expression: {{ person.age_expression.title }},
+                            precision: {{ person.age_precision.title }})</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Origin</th>
+                    <td>{{ person.origin.title }}</td>
+                </tr>
+                <tr>
+                    <th>Legal Status</th>
+                    <td>{{ person.legal_status.title }}</td>
+                </tr>
+                <tr>
+                    <th>Rank</th>
+                    <td>{{ person.rank.title }}</td>
+                </tr>
+                <tr>
+                    <th>Profession</th>
+                    <td>{{ person.profession.title }}</td>
+                </tr>
+            </tbody>
+        </table>
     {% endfor %}
+</section>
 
-    <div class="insc--title">
-        <h2>Further information</h2>
-    </div>
+<section role="doc-part">
+    <h2>Further Information</h2>
 
-    <div class="insc--card">
-        <div class="insc--card-header" role="button">
-            Comment
-        </div>
-        <div class="insc--card-body">
-            {{ inscription.general_comment }}
-        </div>
-    </div>
+    <h3>Comment</h3>
+    <p>{{ inscription.general_comment }}</p>
 
-    <div class="insc--card">
-        <div class="insc--card-header" role="button">
-            Dating information
-        </div>
-        <div class="insc--card-body">
-            <h4>Date</h4>
-            {{ inscription.date }}
+    <h3>Dating Information</h3>
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>Date</th>
+                <td>{{ inscription.date }}</td>
+            </tr>
+            <tr>
+                <th>Criteria</th>
+                <td>
+                    <ul>
+                        {% for criterion in inscription.dating_criteria %}
+                        <li>{{ criterion.title }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-            <h4>Dating criteria</h4>
-            <ul>
-                {% for criterion in inscription.dating_criteria %}
-                <li>{{ criterion.title }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-    <div class="insc--card">
-        <div class="insc--card-header" role="button">
-            Bibliography
-        </div>
-        <div class="insc--card-body">
-            <ul>
-                {% for publication in inscription.publications %}
-                <li>{{ publication.reference_comment }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-</div>
+    <h3>Bibliography</h3>
+    <ul>
+        {% for publication in inscription.publications %}
+        <li>{{ publication.reference_comment }}</li>
+        {% endfor %}
+    </ul>
+</section>
 {% endblock %}

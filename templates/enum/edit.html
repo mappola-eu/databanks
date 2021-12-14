@@ -1,18 +1,17 @@
 {% set title = name %}
-{% extends "layouts/innermodal.html" %}
+{% extends "layouts/application.html" %}
 
 {% block body %}
 <form action="" method="post">
-    <div class="float-right">
-        <button type="submit">Rename</button>
-        <a href="{{ url_for('enum.show', name=name) }}" class="button secondary">Cancel</a>
-    </div>
     <h1>Edit {{ name }}</h1>
+    <p>
+        <button type="submit">Rename</button>
+        <a href="{{ url_for('enum.show', name=name) }}" role="button">Cancel</a>
+    </p>
 
-    <p>Rename <span class="mark">{{ item.title }}</span> to</p>
-    <div class="form-component">
-        <label for="enum__title">New name:</label>
-        <input type="text" id="enum__title" value="{{ item.title }}" name="title">
-    </div>
+    <p>Rename <strong>{{ item.title }}</strong> to</p>
+    
+    <label for="enum__title">New name:</label>
+    <input type="text" id="enum__title" value="{{ item.title }}" name="title">
 </form>
 {% endblock %}
