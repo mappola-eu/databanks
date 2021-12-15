@@ -1,0 +1,49 @@
+{% set title = name %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>{{ name }}</h1>
+{% if defn.create_op %}
+<p>➕ <a href="{{ url_for('resource.new', name=name) }}" role="button">{{ defn.create_op }}</a></p>
+{% endif %}
+
+<table role="table">
+    <tbody>
+        <tr>
+            {% for column in defn.table %}
+            <th>{{ column.name }}</th>
+            {% endfor %}
+            {% if defn.update_op or defn.delete_op %}
+            <th></th>
+            {% endif %}
+        </tr>
+        {% for item in R.query.all() %}
+        <tr>
+            {% set primary_loop=loop %}
+            {% for column in defn.table %}
+            {% if column.linkto and column.linkto == "show" %}
+            <td>
+                <a href="{{ url_for('resource.show', name=name, id=item.id) }}">
+                    {{ defn_parse(column.value, item, loop=primary_loop) }}
+                </a>
+            </td>
+            {% else %}
+            <td>{{ defn_parse(column.value, item, loop=primary_loop) }}</td>
+            {% endif %}
+            {% endfor %}
+            {% if defn.update_op or defn.delete_op %}
+            <td>
+                {% if defn.update_op %}
+                <a href="{{ url_for('resource.edit', name=name, id=item.id) }}" role="button">{{ defn.update_op }}</a>
+                {% endif %}
+                {% if defn.delete_op %}
+                <a href="{{ url_for('resource.delete', name=name, id=item.id) }}" role="button">{{ defn.delete_op }}</a>
+                {% endif %}
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

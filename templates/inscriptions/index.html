@@ -19,7 +19,7 @@
         <tr>
             <td>
                 <a href="{{ url_for('inscriptions.show', id=insc.id) }}" tabindex="-1">
-                    {{ (""~insc.id).zfill(5) }}
+                    {{ insc.long_id() }}
                 </a>
             </td>
             <td>

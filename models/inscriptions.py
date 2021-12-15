@@ -1,4 +1,8 @@
 from . import db
+import json
+
+with open("models/definition.json", "r") as f:
+    defn = json.load(f)
 
 inscription_decoration_tag_assoc = db.Table(
     'inscription_decoration_tag_assoc',
@@ -103,6 +107,9 @@ class Inscriptions(db.Model):
 
     translations = db.relationship('Translations', backref='inscription')
 
+    def long_id(self):
+        return "MPL" + str(self.id).zfill(5)
+
 
 class ObjectTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -198,6 +205,8 @@ class Translations(db.Model):
 
     language = db.relationship('Languages')
 
+    def language_title(self): return self.language.title
+
 class Publications(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
@@ -228,32 +237,66 @@ class People(db.Model):
     profession = db.relationship('PeopleProfessions', backref='people')
 
 def get_enum(enum):
-    data = {
-        "ObjectTypes": ObjectTypes,
-        "ObjectMaterials": ObjectMaterials,
-        "ObjectPreservationStates": ObjectPreservationStates,
-        "ObjectExecutionTechniques": ObjectExecutionTechniques,
-        "ObjectDecorationTags": ObjectDecorationTags,
-        "TextFunctions": TextFunctions,
-        "VerseTimingTypes": VerseTimingTypes,
-        "Languages": Languages,
-        "CurrentLocations": CurrentLocations,
-        "Places": Places,
-        "Provinces": Provinces,
-        "PeopleGenders": PeopleGenders,
-        "PeopleAges": PeopleAges,
-        "PeopleAgeExpressions": PeopleAgeExpressions,
-        "PeopleAgePrecision": PeopleAgePrecision,
-        "PeopleOrigins": PeopleOrigins,
-        "PeopleLegalStatus": PeopleLegalStatus,
-        "PeopleRanks": PeopleRanks,
-        "PeopleProfessions": PeopleProfessions,
-        "DatingCriteria": DatingCriteria,
-        "VerseTypes": VerseTypes
-    }
-
-    if enum in data.keys():
-        return data[enum]
+    if enum in defn["classes"]:
+        return eval(enum)
     
     else:
         raise NameError("Enumeration not found: ", enum)
+
+def get_defn(enum, scope="display"):
+    if enum in defn["classes"]:
+        if scope in ["display", "summary"]:
+            if enum in defn[scope].keys():
+                return defn[scope][enum]
+            elif enum in defn["enums"]:
+                return defn[scope]["_enums"]
+            else:
+                raise NameError("Enumeration not found in scope: ", enum)
+        else:
+            raise NameError("Scope not found: ", scope)
+    else:
+        raise NameError("Enumeration not found: ", enum)
+
+def defn_parse_raw(code, item, **args):
+    on, key = code.split("#")
+    if on == "obj":
+        on_obj = item
+    elif on in args.keys():
+        on_obj = args[on]
+    else:
+        return ""
+
+    if key == "":
+        return on_obj
+    
+    exec_func =  key.endswith("()")
+    if exec_func:
+        key = key[:-2]
+
+    if hasattr(on_obj, key):
+        key_obj = getattr(on_obj, key)
+        if exec_func:
+            key_obj = key_obj()
+        return key_obj
+    else:
+        return ""
+
+def defn_parse(*args, **kwargs):
+    return str(defn_parse_raw(*args, **kwargs))
+
+def render_column(item, col):
+    if col["type"] in ["input", "text"]:
+        if hasattr(item, col["column"]):
+            return getattr(item, col["column"]) or ""
+    elif col["type"] == "call":
+        return defn_parse(col["column"], item)
+    elif col["type"] == "reference":
+        if hasattr(item, col["column"]):
+            return getattr(item, col["column"]).title
+    elif col["type"] == "reference_list":
+        if hasattr(item, col["column"]):
+            return [i.title for i in getattr(item, col["column"])]
+    elif col["type"] == "reference_complex":
+        if hasattr(item, col["column"]):
+            return [getattr(i, col["render"]) for i in getattr(item, col["column"])]
+    return ""

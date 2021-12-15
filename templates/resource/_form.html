@@ -1,0 +1,41 @@
+{% for slide in defn.slides %}
+<section role="doc-part">
+    {% if slide.title %}
+    <h2>{{ slide.title }}</h2>
+    {% endif %}
+    
+    {% for part in slide.parts %}
+    {% if part.title %}
+    <h3>{{ part.title }}</h3>
+    {% endif %}
+
+    {% if part.edit_prefix %}
+    <p>{{ part.edit_prefix }}</p>
+    {% endif %}
+
+    {% if part.component == "table" %}
+    <table role="table">
+        <tbody>
+            {% for column in part.columns %}
+            {% if column.type == "input" %}
+            <tr>
+                <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
+                <td><input type="text" id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column) }}" name="{{ column.column }}"></td>
+            </tr>
+            {% else %}
+            <tr>
+                <th>{{ column.label }}</th>
+                <td>{{ render_column(item, column) }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if part.edit_postfix %}
+    <p>{{ part.edit_postfix }}</p>
+    {% endif %}
+    {% endfor %}
+</section>
+{% endfor %}
