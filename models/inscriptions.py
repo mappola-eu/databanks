@@ -1,5 +1,5 @@
 from . import db
-import json
+import json, re
 
 with open("models/definition.json", "r") as f:
     defn = json.load(f)
@@ -300,3 +300,8 @@ def render_column(item, col):
         if hasattr(item, col["column"]):
             return [getattr(i, col["render"]) for i in getattr(item, col["column"])]
     return ""
+
+def defn_snippet(snippet, *args, **kwargs):
+    return re.sub(r"\$\{([a-zA-Z]+\#[a-zA-Z]+(?:\(\))?)\}",
+                  lambda mo: defn_parse(mo.group(1), *args, **kwargs),
+                  snippet)

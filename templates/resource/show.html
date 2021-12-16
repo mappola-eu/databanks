@@ -13,6 +13,64 @@
 {% endif %}
 {% endmacro %}
 
+{% macro render_part(part, item, ploop=None) %}
+{% if part.title %}
+<h3>{{ defn_snippet(part.title, item, loop=ploop) }}</h3>
+{% endif %}
+
+{% if part.view_prefix %}
+<p>{{ defn_snippet(part.view_prefix, item, loop=ploop) }}</p>
+{% endif %}
+
+{% if part.component == "table" %}
+<table role="table">
+    <tbody>
+        {% for column in part.columns %}
+        <tr>
+            <th>{{ column.label }}</th>
+            <td>{{ rendel(render_column(item, column), column.type) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% elif part.component == "standalone" %}
+{{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
+{% elif part.component == "embed" %}
+{% set table = defn_parse_raw(part.table, item) %}
+<table role="table">
+    <tbody>
+        {% for row in table %}
+        <tr>
+            {% for column in part.columns %}
+                {% if column.heading %}
+                <th>{{ rendel(render_column(row, column)) }}</th>
+                {% else %}
+                <td>{{ rendel(render_column(row, column)) }}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% elif part.component == "text_view" %}
+<div class="text-presentation">{{ item[part.columns.diplomatic] }}</div>
+<div class="text-presentation">{{ item[part.columns.interpretative] }}</div>
+<div class="text-presentation">{{ item[part.columns.with_metrics_visualised] }}</div>
+<div class="switch-list">
+    <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
+    <label for="text-form--dipl">Diplomatic</label>
+    <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
+    <label for="text-form--intp">Interpretative</label>
+    <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
+    <label for="text-form--mevs">With Metrics Visualised</label>
+</div>
+{% endif %}
+
+{% if part.view_postfix %}
+<p>{{ defn_snippet(part.view_postfix, item, loop=ploop) }}</p>
+{% endif %}
+{% endmacro %}
+
 {% block body %}
 <h1><a href="{{ url_for('resource.index', name=name) }}">{{ name }}</a>: {{ defn_parse(defn.title, item) }}</h1>
 {% if defn.update_op or defn.delete_op %}
@@ -35,60 +93,13 @@
     {% endif %}
     
     {% for part in slide.parts %}
-    {% if part.title %}
-    <h3>{{ part.title }}</h3>
-    {% endif %}
-
-    {% if part.view_prefix %}
-    <p>{{ part.view_prefix }}</p>
-    {% endif %}
-
-    {% if part.component == "table" %}
-    <table role="table">
-        <tbody>
-            {% for column in part.columns %}
-            <tr>
-                <th>{{ column.label }}</th>
-                <td>{{ rendel(render_column(item, column), column.type) }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% elif part.component == "standalone" %}
-    {{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
-    {% elif part.component == "embed" %}
-    {% set table = defn_parse_raw(part.table, item) %}
-    <table role="table">
-        <tbody>
-            {% for row in table %}
-            <tr>
-                {% for column in part.columns %}
-                    {% if column.heading %}
-                    <th>{{ rendel(render_column(row, column)) }}</th>
-                    {% else %}
-                    <td>{{ rendel(render_column(row, column)) }}</td>
-                    {% endif %}
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% elif part.component == "text_view" %}
-    <div class="text-presentation">{{ item[part.columns.diplomatic] }}</div>
-    <div class="text-presentation">{{ item[part.columns.interpretative] }}</div>
-    <div class="text-presentation">{{ item[part.columns.with_metrics_visualised] }}</div>
-    <div class="switch-list">
-        <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
-        <label for="text-form--dipl">Diplomatic</label>
-        <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
-        <label for="text-form--intp">Interpretative</label>
-        <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
-        <label for="text-form--mevs">With Metrics Visualised</label>
-    </div>
-    {% endif %}
-
-    {% if part.view_postfix %}
-    <p>{{ part.view_postfix }}</p>
+        {{ render_part(part, item, loop) }}
+    {% else %}
+    {% if slide.auto == "foreach" %}
+    {% set autoon = defn_parse_raw(slide.autoon, item) %}
+    {% for autoitem in autoon %}
+        {{ render_part(slide.autopart, autoitem, loop) }}
+    {% endfor %}
     {% endif %}
     {% endfor %}
 </section>

@@ -187,7 +187,24 @@
                 },
                 {
                     "title": "Prosopographical Information",
-                    "parts": []
+                    "parts": [],
+                    "auto": "foreach",
+                    "autoon": "obj#people",
+                    "autopart": {
+                        "title": "No. ${loop#index}: ${obj#name}",
+                        "component": "table",
+                        "columns": [
+                            { "column": "name", "label": "Name Of Person", "type": "text" },
+                            { "column": "gender", "label": "Gender", "type": "reference" },
+                            { "column": "age", "label": "Age", "type": "reference" },
+                            { "column": "age_expression", "label": "Age Expression", "type": "reference" },
+                            { "column": "age_precision", "label": "Age Precision", "type": "reference" },
+                            { "column": "origin", "label": "Origin", "type": "reference" },
+                            { "column": "legal_status", "label": "Legal Status", "type": "reference" },
+                            { "column": "rank", "label": "Rank", "type": "reference" },
+                            { "column": "profession", "label": "Profession", "type": "reference" }
+                        ]
+                    }
                 },
                 {
                     "title": "Further Information",

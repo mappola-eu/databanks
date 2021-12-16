@@ -1,5 +1,5 @@
 from flask import *
-from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw
+from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet
 from flask_security import login_required
 
 resource = Blueprint('resource', __name__)
@@ -23,7 +23,7 @@ def show(name, id):
 
     return render_template("resource/show.html", name=name, R=R, item=item,
     defn=get_defn(name, scope="display"), defn_parse=defn_parse, render_column=render_column,
-    defn_parse_raw=defn_parse_raw)
+    defn_parse_raw=defn_parse_raw, defn_snippet=defn_snippet)
 
 @login_required
 @resource.route("/<name>/edit/<id>", methods=["GET", "POST"])
