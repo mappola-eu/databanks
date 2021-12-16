@@ -55,7 +55,10 @@ form table[role="table"] td {
     padding: 0.5rem;
     background-color: #eee;
     margin-bottom: 0.1rem;
+    display: none;
 }
+.text-presentation.active { display: block; }
+
 .switch-list {
     margin: 1rem 0;
     display: flex;

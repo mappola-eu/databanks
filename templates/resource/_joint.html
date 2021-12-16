@@ -54,16 +54,18 @@
     </tbody>
 </table>
 {% elif part.component == "text_view" %}
-<div class="text-presentation">{{ item[part.columns.diplomatic] }}</div>
-<div class="text-presentation">{{ item[part.columns.interpretative] }}</div>
-<div class="text-presentation">{{ item[part.columns.with_metrics_visualised] }}</div>
-<div class="switch-list">
-    <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
-    <label for="text-form--dipl">Diplomatic</label>
-    <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
-    <label for="text-form--intp">Interpretative</label>
-    <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
-    <label for="text-form--mevs">With Metrics Visualised</label>
+<div class="text-presentation-container">
+    <div class="switch-list">
+        <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
+        <label for="text-form--dipl">Diplomatic</label>
+        <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
+        <label for="text-form--intp">Interpretative</label>
+        <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
+        <label for="text-form--mevs">With Metrics Visualised</label>
+    </div>
+    <div class="text-presentation active" data-tp="diplomatic">{{ item[part.columns.diplomatic] }}</div>
+    <div class="text-presentation" data-tp="interpretative">{{ item[part.columns.interpretative] }}</div>
+    <div class="text-presentation" data-tp="metrics-visualised">{{ item[part.columns.with_metrics_visualised] }}</div>
 </div>
 {% endif %}
 
