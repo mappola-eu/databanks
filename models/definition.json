@@ -155,6 +155,7 @@
                                 { "column": "object_type", "label": "Object Type", "type": "reference" },
                                 { "column": "object_material", "label": "Material", "type": "reference" },
                                 { "column": "object_preservation_state", "label": "State of Preservation", "type": "reference" },
+                                { "column": ["object_dim_width", "object_dim_height", "object_dim_depth"], "label": "Dimensions", "type": "dimension" },
                                 { "column": "...", "label": "Dimensions", "type": "input" },
                                 { "column": "object_execution_technique", "label": "Execution Technique", "type": "reference" }
                             ]

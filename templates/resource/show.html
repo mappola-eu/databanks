@@ -8,6 +8,10 @@
     <li>{{ entry }}</li>
     {% endfor %}
 </ul>
+{% elif dt == "dimension" %}
+<p>width: {% if data[0] %}{{ data[0] }} cm{% else %}unknown{% endif %}</p>
+<p>height: {% if data[1] %}{{ data[1] }} cm{% else %}unknown{% endif %}</p>
+<p>depth: {% if data[2] %}{{ data[2] }} cm{% else %}unknown{% endif %}</p>
 {% else %}
 {% if standalone %}<p>{{ data }}</p>{% else %}{{ data }}{% endif %}
 {% endif %}

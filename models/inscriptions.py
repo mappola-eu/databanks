@@ -77,6 +77,9 @@ class Inscriptions(db.Model):
     object_type_id = db.Column(db.Integer, db.ForeignKey('object_types.id'))
     object_material_id = db.Column(db.Integer, db.ForeignKey('object_materials.id'))
     object_preservation_state_id = db.Column(db.Integer, db.ForeignKey('object_preservation_states.id'))
+    object_dim_height = db.Column(db.Float) # Y
+    object_dim_width = db.Column(db.Float) # X
+    object_dim_depth = db.Column(db.Float) # Z
     object_execution_technique_id = db.Column(db.Integer, db.ForeignKey('object_execution_techniques.id'))
     object_decoration_comment = db.Column(db.Text)
     object_text_layout_comment = db.Column(db.Text)
@@ -290,6 +293,10 @@ def render_column(item, col):
             return getattr(item, col["column"]) or ""
     elif col["type"] == "call":
         return defn_parse(col["column"], item)
+    elif col["type"] == "dimension":
+        width, height, depth = getattr(item, col["column"][0]), getattr(item, col["column"][1]), \
+                                   getattr(item, col["column"][2])
+        return [width, height, depth]
     elif col["type"] == "reference":
         if hasattr(item, col["column"]):
             return getattr(item, col["column"]).title
