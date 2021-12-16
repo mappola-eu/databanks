@@ -1,0 +1,163 @@
+{% macro rendel(data, dt, standalone=False) %}
+{% if dt == "reference_list" or dt == "reference_complex" %}
+<ul>
+    {% for entry in data %}
+    <li>{{ entry }}</li>
+    {% endfor %}
+</ul>
+{% elif dt == "dimension" %}
+<p>width: {% if data[0] %}{{ data[0] }} cm{% else %}unknown{% endif %}</p>
+<p>height: {% if data[1] %}{{ data[1] }} cm{% else %}unknown{% endif %}</p>
+<p>depth: {% if data[2] %}{{ data[2] }} cm{% else %}unknown{% endif %}</p>
+{% else %}
+{% if standalone %}<p>{{ data }}</p>{% else %}{{ data }}{% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro render_part(part, item, ploop=None) %}
+{% if part.title %}
+<h3>{{ defn_snippet(part.title, item, loop=ploop) }}</h3>
+{% endif %}
+
+{% if part.view_prefix %}
+<p>{{ defn_snippet(part.view_prefix, item, loop=ploop) }}</p>
+{% endif %}
+
+{% if part.component == "table" %}
+<table role="table">
+    <tbody>
+        {% for column in part.columns %}
+        <tr>
+            <th>{{ column.label }}</th>
+            <td>{{ rendel(render_column(item, column), column.type) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% elif part.component == "standalone" %}
+{{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
+{% elif part.component == "embed" %}
+{% set table = defn_parse_raw(part.table, item) %}
+<table role="table">
+    <tbody>
+        {% for row in table %}
+        <tr>
+            {% for column in part.columns %}
+                {% if column.heading %}
+                <th>{{ rendel(render_column(row, column)) }}</th>
+                {% else %}
+                <td>{{ rendel(render_column(row, column)) }}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% elif part.component == "text_view" %}
+<div class="text-presentation">{{ item[part.columns.diplomatic] }}</div>
+<div class="text-presentation">{{ item[part.columns.interpretative] }}</div>
+<div class="text-presentation">{{ item[part.columns.with_metrics_visualised] }}</div>
+<div class="switch-list">
+    <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
+    <label for="text-form--dipl">Diplomatic</label>
+    <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
+    <label for="text-form--intp">Interpretative</label>
+    <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
+    <label for="text-form--mevs">With Metrics Visualised</label>
+</div>
+{% endif %}
+
+{% if part.view_postfix %}
+<p>{{ defn_snippet(part.view_postfix, item, loop=ploop) }}</p>
+{% endif %}
+{% endmacro %}
+
+{% macro render_form_part(part, item, ploop=None) %}
+{% if part.title %}
+<h3>{{ defn_snippet(part.title, item, loop=ploop) }}</h3>
+{% endif %}
+
+{% if part.edit_prefix %}
+<p>{{ defn_snippet(part.edit_prefix, item, loop=ploop) }}</p>
+{% endif %}
+
+{% if part.component == "table" %}
+<table role="table">
+    <tbody>
+        {% for column in part.columns %}
+        {% if column.type == "input" %}
+        <tr>
+            <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
+            <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column) }}" name="{{ column.column }}" type="text"></td>
+        </tr>
+        {% elif column.type == "text" %}
+        <tr>
+            <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
+            <td><textarea id="{{ name }}-{{ column.column }}" name="{{ column.column }}">{{ render_column(item, column) }}</textarea></td>
+        </tr>
+        {% elif column.type == "dimension" %}
+        <tr>
+            <th>{{ column.label }}</th>
+            <td>
+                <label for="{{ name }}-{{ column.column }}-width">width (in cm)</label>
+                <input id="{{ name }}-{{ column.column }}-width" value="{{ render_column(item, column)[0] }}" name="{{ column.column[0] }}" type="number" step="0.01" min="0">
+                <label for="{{ name }}-{{ column.column }}-height">height (in cm)</label>
+                <input id="{{ name }}-{{ column.column }}-height" value="{{ render_column(item, column)[1] }}" name="{{ column.column[1] }}" type="number" step="0.01" min="0">
+                <label for="{{ name }}-{{ column.column }}-depth">depth (in cm)</label>
+                <input id="{{ name }}-{{ column.column }}-depth" value="{{ render_column(item, column)[2] }}" name="{{ column.column[2] }}" type="number" step="0.01" min="0">
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <th>{{ column.label }}</th>
+            <td>{{ rendel(render_column(item, column), column.type) }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% elif part.component == "standalone" %}
+{% if part.single.type == "input" %}
+<label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
+<input id="{{ name }}-{{ part.single.column }}" value="{{ render_column(item, part.single) }}" name="{{ part.single.column }}" type="text">
+{% elif part.single.type == "text" %}
+<label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
+<textarea id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}">{{ render_column(item, part.single) }}</textarea>
+{% else %}
+{{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
+{% endif %}
+{% elif part.component == "embed" %}
+{% set table = defn_parse_raw(part.table, item) %}
+<table role="table">
+    <tbody>
+        {% for row in table %}
+        <tr>
+            {% for column in part.columns %}
+                {% if column.heading %}
+                <th>{{ rendel(render_column(row, column)) }}</th>
+                {% else %}
+                <td>{{ rendel(render_column(row, column)) }}</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% elif part.component == "text_view" %}
+<div class="text-presentation">{{ item[part.columns.diplomatic] }}</div>
+<div class="text-presentation">{{ item[part.columns.interpretative] }}</div>
+<div class="text-presentation">{{ item[part.columns.with_metrics_visualised] }}</div>
+<div class="switch-list">
+    <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
+    <label for="text-form--dipl">Diplomatic</label>
+    <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
+    <label for="text-form--intp">Interpretative</label>
+    <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
+    <label for="text-form--mevs">With Metrics Visualised</label>
+</div>
+{% endif %}
+
+{% if part.edit_postfix %}
+<p>{{ defn_snippet(part.edit_postfix, item, loop=ploop) }}</p>
+{% endif %}
+{% endmacro %}

@@ -4,14 +4,22 @@ from flask_security import login_required
 
 resource = Blueprint('resource', __name__)
 
+@resource.context_processor
+def inject_resource_helpers():
+    return {
+        "defn_parse": defn_parse,
+        "render_column": render_column,
+        "defn_parse_raw": defn_parse_raw,
+        "defn_snippet": defn_snippet
+    }
+
 @resource.route("/<name>")
 def index(name):
     try:
         R = get_enum(name)
     except: abort(403)
 
-    return render_template("resource/index.html", name=name, R=R, defn=get_defn(name, scope="summary"),
-    defn_parse=defn_parse)
+    return render_template("resource/index.html", name=name, R=R, defn=get_defn(name, scope="summary"))
 
 @resource.route("/<name>/show/<id>", methods=["GET", "POST"])
 def show(name, id):
@@ -21,9 +29,7 @@ def show(name, id):
 
     item = R.query.get_or_404(id)
 
-    return render_template("resource/show.html", name=name, R=R, item=item,
-    defn=get_defn(name, scope="display"), defn_parse=defn_parse, render_column=render_column,
-    defn_parse_raw=defn_parse_raw, defn_snippet=defn_snippet)
+    return render_template("resource/show.html", name=name, R=R, item=item, defn=get_defn(name, scope="display"))
 
 @login_required
 @resource.route("/<name>/edit/<id>", methods=["GET", "POST"])
