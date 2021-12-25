@@ -6,14 +6,14 @@
 
 <form action="" method="post">
 
-    <p>
+    <div class="toolbar">
         {% if defn.update_action %}
-        <button type="submit">{{ defn.update_action }}</button>
+        <button type="submit" class="primary-btn">{{ defn.update_action }}</button>
         {% endif %}
         {% if defn.cancel_action %}
         <a href="{{ url_for('resource.index', name=name) }}" role="button">{{ defn.cancel_action }}</a>
         {% endif %}
-    </p>
+    </div>
 
     {% include "resource/_form.html" %}
 </form>

@@ -4,7 +4,9 @@
 {% block body %}
 <h1>{{ name }}</h1>
 {% if defn.create_op %}
-<p>➕ <a href="{{ url_for('resource.new', name=name) }}" role="button">{{ defn.create_op }}</a></p>
+<div class="toolbar">
+    <a href="{{ url_for('resource.new', name=name) }}" role="button">{{ defn.create_op }}</a>
+</div>
 {% endif %}
 
 <table role="table">

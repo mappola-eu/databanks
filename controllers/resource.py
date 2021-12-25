@@ -85,7 +85,7 @@ def edit(name, id):
                         print("LOG: unsaveable column %s" % column['column'])
 
         db.session.commit()
-        flash('Changes committed successfully')
+        flash('Changes committed successfully.')
         return redirect(url_for('resource.edit', name=name, id=item.id))
 
     return render_template("resource/edit.html", name=name, R=R, item=item,

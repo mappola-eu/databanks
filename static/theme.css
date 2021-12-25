@@ -1,0 +1,193 @@
+/* TODO: include locally *
+@font-face { font-family: "Lato"; src: url("https://fonts.gstatic.com/s/lato/v20/S6uyw4BMUTPHjx4wXg.woff2") format("woff2"); font-style: normal; font-weight: 400; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Lato"; src: url("https://fonts.gstatic.com/s/lato/v20/S6u9w4BMUTPHh6UVSwiPGQ.woff2") format("woff2"); font-style: normal; font-weight: 700; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Roboto"; src: url("https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmWUlfBBc4.woff2") format("woff2"); font-style: normal; font-weight: 700; unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+* { box-sizing: border-box;}
+
+html {
+    background-color: #e5ddd5;
+    font-family: 'Lato', 'Roboto', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+header {
+    background-color: #472a2d;
+    color: white;
+    padding: 3rem;
+    padding-bottom: 8rem;
+    border-bottom: 10px solid #eb585b;
+    align-items: flex-end;
+}
+header a {
+    color: inherit;
+    font-size: 1.125rem;
+    font-weight: bold;
+    display: block;
+}
+header a:hover {
+    background-color: transparent;
+}
+header a[role="heading"] {
+    color: transparent;
+    width: 280px;
+    height: 74.56667px;
+    background-image: url(https://mappola.eu/wp-content/uploads/2021/12/MAPPOLA-Logo-2021_weis.png);
+    background-size: contain;
+}
+header a:not([role]) {
+    margin-bottom: 0.25rem;
+    background-color: transparent;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.25rem;
+}
+header a:not([role]):hover {
+    background-color: white;
+    color: black;
+}
+main {
+    max-width: 1024px;
+    margin: 0 auto;
+    margin-top: -6rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background-color: #f2edea;
+}
+
+a {
+    color: #eb585b;
+}
+a:hover, a:focus {
+    color: #472a2d;
+}
+
+h1 {
+    font-family: 'Roboto', 'Lato', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-size: 2.125rem;
+}
+
+h2 {
+    font-family: 'Roboto', 'Lato', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.75rem;
+}
+
+h3 {
+    font-family: 'Roboto', 'Lato', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.45rem;
+}
+
+h5 {
+    font-family: 'Roboto', 'Lato', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.text-presentation {
+    background-color: #e5ddd5;
+    padding: 1.25rem;
+    white-space: pre-wrap;
+}
+
+table[role="table"] {
+    border-collapse: collapse;
+    width: 100%;
+    border-color: #666666;
+}
+table[role="table"] th,
+table[role="table"] td {
+    border-color: #666666;
+    padding: 0.5rem;
+}
+
+section {
+    padding: 2rem 1rem;
+    border: none;
+    padding-bottom: 4rem;
+    border-bottom: 0.25rem solid #472a2d;
+}
+section:first-of-type {
+    padding-top: 0;
+}
+section:last-child {
+    border-bottom: none;
+    padding-bottom: ß;
+}
+
+section table[role="table"] th {
+    width: 150px;
+}
+
+section table[role="table"],
+section table[role="table"] th,
+section table[role="table"] td {
+    border: none;
+}
+section table[role="table"] th {
+    border-right: 1px solid #666;
+}
+section table[role="table"] tr:not(:last-child) th,
+section table[role="table"] tr:not(:last-child) td {
+    border-bottom: 1px solid #666;
+}
+
+form input,
+form textarea,
+form select {
+    border: 1.5px solid #472a2d;
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0.5rem;
+    border-radius: 3px;
+    max-width: none;
+    font: inherit;
+}
+form select:not([multiple]) {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+form select[multiple] {
+    padding: 0;
+}
+form select option {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+form table[role="table"] {
+    max-width: none;
+}
+
+.toolbar {
+    display: flex;
+    background-color: #f2edea;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.toolbar a[role="button"],
+.toolbar button {
+    padding: 0.5rem 1rem;
+    border: none;
+    font: inherit;
+    background-color: #ddd;
+    text-decoration: none;
+    margin: 0 0.15rem;
+    font-weight: bold;
+    color: inherit;
+}
+.toolbar a[role="button"].primary-btn,
+.toolbar button.primary-btn {
+    background-color: #eb585b;
+    color: white;
+}
+[role="alert"] {
+    position: absolute;
+    top: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+    padding: 0.5rem;
+}

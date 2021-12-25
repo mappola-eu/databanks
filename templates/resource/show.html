@@ -5,16 +5,14 @@
 {% block body %}
 <h1><a href="{{ url_for('resource.index', name=name) }}">{{ name }}</a>: {{ defn_parse(defn.title, item) }}</h1>
 {% if defn.update_op or defn.delete_op %}
-<p>
+<div class="toolbar">
     {% if defn.update_op %}
-    ✏️
     <a href="{{ url_for('resource.edit', name=name, id=item.id) }}" role="button">{{ defn.update_op }}</a>
     {% endif %}
     {% if defn.delete_op %}
-    ❌
     <a href="{{ url_for('resource.delete', name=name, id=item.id) }}" role="button">{{ defn.delete_op }}</a>
     {% endif %}
-</p>
+</div>
 {% endif %}
 
 {% for slide in defn.slides %}
