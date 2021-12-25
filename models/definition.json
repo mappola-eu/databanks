@@ -97,7 +97,7 @@
                     "parts": [
                         {
                             "title": null,
-                            "edit_prefix": "Rename this item to:",
+                            "edit_prefix": "Choose a name, under which this item will be shown across this database:",
                             "component": "table",
                             "columns": [
                                 {

@@ -122,6 +122,7 @@
             </th>
             <td>
                 <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}">
+                    <option disabled {{ 'selected' if item[column.column] == None }}></option>
                     {% for e in get_enum(column.refersto).query.all() %}
                     <option value="{{ e.id }}" {{ 'selected' if e==item[column.column] }}>
                         {{ e.title }}
@@ -138,6 +139,7 @@
             </th>
             <td>
                 <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}" multiple>
+                    <option disabled {{ 'selected' if item[column.column]|length == 0 }}></option>
                     {% for e in get_enum(column.refersto).query.all() %}
                     <option value="{{ e.id }}" {{ 'selected' if e in item[column.column] }}>
                         {{ e.title }}
@@ -179,6 +181,7 @@
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
 <small><a href="{{ url_for('resource.index', name=part.single.refersto) }}" target="_blank">edit list</a></small>
 <select id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}">
+    <option disabled {{ 'selected' if item[part.single.column] == None }}></option>
     {% for e in get_enum(part.single.refersto).query.all() %}
     <option value="{{ e.id }}" {{ 'selected' if e==item[part.single.column] }}>
         {{ e.title }}
@@ -188,7 +191,9 @@
 {% elif part.single.type == "reference_list" %}
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
 <small><a href="{{ url_for('resource.index', name=part.single.refersto) }}" target="_blank">edit list</a></small>
+                    <option disabled {{ 'selected' if item[column.column]|length == 0 }}></option>
 <select id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}" multiple>
+    <option disabled {{ 'selected' if item[part.single.column]|length == 0 }}></option>
     {% for e in get_enum(part.single.refersto).query.all() %}
     <option value="{{ e.id }}" {{ 'selected' if e in item[part.single.column] }}>
         {{ e.title }}
@@ -221,17 +226,17 @@
         <tr>
             <th><label for="{{ name }}-{{ part.columns.diplomatic }}">Diplomatic</label></th>
             <td><textarea id="{{ name }}-{{ part.columns.diplomatic }}"
-                    name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] }}</textarea></td>
+                    name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] or "" }}</textarea></td>
         </tr>
         <tr>
             <th><label for="{{ name }}-{{ part.columns.interpretative }}">Interpretative</label></th>
             <td><textarea id="{{ name }}-{{ part.columns.interpretative }}"
-                    name="{{ part.columns.interpretative }}">{{ item[part.columns.interpretative] }}</textarea></td>
+                    name="{{ part.columns.interpretative }}">{{ item[part.columns.interpretative] or "" }}</textarea></td>
         </tr>
         <tr>
             <th><label for="{{ name }}-{{ part.columns.with_metrics_visualised }}">With Metrics Visualised</label></th>
             <td><textarea id="{{ name }}-{{ part.columns.with_metrics_visualised }}"
-                    name="{{ part.columns.with_metrics_visualised }}">{{ item[part.columns.with_metrics_visualised] }}</textarea>
+                    name="{{ part.columns.with_metrics_visualised }}">{{ item[part.columns.with_metrics_visualised] or "" }}</textarea>
             </td>
         </tr>
     </tbody>

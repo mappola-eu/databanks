@@ -97,7 +97,7 @@ def edit(name, id):
 @resource.route("/<name>/delete/<id>", methods=["GET", "POST"])
 def delete(name, id):
     try:
-        enum = get_enum(name)
+        R = get_enum(name)
     except:
         abort(403)
 
@@ -114,18 +114,19 @@ def delete(name, id):
 @resource.route("/<name>/new", methods=["GET", "POST"])
 def new(name):
     try:
-        enum = get_enum(name)
+        R = get_enum(name)
     except:
         abort(403)
 
-    item = enum()
+    item = R()
+    defn = get_defn(name, scope="display")
     item.title = ""
 
     if request.method == "POST":
-        item.title = request.form['title']
-        db.session.add(item)
-        db.session.commit()
+        pass
 
-        return redirect(url_for('enum.show', name=name))
+        return redirect(url_for('resource.index', name=name))
 
-    return render_template("enum/new.html", name=name, enum=enum, item=item)
+    return render_template("resource/new.html", name=name, R=R, item=item,
+                           defn=defn, defn_parse=defn_parse, render_column=render_column,
+                           defn_parse_raw=defn_parse_raw, get_enum=get_enum)

@@ -2,13 +2,13 @@
 {% extends "layouts/application.html" %}
 
 {% block body %}
-<h1><a href="{{ url_for('resource.index', name=name) }}">{{ name }}</a>: {{ defn_parse(defn.title, item) }}</h1>
+<h1><a href="{{ url_for('resource.index', name=name) }}">{{ name }}</a>: New item</h1>
 
 <form action="" method="post">
 
     <p>
-        {% if defn.update_action %}
-        <button type="submit">{{ defn.update_action }}</button>
+        {% if defn.create_action %}
+        <button type="submit">{{ defn.create_action }}</button>
         {% endif %}
         {% if defn.cancel_action %}
         <a href="{{ url_for('resource.index', name=name) }}" role="button">{{ defn.cancel_action }}</a>
