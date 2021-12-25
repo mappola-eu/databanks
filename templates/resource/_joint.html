@@ -43,11 +43,11 @@
         {% for row in table %}
         <tr>
             {% for column in part.columns %}
-                {% if column.heading %}
-                <th>{{ rendel(render_column(row, column)) }}</th>
-                {% else %}
-                <td>{{ rendel(render_column(row, column)) }}</td>
-                {% endif %}
+            {% if column.heading %}
+            <th>{{ rendel(render_column(row, column)) }}</th>
+            {% else %}
+            <td>{{ rendel(render_column(row, column)) }}</td>
+            {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}
@@ -90,23 +90,60 @@
         {% if column.type == "input" %}
         <tr>
             <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
-            <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column) }}" name="{{ column.column }}" type="text"></td>
+            <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column) }}"
+                    name="{{ column.column }}" type="text"></td>
         </tr>
         {% elif column.type == "text" %}
         <tr>
             <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
-            <td><textarea id="{{ name }}-{{ column.column }}" name="{{ column.column }}">{{ render_column(item, column) }}</textarea></td>
+            <td><textarea id="{{ name }}-{{ column.column }}"
+                    name="{{ column.column }}">{{ render_column(item, column) }}</textarea></td>
         </tr>
         {% elif column.type == "dimension" %}
         <tr>
             <th>{{ column.label }}</th>
             <td>
-                <label for="{{ name }}-{{ column.column }}-width">width (in cm)</label>
-                <input id="{{ name }}-{{ column.column }}-width" value="{{ render_column(item, column)[0] }}" name="{{ column.column[0] }}" type="number" step="0.01" min="0">
-                <label for="{{ name }}-{{ column.column }}-height">height (in cm)</label>
-                <input id="{{ name }}-{{ column.column }}-height" value="{{ render_column(item, column)[1] }}" name="{{ column.column[1] }}" type="number" step="0.01" min="0">
-                <label for="{{ name }}-{{ column.column }}-depth">depth (in cm)</label>
-                <input id="{{ name }}-{{ column.column }}-depth" value="{{ render_column(item, column)[2] }}" name="{{ column.column[2] }}" type="number" step="0.01" min="0">
+                <label for="{{ name }}-{{ column.column[0] }}">width (in cm)</label>
+                <input id="{{ name }}-{{ column.column[0] }}" value="{{ render_column(item, column)[0] }}"
+                    name="{{ column.column[0] }}" type="number" step="0.01" min="0">
+                <label for="{{ name }}-{{ column.column[1] }}">height (in cm)</label>
+                <input id="{{ name }}-{{ column.column[1] }}" value="{{ render_column(item, column)[1] }}"
+                    name="{{ column.column[1] }}" type="number" step="0.01" min="0">
+                <label for="{{ name }}-{{ column.column[2] }}">depth (in cm)</label>
+                <input id="{{ name }}-{{ column.column[2] }}" value="{{ render_column(item, column)[2] }}"
+                    name="{{ column.column[2] }}" type="number" step="0.01" min="0">
+            </td>
+        </tr>
+        {% elif column.type == "reference" %}
+        <tr>
+            <th>
+                <label for="{{ name }}-{{ column.column }}">{{ column.label }}</label>
+                <small><a href="{{ url_for('resource.index', name=column.refersto) }}" target="_blank">edit list</a></small>
+            </th>
+            <td>
+                <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}">
+                    {% for e in get_enum(column.refersto).query.all() %}
+                    <option value="{{ e.id }}" {{ 'selected' if e==item[column.column] }}>
+                        {{ e.title }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        {% elif column.type == "reference_list" %}
+        <tr>
+            <th>
+                <label for="{{ name }}-{{ column.column }}">{{ column.label }}</label>
+                <small><a href="{{ url_for('resource.index', name=column.refersto) }}" target="_blank">edit list</a></small>
+            </th>
+            <td>
+                <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}" multiple>
+                    {% for e in get_enum(column.refersto).query.all() %}
+                    <option value="{{ e.id }}" {{ 'selected' if e in item[column.column] }}>
+                        {{ e.title }}
+                    </option>
+                    {% endfor %}
+                </select>
             </td>
         </tr>
         {% else %}
@@ -121,10 +158,43 @@
 {% elif part.component == "standalone" %}
 {% if part.single.type == "input" %}
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
-<input id="{{ name }}-{{ part.single.column }}" value="{{ render_column(item, part.single) }}" name="{{ part.single.column }}" type="text">
+<input id="{{ name }}-{{ part.single.column }}" value="{{ render_column(item, part.single) }}"
+    name="{{ part.single.column }}" type="text">
 {% elif part.single.type == "text" %}
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
-<textarea id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}">{{ render_column(item, part.single) }}</textarea>
+<textarea id="{{ name }}-{{ part.single.column }}"
+    name="{{ part.single.column }}">{{ render_column(item, part.single) }}</textarea>
+{% elif part.single.type == "dimension" %}
+<p><strong>{{ part.single.label }}</strong></p>
+<label for="{{ name }}-{{ part.single.column[0] }}">width (in cm)</label>
+<input id="{{ name }}-{{ part.single.column[0] }}" value="{{ render_column(item, part.single)[0] }}"
+    name="{{ part.single.column[0] }}" type="number" step="0.01" min="0">
+<label for="{{ name }}-{{ part.single.column[1] }}">height (in cm)</label>
+<input id="{{ name }}-{{ part.single.column[1] }}" value="{{ render_column(item, part.single)[1] }}"
+    name="{{ part.single.column[1] }}" type="number" step="0.01" min="0">
+<label for="{{ name }}-{{ part.single.column[2] }}">depth (in cm)</label>
+<input id="{{ name }}-{{ part.single.column[2] }}" value="{{ render_column(item, part.single)[2] }}"
+    name="{{ part.single.column[2] }}" type="number" step="0.01" min="0">
+{% elif part.single.type == "reference" %}
+<label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
+<small><a href="{{ url_for('resource.index', name=part.single.refersto) }}" target="_blank">edit list</a></small>
+<select id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}">
+    {% for e in get_enum(part.single.refersto).query.all() %}
+    <option value="{{ e.id }}" {{ 'selected' if e==item[part.single.column] }}>
+        {{ e.title }}
+    </option>
+    {% endfor %}
+</select>
+{% elif part.single.type == "reference_list" %}
+<label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
+<small><a href="{{ url_for('resource.index', name=part.single.refersto) }}" target="_blank">edit list</a></small>
+<select id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}" multiple>
+    {% for e in get_enum(part.single.refersto).query.all() %}
+    <option value="{{ e.id }}" {{ 'selected' if e in item[part.single.column] }}>
+        {{ e.title }}
+    </option>
+    {% endfor %}
+</select>
 {% else %}
 {{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
 {% endif %}
@@ -135,28 +205,37 @@
         {% for row in table %}
         <tr>
             {% for column in part.columns %}
-                {% if column.heading %}
-                <th>{{ rendel(render_column(row, column)) }}</th>
-                {% else %}
-                <td>{{ rendel(render_column(row, column)) }}</td>
-                {% endif %}
+            {% if column.heading %}
+            <th>{{ rendel(render_column(row, column)) }}</th>
+            {% else %}
+            <td>{{ rendel(render_column(row, column)) }}</td>
+            {% endif %}
             {% endfor %}
         </tr>
         {% endfor %}
     </tbody>
 </table>
 {% elif part.component == "text_view" %}
-<div class="text-presentation">{{ item[part.columns.diplomatic] }}</div>
-<div class="text-presentation">{{ item[part.columns.interpretative] }}</div>
-<div class="text-presentation">{{ item[part.columns.with_metrics_visualised] }}</div>
-<div class="switch-list">
-    <input type="radio" name="text-form" id="text-form--dipl" value="diplomatic" checked>
-    <label for="text-form--dipl">Diplomatic</label>
-    <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
-    <label for="text-form--intp">Interpretative</label>
-    <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
-    <label for="text-form--mevs">With Metrics Visualised</label>
-</div>
+<table role="table">
+    <tbody>
+        <tr>
+            <th><label for="{{ name }}-{{ part.columns.diplomatic }}">Diplomatic</label></th>
+            <td><textarea id="{{ name }}-{{ part.columns.diplomatic }}"
+                    name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] }}</textarea></td>
+        </tr>
+        <tr>
+            <th><label for="{{ name }}-{{ part.columns.interpretative }}">Interpretative</label></th>
+            <td><textarea id="{{ name }}-{{ part.columns.interpretative }}"
+                    name="{{ part.columns.interpretative }}">{{ item[part.columns.interpretative] }}</textarea></td>
+        </tr>
+        <tr>
+            <th><label for="{{ name }}-{{ part.columns.with_metrics_visualised }}">With Metrics Visualised</label></th>
+            <td><textarea id="{{ name }}-{{ part.columns.with_metrics_visualised }}"
+                    name="{{ part.columns.with_metrics_visualised }}">{{ item[part.columns.with_metrics_visualised] }}</textarea>
+            </td>
+        </tr>
+    </tbody>
+</table>
 {% endif %}
 
 {% if part.edit_postfix %}

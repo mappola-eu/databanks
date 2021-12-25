@@ -52,8 +52,14 @@
             "update_op": "Rename",
             "delete_op": false,
             "table": [
-                { "name": "#", "value": "loop#index" },
-                { "name": "Title", "value": "obj#title" }
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Title",
+                    "value": "obj#title"
+                }
             ]
         },
         "Inscriptions": {
@@ -61,9 +67,19 @@
             "update_op": false,
             "delete_op": false,
             "table": [
-                { "name": "#", "value": "obj#long_id()", "linkto": "show" },
-                { "name": "Name", "value": "obj#title" },
-                { "name": "Trismegistos-ID", "value": "obj#trismegistos_nr" }
+                {
+                    "name": "#",
+                    "value": "obj#long_id()",
+                    "linkto": "show"
+                },
+                {
+                    "name": "Name",
+                    "value": "obj#title"
+                },
+                {
+                    "name": "Trismegistos-ID",
+                    "value": "obj#trismegistos_nr"
+                }
             ]
         }
     },
@@ -84,7 +100,11 @@
                             "edit_prefix": "Rename this item to:",
                             "component": "table",
                             "columns": [
-                                { "column": "title", "label": "Name", "type": "input" }
+                                {
+                                    "column": "title",
+                                    "label": "Name",
+                                    "type": "input"
+                                }
                             ]
                         }
                     ]
@@ -93,7 +113,7 @@
         },
         "Inscriptions": {
             "create_action": "Create",
-            "update_action": "Rename",
+            "update_action": "Update",
             "cancel_action": "Cancel",
             "update_op": "Edit This Inscription",
             "delete_op": false,
@@ -106,9 +126,21 @@
                             "title": null,
                             "component": "table",
                             "columns": [
-                                { "column": "obj#long_id()", "label": "Reference as:", "type": "call" },
-                                { "column": "title", "label": "Title", "type": "input" },
-                                { "column": "trismegistos_nr", "label": "Trismegistos-No.", "type": "input" }
+                                {
+                                    "column": "obj#long_id()",
+                                    "label": "Reference as:",
+                                    "type": "call"
+                                },
+                                {
+                                    "column": "title",
+                                    "label": "Title",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "trismegistos_nr",
+                                    "label": "Trismegistos-No.",
+                                    "type": "input"
+                                }
                             ]
                         }
                     ]
@@ -130,8 +162,16 @@
                             "component": "embed",
                             "table": "obj#translations",
                             "columns": [
-                                { "heading": true, "column": "obj#language_title()", "type": "call" },
-                                { "heading": false, "column": "translated_form", "type": "text" }
+                                {
+                                    "heading": true,
+                                    "column": "obj#language_title()",
+                                    "type": "call"
+                                },
+                                {
+                                    "heading": false,
+                                    "column": "translated_form",
+                                    "type": "text"
+                                }
                             ]
                         }
                     ]
@@ -143,30 +183,84 @@
                             "title": "Provenance and Location",
                             "component": "table",
                             "columns": [
-                                { "column": "place", "label": "Find Place", "type": "reference" },
-                                { "column": "find_comment", "label": "Find Context", "type": "text" },
-                                { "column": "current_location", "label": "Current Location", "type": "reference" }
+                                {
+                                    "column": "place",
+                                    "label": "Find Place",
+                                    "type": "reference",
+                                    "refersto": "Places"
+                                },
+                                {
+                                    "column": "find_comment",
+                                    "label": "Find Context",
+                                    "type": "text"
+                                },
+                                {
+                                    "column": "current_location",
+                                    "label": "Current Location",
+                                    "type": "reference",
+                                    "refersto": "CurrentLocations"
+                                }
                             ]
                         },
                         {
                             "title": "Object Details",
                             "component": "table",
                             "columns": [
-                                { "column": "object_type", "label": "Object Type", "type": "reference" },
-                                { "column": "object_material", "label": "Material", "type": "reference" },
-                                { "column": "object_preservation_state", "label": "State of Preservation", "type": "reference" },
-                                { "column": ["object_dim_width", "object_dim_height", "object_dim_depth"], "label": "Dimensions", "type": "dimension" },
-                                { "column": "...", "label": "Dimensions", "type": "input" },
-                                { "column": "object_execution_technique", "label": "Execution Technique", "type": "reference" }
+                                {
+                                    "column": "object_type",
+                                    "label": "Object Type",
+                                    "type": "reference",
+                                    "refersto": "ObjectTypes"
+                                },
+                                {
+                                    "column": "object_material",
+                                    "label": "Material",
+                                    "type": "reference",
+                                    "refersto": "ObjectMaterials"
+                                },
+                                {
+                                    "column": "object_preservation_state",
+                                    "label": "State of Preservation",
+                                    "type": "reference",
+                                    "refersto": "ObjectPreservationStates"
+                                },
+                                {
+                                    "column": [
+                                        "object_dim_width",
+                                        "object_dim_height",
+                                        "object_dim_depth"
+                                    ],
+                                    "label": "Dimensions",
+                                    "type": "dimension"
+                                },
+                                {
+                                    "column": "object_execution_technique",
+                                    "label": "Execution Technique",
+                                    "type": "reference",
+                                    "refersto": "ObjectExecutionTechniques"
+                                }
                             ]
                         },
                         {
                             "title": "Decoration and Layout",
                             "component": "table",
                             "columns": [
-                                { "column": "object_decoration_comment", "label": "Decoration and Iconography", "type": "text" },
-                                { "column": "decoration_tags", "label": "Decoration Tags", "type": "reference_list" },
-                                { "column": "object_text_layout_comment", "label": "Text Layout", "type": "text" }
+                                {
+                                    "column": "object_decoration_comment",
+                                    "label": "Decoration and Iconography",
+                                    "type": "text"
+                                },
+                                {
+                                    "column": "decoration_tags",
+                                    "label": "Decoration Tags",
+                                    "type": "reference_list",
+                                    "refersto": "ObjectDecorationTags"
+                                },
+                                {
+                                    "column": "object_text_layout_comment",
+                                    "label": "Text Layout",
+                                    "type": "text"
+                                }
                             ]
                         }
                     ]
@@ -178,10 +272,29 @@
                             "title": null,
                             "component": "table",
                             "columns": [
-                                { "column": "text_function", "label": "Function", "type": "reference" },
-                                { "column": "languages", "label": "Language(s)", "type": "reference_list" },
-                                { "column": "verse_types", "label": "Verse Type(s)", "type": "reference_list" },
-                                { "column": "apparatus_criticus", "label": "Apparatus Criticus", "type": "text" }
+                                {
+                                    "column": "text_function",
+                                    "label": "Function",
+                                    "type": "reference",
+                                    "refersto": "TextFunctions"
+                                },
+                                {
+                                    "column": "languages",
+                                    "label": "Language(s)",
+                                    "type": "reference_list",
+                                    "refersto": "Languages"
+                                },
+                                {
+                                    "column": "verse_types",
+                                    "label": "Verse Type(s)",
+                                    "type": "reference_list",
+                                    "refersto": "VerseTypes"
+                                },
+                                {
+                                    "column": "apparatus_criticus",
+                                    "label": "Apparatus Criticus",
+                                    "type": "text"
+                                }
                             ]
                         }
                     ]
@@ -195,15 +308,59 @@
                         "title": "No. ${loop#index}: ${obj#name}",
                         "component": "table",
                         "columns": [
-                            { "column": "name", "label": "Name Of Person", "type": "text" },
-                            { "column": "gender", "label": "Gender", "type": "reference" },
-                            { "column": "age", "label": "Age", "type": "reference" },
-                            { "column": "age_expression", "label": "Age Expression", "type": "reference" },
-                            { "column": "age_precision", "label": "Age Precision", "type": "reference" },
-                            { "column": "origin", "label": "Origin", "type": "reference" },
-                            { "column": "legal_status", "label": "Legal Status", "type": "reference" },
-                            { "column": "rank", "label": "Rank", "type": "reference" },
-                            { "column": "profession", "label": "Profession", "type": "reference" }
+                            {
+                                "column": "name",
+                                "label": "Name Of Person",
+                                "type": "text"
+                            },
+                            {
+                                "column": "gender",
+                                "label": "Gender",
+                                "type": "reference",
+                                "refersto": "PeopleGenders"
+                            },
+                            {
+                                "column": "age",
+                                "label": "Age",
+                                "type": "reference",
+                                "refersto": "PeopleAges"
+                            },
+                            {
+                                "column": "age_expression",
+                                "label": "Age Expression",
+                                "type": "reference",
+                                "refersto": "PeopleAgeExpressions"
+                            },
+                            {
+                                "column": "age_precision",
+                                "label": "Age Precision",
+                                "type": "reference",
+                                "refersto": "PeopleAgePrecisions"
+                            },
+                            {
+                                "column": "origin",
+                                "label": "Origin",
+                                "type": "reference",
+                                "refersto": "PeopleOrigins"
+                            },
+                            {
+                                "column": "legal_status",
+                                "label": "Legal Status",
+                                "type": "reference",
+                                "refersto": "PeopleLegalStatus"
+                            },
+                            {
+                                "column": "rank",
+                                "label": "Rank",
+                                "type": "reference",
+                                "refersto": "PeopleRanks"
+                            },
+                            {
+                                "column": "profession",
+                                "label": "Profession",
+                                "type": "reference",
+                                "refersto": "PeopleProfessions"
+                            }
                         ]
                     }
                 },
@@ -213,20 +370,39 @@
                         {
                             "title": "Comment",
                             "component": "standalone",
-                            "single": { "column": "general_comment", "label": "Comment", "type": "text" }
+                            "single": {
+                                "column": "general_comment",
+                                "label": "Comment",
+                                "type": "text"
+                            }
                         },
                         {
                             "title": "Dating Information",
                             "component": "table",
                             "columns": [
-                                { "column": "date", "label": "Date", "type": "text" },
-                                { "column": "dating_criteria", "label": "Criteria", "type": "reference_list" }
+                                {
+                                    "column": "date",
+                                    "label": "Date",
+                                    "type": "text"
+                                },
+                                {
+                                    "column": "dating_criteria",
+                                    "label": "Criteria",
+                                    "type": "reference_list",
+                                    "refersto": "DatingCriteria"
+                                }
                             ]
                         },
                         {
                             "title": "Bibliography",
                             "component": "standalone",
-                            "single": { "column": "publications", "label": "Comment", "type": "reference_complex", "render": "reference_comment" }
+                            "single": {
+                                "column": "publications",
+                                "label": "Comment",
+                                "type": "reference_complex",
+                                "render": "reference_comment",
+                                "refersto": "Publications"
+                            }
                         }
                     ]
                 }
