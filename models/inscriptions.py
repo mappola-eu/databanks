@@ -111,7 +111,10 @@ class Inscriptions(db.Model):
     translations = db.relationship('Translations', backref='inscription')
 
     def long_id(self):
-        return "MPL" + str(self.id).zfill(5)
+        if self.id is not None:
+            return "MPL" + str(self.id).zfill(5)
+        else:
+            return "MPL?????"
 
 
 class ObjectTypes(db.Model):
