@@ -46,6 +46,16 @@
         "DatingCriteria",
         "VerseTypes"
     ],
+    "relations": {
+        "Translations": {
+            "on": "Inscriptions",
+            "per": "inscription_id"
+        },
+        "Publications": {
+            "on": "Inscriptions",
+            "per": "inscription_id"
+        }
+    },
     "summary": {
         "_enums": {
             "create_op": "New Item",
@@ -79,6 +89,40 @@
                 {
                     "name": "Trismegistos-ID",
                     "value": "obj#trismegistos_nr"
+                }
+            ]
+        },
+        "Translations": {
+            "create_op": "Add Translation",
+            "update_op": "Update",
+            "delete_op": "Remove",
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Language",
+                    "value": "obj#language_title()"
+                },
+                {
+                    "name": "Excerpt",
+                    "value": "obj#excerpt()"
+                }
+            ]
+        },
+        "Publications": {
+            "create_op": "Add Publication",
+            "update_op": "Update",
+            "delete_op": "Remove",
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Reference",
+                    "value": "obj#reference_comment"
                 }
             ]
         }
@@ -161,6 +205,10 @@
                             "title": "Translations",
                             "component": "embed",
                             "table": "obj#translations",
+                            "edit": {
+                                "type": "relation",
+                                "which": "Translations"
+                            },
                             "columns": [
                                 {
                                     "heading": true,

@@ -131,3 +131,7 @@ form table[role="table"] select + a[role="complementary"] {
     padding: 0;
     list-style: none;
 }
+
+.toolbar {
+    margin: 1rem 0;
+}

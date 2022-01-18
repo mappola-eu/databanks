@@ -1,5 +1,5 @@
 from flask import *
-from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet
+from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet, get_rel, get_rel_defn
 from flask_security import login_required
 
 resource = Blueprint('resource', __name__)
@@ -130,3 +130,40 @@ def new(name):
     return render_template("resource/new.html", name=name, R=R, item=item,
                            defn=defn, defn_parse=defn_parse, render_column=render_column,
                            defn_parse_raw=defn_parse_raw, get_enum=get_enum)
+
+@login_required
+@resource.route("/<name>/-/<id>/rel/<relname>")
+def relindex(name, id, relname):
+    try:
+        R = get_enum(name)
+        rel = get_rel(relname)
+    except:
+        abort(403)
+
+    item = R.query.get_or_404(id)
+    q = {get_rel_defn(relname)["per"]: item.id}
+    relvals = rel.query.filter_by(**q).all()
+    
+    return render_template("resource/rel/index.html", name=name, R=R, relname=relname, rel=rel,
+                           relvals=relvals, rel_defn=get_defn(relname, scope="summary"), item=item,
+                           defn=get_defn(name, scope="display"))
+
+@login_required
+@resource.route("/<name>/-/<id>/rel/<relname>/new", methods=["GET", "POST"])
+def relnew(name, id, relname):
+    pass
+
+@login_required
+@resource.route("/<name>/-/<id>/rel/<relname>/show/<relid>", methods=["GET", "POST"])
+def relshow(name, id, relname, relid):
+    pass
+
+@login_required
+@resource.route("/<name>/-/<id>/rel/<relname>/edit/<relid>", methods=["GET", "POST"])
+def reledit(name, id, relname, relid):
+    pass
+
+@login_required
+@resource.route("/<name>/-/<id>/rel/<relname>/delete/<relid>", methods=["GET", "POST"])
+def reldelete(name, id, relname, relid):
+    pass

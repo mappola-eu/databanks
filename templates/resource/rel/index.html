@@ -1,0 +1,53 @@
+{% set title = name %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1><a href="{{ url_for('resource.show', name=name, id=item.id) }}">{{ name|camel2human }}: {{ defn_parse(defn.title, item) }}</a></h1>
+
+<h2>{{ relname|camel2human }}</h2>
+{% if rel_defn.create_op %}
+<div class="toolbar">
+    <a href="{{ url_for('resource.relnew', name=name, id=item.id, relname=relname) }}" role="button">{{ rel_defn.create_op }}</a>
+</div>
+{% endif %}
+
+<table role="table">
+    <tbody>
+        <tr>
+            {% for column in rel_defn.table %}
+            <th>{{ column.name }}</th>
+            {% endfor %}
+            {% if rel_defn.update_op or rel_defn.delete_op %}
+            <th></th>
+            {% endif %}
+        </tr>
+        {% for relitem in relvals %}
+        <tr>
+            {% set primary_loop=loop %}
+            {% for column in rel_defn.table %}
+            {% if column.linkto and column.linkto == "show" %}
+            <td>
+                <a href="{{ url_for('resource.relshow', name=name, id=item.id, relname=relname, relid=relitem.id) }}">
+                    {{ defn_parse(column.value, relitem, loop=primary_loop) }}
+                </a>
+            </td>
+            {% else %}
+            <td>{{ defn_parse(column.value, relitem, loop=primary_loop) }}</td>
+            {% endif %}
+            {% endfor %}
+            {% if rel_defn.update_op or rel_defn.delete_op %}
+            <td>
+                {% if rel_defn.update_op %}
+                <a href="{{ url_for('resource.reledit', name=name, id=item.id, relname=relname, relid=relitem.id) }}" role="button">{{ rel_defn.update_op }}</a>
+                {% endif %}
+                {% if rel_defn.delete_op %}
+                <a href="{{ url_for('resource.reldelete', name=name, id=item.id, relname=relname, relid=relitem.id) }}" role="button">{{ rel_defn.delete_op }}</a>
+                {% endif %}
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

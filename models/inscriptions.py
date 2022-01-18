@@ -211,7 +211,14 @@ class Translations(db.Model):
 
     language = db.relationship('Languages')
 
-    def language_title(self): return self.language.title
+    def language_title(self):
+        return self.language.title
+
+    def excerpt(self):
+        if len(self.translated_form) > 150:
+            return self.translated_form[:100] + "..."
+        else:
+            return self.translated_form
 
 class Publications(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -249,8 +256,15 @@ def get_enum(enum):
     else:
         raise NameError("Enumeration not found: ", enum)
 
+def get_rel(rel):
+    if rel in defn["relations"].keys():
+        return eval(rel)
+    
+    else:
+        raise NameError("Relation not found: ", rel)
+
 def get_defn(enum, scope="display"):
-    if enum in defn["classes"]:
+    if enum in defn["classes"] or enum in defn["relations"].keys():
         if scope in ["display", "summary"]:
             if enum in defn[scope].keys():
                 return defn[scope][enum]
@@ -262,6 +276,13 @@ def get_defn(enum, scope="display"):
             raise NameError("Scope not found: ", scope)
     else:
         raise NameError("Enumeration not found: ", enum)
+
+def get_rel_defn(rel):
+    if rel in defn["relations"].keys():
+        return defn["relations"][rel]
+    
+    else:
+        raise NameError("Relation not found: ", rel)
 
 def defn_parse_raw(code, item, **args):
     on, key = code.split("#")
