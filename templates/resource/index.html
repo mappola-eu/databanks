@@ -2,7 +2,7 @@
 {% extends "layouts/application.html" %}
 
 {% block body %}
-<h1>{{ name }}</h1>
+<h1>{{ name|camel2human }}</h1>
 {% if defn.create_op %}
 <div class="toolbar">
     <a href="{{ url_for('resource.new', name=name) }}" role="button">{{ defn.create_op }}</a>

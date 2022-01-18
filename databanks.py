@@ -23,6 +23,16 @@ security = Security(app, user_datastore)
 def index():
     return render_template("index.html")
 
+@app.template_filter()
+def camel2human(name):
+    naming_parts = [""]
+    for c in name:
+        if c.upper() == c:
+            naming_parts += [c]
+        else:
+            naming_parts[-1] += c
+    return " ".join(naming_parts)
+
 app.register_blueprint(controllers.inscriptions, url_prefix='/inscriptions')
 app.register_blueprint(controllers.enum, url_prefix='/api/enum')
 app.register_blueprint(controllers.resource, url_prefix='/r')
