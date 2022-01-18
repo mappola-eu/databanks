@@ -191,3 +191,30 @@ form table[role="table"] {
     width: 350px;
     padding: 0.5rem;
 }
+
+.switch-list {
+    display: flex;
+}
+.switch-list label {
+    cursor: pointer;
+    border: 1px solid #b5b1af;
+    border-left-width: 0;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    font-weight: bold;
+}
+.switch-list label:first-of-type {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    border-left-width: 1px;
+}
+.switch-list label:last-of-type {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.switch-list input[type='radio'] { display: none; }
+
+.switch-list input[type='radio']:checked + label {
+    background-color: rgba(255, 255, 255, 0.8);
+}
