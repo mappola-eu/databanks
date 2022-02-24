@@ -1,3 +1,4 @@
 *.pyc
 config.py
 mappola_dev.db
+timing.txt
