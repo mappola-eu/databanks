@@ -1,0 +1,20 @@
+{% from "resource/_joint.html" import render_part, render_form_part, rendel with context  %}
+
+{% for slide in rel_defn.slides %}
+<section role="doc-part">
+    {% if slide.title %}
+    <h2>{{ slide.title }}</h2>
+    {% endif %}
+    
+    {% for part in slide.parts %}
+        {{ render_form_part(part, item, loop) }}
+    {% else %}
+    {% if slide.auto == "foreach" %}
+    {% set autoon = defn_parse_raw(slide.autoon, item) %}
+    {% for autoitem in autoon %}
+        {{ render_part(slide.autopart, autoitem, loop) }}
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+</section>
+{% endfor %}

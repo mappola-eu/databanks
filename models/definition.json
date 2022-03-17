@@ -455,6 +455,49 @@
                     ]
                 }
             ]
+        },
+        "Translations": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": "Translation",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "language_id",
+                                    "label": "Language",
+                                    "type": "reference",
+                                    "refersto": "Languages"
+                                },
+                                {
+                                    "column": "translated_form",
+                                    "label": "Translated Form",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Bibliography",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "link_to_published_translation",
+                                    "label": "Publicated Translation",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     }
 }

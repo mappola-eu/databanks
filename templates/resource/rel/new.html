@@ -1,0 +1,21 @@
+{% set title = name %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1><a href="{{ url_for('resource.relindex', name=name, id=item.id, relname=relname) }}">{{ relname|camel2human }}</a>: New item</h1>
+
+<form action="" method="post">
+
+    <div class="toolbar">
+        {% if defn.create_action %}
+        <button type="submit" class="primary-btn">{{ rel_defn.create_action }}</button>
+        {% endif %}
+        {% if defn.cancel_action %}
+        <a href="{{ url_for('resource.relindex', name=name, id=item.id, relname=relname) }}" role="button">{{ rel_defn.cancel_action }}</a>
+        {% endif %}
+    </div>
+
+    {% include "resource/rel/_form.html" %}
+</form>
+
+{% endblock %}
