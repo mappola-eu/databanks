@@ -207,7 +207,7 @@ class Translations(db.Model):
     inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
     translated_form = db.Column(db.Text)
     language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
-    link_to_published_transition = db.Column(db.Text)
+    link_to_published_translation = db.Column(db.Text)
 
     language = db.relationship('Languages')
 
@@ -313,6 +313,7 @@ def defn_parse(*args, **kwargs):
 
 def render_column(item, col):
     if col["type"] in ["input", "text"]:
+        print("xoxoxoxo", col)
         if hasattr(item, col["column"]):
             return getattr(item, col["column"]) or ""
     elif col["type"] == "call":

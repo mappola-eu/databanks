@@ -7,10 +7,12 @@
     {% endif %}
     
     {% for part in slide.parts %}
-        {{ render_form_part(part, item, loop) }}
+    {% set item = relval %}
+    {% set name = relname %}
+    {{ render_form_part(part, relval, loop) }}
     {% else %}
     {% if slide.auto == "foreach" %}
-    {% set autoon = defn_parse_raw(slide.autoon, item) %}
+    {% set autoon = defn_parse_raw(slide.autoon, relval) %}
     {% for autoitem in autoon %}
         {{ render_part(slide.autopart, autoitem, loop) }}
     {% endfor %}

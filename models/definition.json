@@ -460,7 +460,7 @@
             "create_action": "Create",
             "update_action": "Update",
             "cancel_action": "Cancel",
-            "update_op": "Edit This Item",
+            "update_op": "Edit This Translation",
             "delete_op": false,
             "title": "obj#title",
             "slides": [
@@ -494,6 +494,30 @@
                                     "type": "text"
                                 }
                             ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "Publications": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Publication",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "component": "standalone",
+                            "single": {
+                                    "column": "reference_comment",
+                                    "label": "The Reference",
+                                    "type": "text"
+                            }
                         }
                     ]
                 }
