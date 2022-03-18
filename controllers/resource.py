@@ -109,7 +109,7 @@ def new(name):
     if request.method == "POST":
         item = apply_defn_post_data_to_obj(defn, item)
         db.session.add(item)
-        db.commit()
+        db.session.commit()
 
         return redirect(url_for('resource.index', name=name))
 
@@ -157,15 +157,21 @@ def relnew(name, id, relname):
     except:
         abort(403)
 
+    rel_defn = get_defn(relname, scope="display")
     item = R.query.get_or_404(id)
     q = {get_rel_defn(relname)["per"]: item.id}
     relval = rel(**q)
-    item.title = ""
+
+    print(relval)
+    print(rel)
 
     if request.method == "POST":
-        pass
+        relval = apply_defn_post_data_to_obj(rel_defn, relval)
+        print(relval)
+        db.session.add(relval)
+        db.session.commit()
 
-        return redirect(url_for('resource.index', name=name))
+        return redirect(url_for('resource.relindex', name=name, id=id, relname=relname))
 
     return render_template("resource/rel/new.html",
                            name=name,
@@ -173,7 +179,7 @@ def relnew(name, id, relname):
                            relname=relname,
                            rel=rel,
                            relval=relval,
-                           rel_defn=get_defn(relname, scope="display"),
+                           rel_defn=rel_defn,
                            item=item,
                            defn=get_defn(name, scope="display"),
                            defn_parse=defn_parse,
@@ -221,8 +227,8 @@ def apply_defn_post_data_to_obj(defn, obj):
                                 request.form[column['column']])
                     elif column['type'] == 'reference':
                         cls = get_enum(column['refersto'])
-                        obj = cls.query.get(request.form[column['column']])
-                        setattr(obj, column['column'], obj)
+                        other = cls.query.get(request.form[column['column']])
+                        setattr(obj, column['column'], other)
                     elif column['type'] == 'reference_list':
                         cls = get_enum(column['refersto'])
                         data = [cls.query.get(

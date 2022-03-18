@@ -472,7 +472,7 @@
                             "component": "table",
                             "columns": [
                                 {
-                                    "column": "language_id",
+                                    "column": "language",
                                     "label": "Language",
                                     "type": "reference",
                                     "refersto": "Languages"
