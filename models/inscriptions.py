@@ -120,87 +120,113 @@ class Inscriptions(db.Model):
 class ObjectTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
 
 class ObjectMaterials(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
 
 class ObjectPreservationStates(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
 
 class ObjectExecutionTechniques(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
 
 class ObjectDecorationTags(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class TextFunctions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class VerseTimingTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class Languages(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class CurrentLocations(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class Places(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    ancient_name = db.Column(db.String(90))
+    modern_name = db.Column(db.String(90))
+    coordinates_long = db.Column(db.Float())
+    coordinates_lat = db.Column(db.Float())
+    pleiades_id = db.Column(db.Integer())
+    enum_lod = db.Column(db.String(150))
     
 class Provinces(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class PeopleGenders(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class PeopleAges(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class PeopleAgeExpressions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
 
 class PeopleAgePrecision(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class PeopleOrigins(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class PeopleLegalStatus(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class PeopleRanks(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class PeopleProfessions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class DatingCriteria(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
     
 class VerseTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
     parent_verse_type_id = db.Column(db.Integer, db.ForeignKey('verse_types.id'))
+    enum_lod = db.Column(db.String(150))
 
 class Translations(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

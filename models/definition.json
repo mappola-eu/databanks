@@ -54,6 +54,11 @@
         "Publications": {
             "on": "Inscriptions",
             "per": "inscription_id"
+        },
+        "People": {
+            "on": "Inscriptions",
+            "per": "inscription_id",
+            "to": "inscription_people_assoc"
         }
     },
     "summary": {
@@ -69,6 +74,10 @@
                 {
                     "name": "Title",
                     "value": "obj#title"
+                },
+                {
+                    "name": "LOD",
+                    "value": "obj#enum_lod"
                 }
             ]
         },
@@ -125,6 +134,33 @@
                     "value": "obj#reference_comment"
                 }
             ]
+        },
+        "Places": {
+            "create_op": "New Item",
+            "update_op": "Update",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Title",
+                    "value": "obj#title"
+                },
+                {
+                    "name": "Ancient Name",
+                    "value": "obj#ancient_name"
+                },
+                {
+                    "name": "Modern Name",
+                    "value": "obj#modern_name"
+                },
+                {
+                    "name": "Pleiades-ID",
+                    "value": "obj#pleiades_id"
+                }
+            ]
         }
     },
     "display": {
@@ -147,6 +183,11 @@
                                 {
                                     "column": "title",
                                     "label": "Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "enum_lod",
+                                    "label": "LOD",
                                     "type": "input"
                                 }
                             ]
@@ -518,6 +559,64 @@
                                     "label": "The Reference",
                                     "type": "text"
                             }
+                        }
+                    ]
+                }
+            ]
+        },
+        "Places": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": "General",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "title",
+                                    "label": "Title",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "ancient_name",
+                                    "label": "Ancient Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "modern_name",
+                                    "label": "Modern Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "pleiades_id",
+                                    "label": "Pleiades-ID",
+                                    "type": "input"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Location",
+                            "component": "table",
+                            "edit_prefix": "Longitude and Latitude coordinates for this Place. If unknown/empty use zero for both.",
+                            "columns": [
+                                {
+                                    "column": "coordinates_long",
+                                    "label": "Longitude",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "coordinates_lat",
+                                    "label": "Latitude",
+                                    "type": "input"
+                                }
+                            ]
                         }
                     ]
                 }
