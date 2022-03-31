@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from flask_security import Security, SQLAlchemyUserDatastore
 from .models import db, Role, User
 from .config import SETTINGS
+from .imports import import_
 
 from . import controllers
 
@@ -36,3 +37,4 @@ def camel2human(name):
 app.register_blueprint(controllers.inscriptions, url_prefix='/inscriptions')
 app.register_blueprint(controllers.enum, url_prefix='/api/enum')
 app.register_blueprint(controllers.resource, url_prefix='/r')
+app.register_blueprint(import_)

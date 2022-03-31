@@ -202,7 +202,11 @@
 </select>
 {% elif part.single.type == "reference_complex" %}
 {{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
+{% if item.id == None %}
+<p>You can edit these information once the item is created.</p>
+{% else %}
 <p>Edit <a href="{{ url_for('resource.relindex', name=name, id=item.id, relname=part.single.refersto) }}" target="_blank">these information</a>.</p>
+{% endif %}
 {% else %}
 {{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
 {% endif %}
@@ -224,7 +228,11 @@
     </tbody>
 </table>
 {% if part.edit and part.edit.type == "relation" %}
+{% if item.id == None %}
+<p>You can edit these information once the item is created.</p>
+{% else %}
 <p>Edit <a href="{{ url_for('resource.relindex', name=name, id=item.id, relname=part.edit.which) }}" target="_blank">these information</a>.</p>
+{% endif %}
 {% endif %}
 {% elif part.component == "text_view" %}
 <table role="table">
