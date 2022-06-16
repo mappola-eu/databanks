@@ -132,6 +132,10 @@
                 {
                     "name": "Reference",
                     "value": "obj#reference_comment"
+                },
+                {
+                    "name": "Zotero ID",
+                    "value": "obj#zotero_item_id"
                 }
             ]
         },
@@ -488,8 +492,8 @@
                             "single": {
                                 "column": "publications",
                                 "label": "Comment",
-                                "type": "reference_complex",
-                                "render": "reference_comment",
+                                "type": "reference_func",
+                                "render": "display",
                                 "refersto": "Publications"
                             }
                         }
@@ -558,6 +562,16 @@
                                     "column": "reference_comment",
                                     "label": "The Reference",
                                     "type": "text"
+                            }
+                        },
+                        {
+                            "title": null,
+                            "component": "standalone",
+                            "ext_hint": "zotero",
+                            "single": {
+                                    "column": "zotero_item_id",
+                                    "label": "Zotero Item ID",
+                                    "type": "input"
                             }
                         }
                     ]

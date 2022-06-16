@@ -254,6 +254,9 @@ class Publications(db.Model):
 
     inscription = db.relationship('Inscriptions', backref='publications')
 
+    def display(self):
+        return self.reference_comment + " (" + self.zotero_item_id + ")"
+
 class People(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     reference_link = db.Column(db.Text)
@@ -358,6 +361,9 @@ def render_column(item, col):
     elif col["type"] == "reference_complex":
         if hasattr(item, col["column"]):
             return [getattr(i, col["render"]) for i in getattr(item, col["column"])]
+    elif col["type"] == "reference_func":
+        if hasattr(item, col["column"]):
+            return [getattr(i, col["render"])() for i in getattr(item, col["column"])]
     return ""
 
 def defn_snippet(snippet, *args, **kwargs):

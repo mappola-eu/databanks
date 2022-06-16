@@ -1,5 +1,5 @@
 {% macro rendel(data, dt, standalone=False) %}
-{% if dt == "reference_list" or dt == "reference_complex" %}
+{% if dt == "reference_list" or dt == "reference_complex" or dt == "reference_func" %}
 <ul>
     {% for entry in data %}
     <li>{{ entry }}</li>
@@ -81,6 +81,10 @@
 
 {% if part.edit_prefix %}
 <p>{{ defn_snippet(part.edit_prefix, item, loop=ploop) }}</p>
+{% endif %}
+
+{% if part.ext_hint %}
+<div data-ext-hint="{{ part.ext_hint }}">
 {% endif %}
 
 {% if part.component == "table" %}
@@ -200,7 +204,7 @@
     </option>
     {% endfor %}
 </select>
-{% elif part.single.type == "reference_complex" %}
+{% elif part.single.type == "reference_complex" or part.single.type == "reference_func" %}
 {{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
 {% if item.id == None %}
 <p>You can edit these information once the item is created.</p>
@@ -255,6 +259,10 @@
         </tr>
     </tbody>
 </table>
+{% endif %}
+
+{% if part.ext_hint %}
+</div>
 {% endif %}
 
 {% if part.edit_postfix %}
