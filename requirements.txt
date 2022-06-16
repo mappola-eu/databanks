@@ -3,3 +3,6 @@ flask-sqlalchemy
 flask-migrate
 flask-security
 email_validator
+
+pyzotero
+tabulate
