@@ -250,6 +250,7 @@ class Publications(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
     reference_comment = db.Column(db.Text)
+    zotero_item_id = db.Column(db.String(20))
 
     inscription = db.relationship('Inscriptions', backref='publications')
 
