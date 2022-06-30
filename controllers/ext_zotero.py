@@ -52,7 +52,7 @@ def qadd_types():
 @login_required
 @ext_zotero.route("/quickadd/of/type/<type>", methods=["POST"])
 def qadd(type):    
-    title = request.args.get("title", None)
+    title = request.form.get("title", None)
     
     avail_item_types = g.zot.item_types()
     avail_item_types = [i['itemType'] for i in avail_item_types]

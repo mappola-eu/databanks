@@ -75,7 +75,7 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
                 })
                 .catch(error => {
                     zotero_query_title.removeAttribute("disabled");
-                    alert("ERROR loading Zotero integration, please retry.\n\nmessage:" + error);
+                    alert("ERROR using Zotero integration, please retry.\n\nmessage:" + error);
                 });
         }
     });
@@ -102,7 +102,27 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
                     response.data.title;
             })
             .catch(error => {
-                alert("ERROR loading Zotero integration, please retry.\n\nmessage:" + error);
+                alert("ERROR using Zotero integration, please retry.\n\nmessage:" + error);
+            });
+    });
+
+    zotero_new.addEventListener("click", (e) => {
+        title = zotero_new_title.value;
+        type = zotero_new_type.value;
+        if(!title || !type) return;
+
+        const data = new URLSearchParams();
+        data.append('title', title);
+
+        fetch('/ext/zotero/quickadd/of/type/' + type, { method: 'post', body: data })
+            .then(response => response.json())
+            .then(result => {
+                const key = result.items[0].key;
+                inscription_zotero_item_id.value = key;
+                inscription_reference_comment.value = title;
+            })
+            .catch(error => {
+                alert("ERROR using Zotero integration, please retry.\n\nmessage:" + error);
             });
     });
 }
