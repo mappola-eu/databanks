@@ -1,4 +1,5 @@
 from . import db
+from ..linkage import LINKERS
 import json, re
 
 with open("models/definition.json", "r") as f:
@@ -342,29 +343,36 @@ def defn_parse(*args, **kwargs):
     return str(defn_parse_raw(*args, **kwargs))
 
 def render_column(item, col):
+    linkage = None
+    if 'ext_linkage' in col:
+        linker = LINKERS[col['ext_linkage']]
+        if col['type'] not in ("reference_list", "reference_complex", "reference_func"):
+            linkage = linker.link(item)
+    else:
+        linker = LINKERS['null']
+
     if col["type"] in ["input", "text"]:
-        print("xoxoxoxo", col)
         if hasattr(item, col["column"]):
-            return getattr(item, col["column"]) or ""
+            return ((getattr(item, col["column"]) or ""), linkage)
     elif col["type"] == "call":
-        return defn_parse(col["column"], item)
+        return (defn_parse(col["column"], item), linkage)
     elif col["type"] == "dimension":
         width, height, depth = getattr(item, col["column"][0]), getattr(item, col["column"][1]), \
                                    getattr(item, col["column"][2])
-        return [width, height, depth]
+        return ([width, height, depth], linkage)
     elif col["type"] == "reference":
         if hasattr(item, col["column"]):
-            return getattr(item, col["column"]).title
+            return (getattr(item, col["column"]).title, linkage)
     elif col["type"] == "reference_list":
         if hasattr(item, col["column"]):
-            return [i.title for i in getattr(item, col["column"])]
+            return [(i.title, linker.link(i)) for i in getattr(item, col["column"])]
     elif col["type"] == "reference_complex":
         if hasattr(item, col["column"]):
-            return [getattr(i, col["render"]) for i in getattr(item, col["column"])]
+            return [(getattr(i, col["render"]), linker.link(i)) for i in getattr(item, col["column"])]
     elif col["type"] == "reference_func":
         if hasattr(item, col["column"]):
-            return [getattr(i, col["render"])() for i in getattr(item, col["column"])]
-    return ""
+            return [(getattr(i, col["render"])(), linker.link(i)) for i in getattr(item, col["column"])]
+    return ("", linkage)
 
 def defn_snippet(snippet, *args, **kwargs):
     return re.sub(r"\$\{([a-zA-Z]+\#[a-zA-Z]+(?:\(\))?)\}",

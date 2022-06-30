@@ -494,7 +494,8 @@
                                 "label": "Comment",
                                 "type": "reference_func",
                                 "render": "display",
-                                "refersto": "Publications"
+                                "refersto": "Publications",
+                                "ext_linkage": "zotero"
                             }
                         }
                     ]

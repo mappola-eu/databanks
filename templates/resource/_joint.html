@@ -2,15 +2,18 @@
 {% if dt == "reference_list" or dt == "reference_complex" or dt == "reference_func" %}
 <ul>
     {% for entry in data %}
-    <li>{{ entry }}</li>
+    <li>
+        {{ entry[0] }}{% if entry[1] %} <a href="{{ entry[1] }}" class="reflink">🔗</a>{% endif %}
+    </li>
     {% endfor %}
 </ul>
 {% elif dt == "dimension" %}
-<p>width: {% if data[0] %}{{ data[0] }} cm{% else %}unknown{% endif %}</p>
-<p>height: {% if data[1] %}{{ data[1] }} cm{% else %}unknown{% endif %}</p>
-<p>depth: {% if data[2] %}{{ data[2] }} cm{% else %}unknown{% endif %}</p>
+<p>width: {% if data[0][0] %}{{ data[0][0] }} cm{% else %}unknown{% endif %}</p>
+<p>height: {% if data[0][1] %}{{ data[0][1] }} cm{% else %}unknown{% endif %}</p>
+<p>depth: {% if data[0][2] %}{{ data[0][2] }} cm{% else %}unknown{% endif %}</p>
+{% if data[1] %}<p><a href="{{ data[1] }}" class="reflink">🔗 Link</a></p>{% endif %}
 {% else %}
-{% if standalone %}<p>{{ data }}</p>{% else %}{{ data }}{% endif %}
+{% if standalone %}<p>{{ data[0] }}{% if data[1] %} <a href="{{ data[1] }}" class="reflink">🔗</a>{% endif %}</p>{% else %}{{ data[0] }}{% if data[1] %} <a href="{{ data[1] }}" class="reflink">🔗</a>{% endif %}{% endif %}
 {% endif %}
 {% endmacro %}
 
@@ -94,27 +97,27 @@
         {% if column.type == "input" %}
         <tr>
             <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
-            <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column) }}"
+            <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column)[0] }}"
                     name="{{ column.column }}" type="text"></td>
         </tr>
         {% elif column.type == "text" %}
         <tr>
             <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
             <td><textarea id="{{ name }}-{{ column.column }}"
-                    name="{{ column.column }}">{{ render_column(item, column) }}</textarea></td>
+                    name="{{ column.column }}">{{ render_column(item, column)[0] }}</textarea></td>
         </tr>
         {% elif column.type == "dimension" %}
         <tr>
             <th>{{ column.label }}</th>
             <td>
                 <label for="{{ name }}-{{ column.column[0] }}">width (in cm)</label>
-                <input id="{{ name }}-{{ column.column[0] }}" value="{{ render_column(item, column)[0] }}"
+                <input id="{{ name }}-{{ column.column[0] }}" value="{{ render_column(item, column)[0][0] }}"
                     name="{{ column.column[0] }}" type="number" step="0.01" min="0">
                 <label for="{{ name }}-{{ column.column[1] }}">height (in cm)</label>
-                <input id="{{ name }}-{{ column.column[1] }}" value="{{ render_column(item, column)[1] }}"
+                <input id="{{ name }}-{{ column.column[1] }}" value="{{ render_column(item, column)[0][1] }}"
                     name="{{ column.column[1] }}" type="number" step="0.01" min="0">
                 <label for="{{ name }}-{{ column.column[2] }}">depth (in cm)</label>
-                <input id="{{ name }}-{{ column.column[2] }}" value="{{ render_column(item, column)[2] }}"
+                <input id="{{ name }}-{{ column.column[2] }}" value="{{ render_column(item, column)[0][2] }}"
                     name="{{ column.column[2] }}" type="number" step="0.01" min="0">
             </td>
         </tr>
@@ -169,7 +172,7 @@
 {% elif part.single.type == "text" %}
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
 <textarea id="{{ name }}-{{ part.single.column }}"
-    name="{{ part.single.column }}">{{ render_column(item, part.single) }}</textarea>
+    name="{{ part.single.column }}">{{ render_column(item, part.single)[0] }}</textarea>
 {% elif part.single.type == "dimension" %}
 <p><strong>{{ part.single.label }}</strong></p>
 <label for="{{ name }}-{{ part.single.column[0] }}">width (in cm)</label>
