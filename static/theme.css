@@ -218,3 +218,15 @@ form table[role="table"] {
 .switch-list input[type='radio']:checked + label {
     background-color: rgba(255, 255, 255, 0.8);
 }
+
+
+.zotero-ui {
+    border-color: #aaa !important;
+    border-radius: 2.5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 1rem !important;
+    max-width: 100% !important;
+}
+.zotero-ui h3 {
+    letter-spacing: 0 !important;
+}
