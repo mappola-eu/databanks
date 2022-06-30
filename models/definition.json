@@ -558,20 +558,20 @@
                         {
                             "title": null,
                             "component": "standalone",
-                            "single": {
-                                    "column": "reference_comment",
-                                    "label": "The Reference",
-                                    "type": "text"
-                            }
-                        },
-                        {
-                            "title": null,
-                            "component": "standalone",
                             "ext_hint": "zotero",
                             "single": {
                                     "column": "zotero_item_id",
                                     "label": "Zotero Item ID",
                                     "type": "input"
+                            }
+                        },
+                        {
+                            "title": null,
+                            "component": "standalone",
+                            "single": {
+                                    "column": "reference_comment",
+                                    "label": "Reference description",
+                                    "type": "text"
                             }
                         }
                     ]

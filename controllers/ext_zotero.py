@@ -63,7 +63,7 @@ def qadd(type):
     if title is None:
         abort(400)
 
-    template = gzot.item_template(type, None)
+    template = g.zot.item_template(type, None)
     template['title'] = title
     resp = g.zot.create_items([template])
 
