@@ -167,7 +167,7 @@
 {% elif part.component == "standalone" %}
 {% if part.single.type == "input" %}
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
-<input id="{{ name }}-{{ part.single.column }}" value="{{ render_column(item, part.single) }}"
+<input id="{{ name }}-{{ part.single.column }}" value="{{ render_column(item, part.single)[0] }}"
     name="{{ part.single.column }}" type="text">
 {% elif part.single.type == "text" %}
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
