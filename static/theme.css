@@ -230,3 +230,14 @@ form table[role="table"] {
 .zotero-ui h3 {
     letter-spacing: 0 !important;
 }
+
+.reflink {
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.25rem;
+    line-height: 1;
+    background-color: white;
+    border: 0.125rem solid #eb585b;
+    color: #eb585b;
+    font-weight: bold;
+}
