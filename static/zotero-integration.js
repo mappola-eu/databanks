@@ -17,6 +17,11 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
             <option disabled selected>choose a type</option>
         </select>
         <button type="button" data-zotero-ref="new">create</button>
+    </div>
+    <div class="zotero-col">
+        <h4>Synchronize</h4>
+        <p>(when reference settings in Zotero have changed)</p>
+        <button type="button" data-zotero-ref="sync">update now</button>
     </div>`;
     zotero.prepend(query_interface);
 
@@ -26,6 +31,7 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
     zotero_new_title = zotero.querySelector('[data-zotero-ref="new.title"]');
     zotero_new_type = zotero.querySelector('[data-zotero-ref="new.type"]');
     zotero_new = zotero.querySelector('[data-zotero-ref="new"]');
+    zotero_sync = zotero.querySelector('[data-zotero-ref="sync"]');
 
     inscription_reference_comment = document.querySelector("#Inscriptions-reference_comment");
     inscription_zotero_item_id = document.querySelector("#Inscriptions-zotero_item_id");
@@ -120,6 +126,31 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
                 const key = result.items[0].key;
                 inscription_zotero_item_id.value = key;
                 inscription_reference_comment.value = title;
+            })
+            .catch(error => {
+                alert("ERROR using Zotero integration, please retry.\n\nmessage:" + error);
+            });
+    });
+
+    zotero_sync.addEventListener("click", (e) => {
+        key = inscription_zotero_item_id.value;
+
+        fetch('/ext/zotero/fetch/' + key)
+            .then(response => response.json())
+            .then(result => {
+                const response = result.items[0];
+                let creator_length = response.data.creators.length;
+                let creator_string;
+                if (creator_length == 1) {
+                    creator_string = response.data.creators[0].firstName + " " + response.data.creators[0].lastName
+                } else {
+                    creator_string = response.data.creators[0].firstName + " " + response.data.creators[0].lastName + " et al.";
+                }
+                inscription_zotero_item_id.value = response.key;
+                inscription_reference_comment.value = 
+                    creator_string + ", " +
+                    response.data.date + ": " +
+                    response.data.title;
             })
             .catch(error => {
                 alert("ERROR using Zotero integration, please retry.\n\nmessage:" + error);
