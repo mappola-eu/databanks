@@ -66,9 +66,9 @@
         <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
         <label for="text-form--mevs">With Metrics Visualised</label>
     </div>
-    <div class="text-presentation active" data-tp="diplomatic">{{ item[part.columns.diplomatic] }}</div>
-    <div class="text-presentation" data-tp="interpretative">{{ item[part.columns.interpretative] }}</div>
-    <div class="text-presentation" data-tp="metrics-visualised">{{ item[part.columns.with_metrics_visualised] }}</div>
+    <div class="text-presentation active" data-tp="diplomatic">{{ item.text_diplomatic() }}</div>
+    <div class="text-presentation" data-tp="interpretative">{{ item.text_interpretative() }}</div>
+    <div class="text-presentation" data-tp="metrics-visualised">{{ item.text_with_metrics_visualised() }}</div>
 </div>
 {% endif %}
 
@@ -247,13 +247,13 @@
         <tr>
         </tr>
         <tr>
-            <th><label for="{{ name }}-{{ part.columns.diplomatic }}">EpiDoc</label></th>
+            <th><label for="{{ name }}-{{ part.columns.epidoc }}">EpiDoc</label></th>
             <td>
-                <textarea id="{{ name }}-{{ part.columns.diplomatic }}" class="raw-epidoc" data-ext-hint='epidoc-target'
+                <textarea id="{{ name }}-{{ part.columns.epidoc }}" class="raw-epidoc" data-ext-hint='epidoc-target'
                     name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] or "" }}</textarea>
                 
                 <div class="up-arrow"></div>
-                <textarea id="{{ name }}-{{ part.columns.diplomatic }}-fromformatted"  data-ext-hint='epidoc-source'
+                <textarea id="{{ name }}-{{ part.columns.epidoc }}-fromformatted"  data-ext-hint='epidoc-source'
                     placeholder="Enter formatted text here"></textarea>
                 <p class="small">(built with the EpiDoc converter of the <a href="https://patrimonium.huma-num.fr/atlas/editor/">Patrimonium editor</a>)</p>
                 <button type="button" class="block-btn" data-ext-hint='epidoc-btn'>convert (will override!)</button>

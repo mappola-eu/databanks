@@ -86,9 +86,7 @@ class Inscriptions(db.Model):
     object_text_layout_comment = db.Column(db.Text)
 
     text_function_id = db.Column(db.Integer, db.ForeignKey('text_functions.id'))
-    text_diplomatic_form = db.Column(db.Text)
-    text_interpretative_form = db.Column(db.Text)
-    text_metrics_visualised_form = db.Column(db.Text)
+    text_epidoc_form = db.Column(db.Text)
 
 
     text_apparatus_criticus_comment = db.Column(db.Text)
@@ -116,6 +114,15 @@ class Inscriptions(db.Model):
             return "MPL" + str(self.id).zfill(5)
         else:
             return "MPL?????"
+
+    def text_diplomatic(self):
+        return "[[D]]"
+    
+    def text_interpretative(self):
+        return "[[I]]"
+    
+    def text_with_metrics_visualised(self):
+        return "[[MV]]"
 
 
 class ObjectTypes(db.Model):

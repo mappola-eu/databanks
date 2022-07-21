@@ -241,9 +241,7 @@
                             "title": null,
                             "component": "text_view",
                             "columns": {
-                                "diplomatic": "text_diplomatic_form",
-                                "interpretative": "text_interpretative_form",
-                                "with_metrics_visualised": "text_metrics_visualised_form"
+                                "epidoc": "text_epidoc_form"
                             }
                         },
                         {
