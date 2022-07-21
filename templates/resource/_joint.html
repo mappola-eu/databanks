@@ -250,7 +250,7 @@
             <th><label for="{{ name }}-{{ part.columns.epidoc }}">EpiDoc</label></th>
             <td>
                 <textarea id="{{ name }}-{{ part.columns.epidoc }}" class="raw-epidoc" data-ext-hint='epidoc-target'
-                    name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] or "" }}</textarea>
+                    name="{{ part.columns.epidoc }}">{{ item[part.columns.epidoc] or "" }}</textarea>
                 
                 <div class="up-arrow"></div>
                 <textarea id="{{ name }}-{{ part.columns.epidoc }}-fromformatted"  data-ext-hint='epidoc-source'

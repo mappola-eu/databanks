@@ -242,13 +242,20 @@ def apply_defn_post_data_to_obj(defn, obj):
                 cols = [part['single']]
             elif part["component"] == "table":
                 cols = part['columns']
+            elif part["component"] == "text_view":
+                cols = [{
+                    'column': part['columns']['epidoc'],
+                    'type': 'text'
+                }]
             else:
                 continue  # for now
 
             for column in cols:
+                print(column)
                 if column['type'] in ['input', 'text', 'reference', 'reference_list']:
                     # These are the simple (singular) column types
                     if column['column'] not in request.form.keys():
+                        print('xyz')
                         continue
 
                     if column['type'] in ['input', 'text']:
