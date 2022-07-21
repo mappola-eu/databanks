@@ -245,19 +245,18 @@
 <table role="table">
     <tbody>
         <tr>
-            <th><label for="{{ name }}-{{ part.columns.diplomatic }}">Diplomatic</label></th>
-            <td><textarea id="{{ name }}-{{ part.columns.diplomatic }}"
-                    name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] or "" }}</textarea></td>
         </tr>
         <tr>
-            <th><label for="{{ name }}-{{ part.columns.interpretative }}">Interpretative</label></th>
-            <td><textarea id="{{ name }}-{{ part.columns.interpretative }}"
-                    name="{{ part.columns.interpretative }}">{{ item[part.columns.interpretative] or "" }}</textarea></td>
-        </tr>
-        <tr>
-            <th><label for="{{ name }}-{{ part.columns.with_metrics_visualised }}">With Metrics Visualised</label></th>
-            <td><textarea id="{{ name }}-{{ part.columns.with_metrics_visualised }}"
-                    name="{{ part.columns.with_metrics_visualised }}">{{ item[part.columns.with_metrics_visualised] or "" }}</textarea>
+            <th><label for="{{ name }}-{{ part.columns.diplomatic }}">EpiDoc</label></th>
+            <td>
+                <textarea id="{{ name }}-{{ part.columns.diplomatic }}" data-ext-hint='epidoc-target'
+                    name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] or "" }}</textarea>
+                
+                <div class="up-arrow"></div>
+                <textarea id="{{ name }}-{{ part.columns.diplomatic }}-fromformatted"  data-ext-hint='epidoc-source'
+                    placeholder="Enter formatted text here"></textarea>
+                <p class="small">(built with the EpiDoc converter of the <a href="https://patrimonium.huma-num.fr/atlas/editor/">Patrimonium editor</a>)</p>
+                <button type="button" class="block-btn" data-ext-hint='epidoc-btn'>convert (will override!)</button>
             </td>
         </tr>
     </tbody>

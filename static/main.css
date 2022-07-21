@@ -135,3 +135,20 @@ form table[role="table"] select + a[role="complementary"] {
 .toolbar {
     margin: 1rem 0;
 }
+
+.up-arrow {
+    margin: 10px auto;
+    height: 30px;
+    width: 30px;
+    background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAxNi42N2wyLjgyOSAyLjgzIDkuMTc1LTkuMzM5IDkuMTY3IDkuMzM5IDIuODI5LTIuODMtMTEuOTk2LTEyLjE3eiIvPjwvc3ZnPg==");
+    background-repeat: no-repeat;
+}
+
+p.small {
+    margin: 5px 0 !important;
+    font-size: 0.85rem;
+}
+
+button.block-btn {
+    display: block;
+}
