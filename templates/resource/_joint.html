@@ -249,7 +249,7 @@
         <tr>
             <th><label for="{{ name }}-{{ part.columns.diplomatic }}">EpiDoc</label></th>
             <td>
-                <textarea id="{{ name }}-{{ part.columns.diplomatic }}" data-ext-hint='epidoc-target'
+                <textarea id="{{ name }}-{{ part.columns.diplomatic }}" class="raw-epidoc" data-ext-hint='epidoc-target'
                     name="{{ part.columns.diplomatic }}">{{ item[part.columns.diplomatic] or "" }}</textarea>
                 
                 <div class="up-arrow"></div>

@@ -95,6 +95,9 @@ form textarea {
     resize: vertical;
     min-height: 112px;
 }
+form textarea.raw-epidoc {
+    font-family: monospace;
+}
 
 form label,
 form select,
