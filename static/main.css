@@ -56,6 +56,8 @@ form table[role="table"] td {
     background-color: #eee;
     margin-bottom: 0.1rem;
     display: none;
+    font-family: monospace;
+    font-size: 1.05rem;
 }
 .text-presentation.active { display: block; }
 

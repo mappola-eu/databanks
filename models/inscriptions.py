@@ -1,5 +1,6 @@
 from . import db
 from ..linkage import LINKERS
+from ..linkage.epidoc import *
 import json, re
 
 with open("models/definition.json", "r") as f:
@@ -116,7 +117,7 @@ class Inscriptions(db.Model):
             return "MPL?????"
 
     def text_diplomatic(self):
-        return "[[D]]"
+        return epidoc_to_diplomatic(self.text_epidoc_form)
     
     def text_interpretative(self):
         return "[[I]]"
