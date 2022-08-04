@@ -2,12 +2,14 @@ from xml.dom.minidom import parseString
 
 def epidoc_to_diplomatic(epidoc):
     text = ""
-
     xml = "<epidoc>" + epidoc + "</epidoc>"
-    md = parseString(xml)
-    root = md.childNodes[0]
 
-    print(root.childNodes[1].nodeName)
+    try:
+        md = parseString(xml)
+    except Exception:
+        return "[Unable to parse, please contact mappola team; here is a copy of the Epidoc XML]\n"+epidoc
+
+    root = md.childNodes[0]
 
     for child in root.childNodes:
         if child.nodeName == "#text":
