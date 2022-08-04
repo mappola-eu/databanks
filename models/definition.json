@@ -620,13 +620,13 @@
                             "edit_prefix": "Longitude and Latitude coordinates for this Place. If unknown/empty use zero for both.",
                             "columns": [
                                 {
-                                    "column": "coordinates_long",
-                                    "label": "Longitude",
+                                    "column": "coordinates_lat",
+                                    "label": "Latitude",
                                     "type": "input"
                                 },
                                 {
-                                    "column": "coordinates_lat",
-                                    "label": "Latitude",
+                                    "column": "coordinates_long",
+                                    "label": "Longitude",
                                     "type": "input"
                                 }
                             ]
