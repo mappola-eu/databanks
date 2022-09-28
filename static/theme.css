@@ -241,3 +241,52 @@ form table[role="table"] {
     color: #eb585b;
     font-weight: bold;
 }
+
+form input[type=checkbox] {
+    appearance: initial;
+    width: 50px;
+    height: 30px;
+    background-color: white;
+    border: none;
+    border-radius: 20px;
+    position: relative;
+    border: 1px solid #e5ddd5;
+}
+form input[type=checkbox]:checked {
+    border-color: #eb585b;
+}
+
+form input[type=checkbox]::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 4px;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    transition: all .3s ease;
+    left: 5px;
+    background-color: #e5ddd5;
+}
+form input[type=checkbox]:checked::before {
+    left: 23.5px;
+    background-color: #eb585b;
+}
+form input[type=checkbox]::after {
+    content: 'N';
+    display: block;
+    position: absolute;
+    top: 5.75px;
+    left: 10.5px;
+    height: 20px;
+    width: 20px;
+    color: inherit;
+    font-weight: bold;
+    transition: all .3s ease;
+    font-size: 0.75rem;
+}
+form input[type=checkbox]:checked::after {
+    content: 'Y';
+    left: 29.5px;
+    color: white;
+}

@@ -343,6 +343,16 @@
                                     "type": "dimension"
                                 },
                                 {
+                                    "column": "letter_size_min",
+                                    "label": "Letter Size in cm (min)",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "letter_size_max",
+                                    "label": "Letter Size in cm (max)",
+                                    "type": "input"
+                                },
+                                {
                                     "column": "object_execution_technique",
                                     "label": "Execution Technique",
                                     "type": "reference",
@@ -392,6 +402,11 @@
                                     "label": "Language(s)",
                                     "type": "reference_list",
                                     "refersto": "Languages"
+                                },
+                                {
+                                    "column": "layout_conditioned_by_language",
+                                    "label": "Layout Conditioned by Language?",
+                                    "type": "boolean_input"
                                 },
                                 {
                                     "column": "verse_types",
@@ -486,13 +501,27 @@
                             }
                         },
                         {
+                            "component": "standalone",
+                            "single": {
+                                "column": "have_squeeze",
+                                "label": "Have Squeeze?",
+                                "type": "boolean_input"
+                            }
+                        },
+                        {
                             "title": "Dating Information",
                             "component": "table",
+                            "edit_prefix": "Begin the number with a '-' for dates B.C.",
                             "columns": [
                                 {
-                                    "column": "date",
-                                    "label": "Date",
-                                    "type": "text"
+                                    "column": "date_begin",
+                                    "label": "Earliest Likely Date",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "date_end",
+                                    "label": "Latest Likely Date",
+                                    "type": "input"
                                 },
                                 {
                                     "column": "dating_criteria",

@@ -99,6 +99,11 @@ form select.no-block {
     display: inline-block;
 }
 
+form input[type=checkbox] {
+    width: auto;
+    cursor: pointer;
+}
+
 form textarea {
     resize: vertical;
     min-height: 112px;
