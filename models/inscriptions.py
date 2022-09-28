@@ -174,14 +174,31 @@ class CurrentLocations(db.Model):
 class Places(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+
     ancient_name = db.Column(db.String(90))
     modern_name = db.Column(db.String(90))
+
     coordinates_long = db.Column(db.Float())
     coordinates_lat = db.Column(db.Float())
+
+    province_id = db.Column(db.Integer, db.ForeignKey('provinces.id'))
+    modern_region_id = db.Column(db.Integer, db.ForeignKey('modern_regions.id'))
+
     pleiades_id = db.Column(db.Integer())
     enum_lod = db.Column(db.String(150))
     
 class Provinces(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+
+class ModernRegions(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+    state_id = db.Column(db.Integer, db.ForeignKey('modern_states.id'))
+
+class ModernStates(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
     enum_lod = db.Column(db.String(150))
