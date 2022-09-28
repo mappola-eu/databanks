@@ -85,14 +85,19 @@ class Inscriptions(db.Model):
     object_execution_technique_id = db.Column(db.Integer, db.ForeignKey('object_execution_techniques.id'))
     object_decoration_comment = db.Column(db.Text)
     object_text_layout_comment = db.Column(db.Text)
+    
+    letter_size_min = db.Column(db.Float)
+    letter_size_max = db.Column(db.Float)
 
     text_function_id = db.Column(db.Integer, db.ForeignKey('text_functions.id'))
     text_epidoc_form = db.Column(db.Text)
 
+    layout_conditioned_by_language = db.Column(db.Boolean)
 
     text_apparatus_criticus_comment = db.Column(db.Text)
     general_comment = db.Column(db.Text)
-    date = db.Column(db.Text)
+    date_begin = db.Column(db.Integer)
+    date_end = db.Column(db.Integer)
 
     place = db.relationship('Places', backref='inscriptions')
     current_location = db.relationship('CurrentLocations', backref='inscriptions')
@@ -109,6 +114,8 @@ class Inscriptions(db.Model):
     people = db.relationship('People', secondary=inscription_people_assoc, backref='inscriptions')
 
     translations = db.relationship('Translations', backref='inscription')
+
+    have_squeeze = db.Column(db.Boolean)
 
     def long_id(self):
         if self.id is not None:
