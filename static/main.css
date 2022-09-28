@@ -93,6 +93,12 @@ form select {
     margin-bottom: 1rem;
 }
 
+form input.no-block,
+form select.no-block {
+    width: auto;
+    display: inline-block;
+}
+
 form textarea {
     resize: vertical;
     min-height: 112px;

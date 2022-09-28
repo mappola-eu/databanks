@@ -1,0 +1,67 @@
+{% set title = name %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Search</h1>
+<p><a href="#">Prefer advanced search?</a></p>
+
+<form action="{{ url_for('search.basic_do') }}" method="GET">
+    <div class="toolbar">
+        <button type="submit" class="primary-btn">Search</button>
+        <button type="reset">Clear</button>
+    </div>
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>Mappola No.</th>
+                <td>
+                    MPL <input id="q-mappola_id" name="mappola_id" class="no-block">
+                </td>
+            </tr>
+            <tr>
+                <th>literature</th>
+                <td>
+                    <input id="q-literature" name="literature">
+                </td>
+            </tr>
+            <tr>
+                <th>find place</th>
+                <td>
+                    <select id="q-province" name="province">
+                        <option selected></option>
+                        {% for e in get_enum('Places').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>date</th> <!-- check if it should stay free-text or become a number -->
+                <td>
+                    from <input id="q-date_from" type="number" class="no-block" name="date_min">
+                    to <input id="q-date_to" type="number" class="no-block" name="date_max">
+                </td>
+            </tr>
+            <tr>
+                <th>inscription text</th>
+                <td>
+                    <input id="q-text-1" name="text1">
+                    <select class="no-block" id="q-text-conj" name="text_conj">
+                        <option>AND</option>
+                        <option>OR</option>
+                    </select>
+                    <input id="q-text-2" name="text2">
+                </td>
+            </tr>
+            <tr>
+                <th>full text search</th>
+                <td>
+                    <input id="q-fulltext" name="ft">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+{% endblock %}
