@@ -12,6 +12,8 @@
         "CurrentLocations",
         "Places",
         "Provinces",
+        "ModernRegions",
+        "ModernStates",
         "PeopleGenders",
         "PeopleAges",
         "PeopleAgeExpressions",
@@ -35,6 +37,7 @@
         "CurrentLocations",
         "Places",
         "Provinces",
+        "ModernStates",
         "PeopleGenders",
         "PeopleAges",
         "PeopleAgeExpressions",
@@ -159,10 +162,25 @@
                 {
                     "name": "Modern Name",
                     "value": "obj#modern_name"
+                }
+            ]
+        },
+        "ModernRegions": {
+            "create_op": "New Item",
+            "update_op": "Update",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
                 },
                 {
-                    "name": "Pleiades-ID",
-                    "value": "obj#pleiades_id"
+                    "name": "Title",
+                    "value": "obj#title"
+                },
+                {
+                    "name": "LOD",
+                    "value": "obj#lod"
                 }
             ]
         }
@@ -596,16 +614,40 @@
                                     "column": "title",
                                     "label": "Title",
                                     "type": "input"
-                                },
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Ancient Classification",
+                            "component": "table",
+                            "columns": [
                                 {
                                     "column": "ancient_name",
                                     "label": "Ancient Name",
                                     "type": "input"
                                 },
                                 {
+                                    "column": "province",
+                                    "label": "Province",
+                                    "type": "reference",
+                                    "refersto": "Provinces"
+                                }
+                            ]
+                        },
+                        {
+                            "title": "Modern Classification",
+                            "component": "table",
+                            "columns": [
+                                {
                                     "column": "modern_name",
                                     "label": "Modern Name",
                                     "type": "input"
+                                },
+                                {
+                                    "column": "modern_region",
+                                    "label": "Modern Region",
+                                    "type": "reference",
+                                    "refersto": "ModernRegions"
                                 },
                                 {
                                     "column": "pleiades_id",
@@ -627,6 +669,43 @@
                                 {
                                     "column": "coordinates_long",
                                     "label": "Longitude",
+                                    "type": "input"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "ModernRegions": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": "General",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "title",
+                                    "label": "Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "modern_state",
+                                    "label": "Modern State",
+                                    "type": "reference",
+                                    "refersto": "ModernStates"
+                                },
+                                {
+                                    "column": "enum_lod",
+                                    "label": "LOD",
                                     "type": "input"
                                 }
                             ]

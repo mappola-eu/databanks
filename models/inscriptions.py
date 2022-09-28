@@ -182,7 +182,9 @@ class Places(db.Model):
     coordinates_lat = db.Column(db.Float())
 
     province_id = db.Column(db.Integer, db.ForeignKey('provinces.id'))
+    province = db.relationship('Provinces', backref='places')
     modern_region_id = db.Column(db.Integer, db.ForeignKey('modern_regions.id'))
+    modern_region = db.relationship('ModernRegions', backref='places')
 
     pleiades_id = db.Column(db.Integer())
     enum_lod = db.Column(db.String(150))
@@ -196,7 +198,9 @@ class ModernRegions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
     enum_lod = db.Column(db.String(150))
+
     state_id = db.Column(db.Integer, db.ForeignKey('modern_states.id'))
+    state = db.relationship('ModernStates', backref='modern_regions')
 
 class ModernStates(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
