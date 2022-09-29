@@ -503,12 +503,15 @@
                             }
                         },
                         {
-                            "component": "standalone",
-                            "single": {
-                                "column": "have_squeeze",
-                                "label": "Have Squeeze?",
-                                "type": "boolean_input"
-                            }
+                            "title": "Squeeze",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "have_squeeze",
+                                    "label": "Have Squeeze?",
+                                    "type": "boolean_input"
+                                }
+                            ]
                         },
                         {
                             "title": "Dating Information",
