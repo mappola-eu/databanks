@@ -345,12 +345,14 @@
                                 {
                                     "column": "letter_size_min",
                                     "label": "Letter Size in cm (min)",
-                                    "type": "input"
+                                    "type": "numeric_input",
+                                    "step": 0.1
                                 },
                                 {
                                     "column": "letter_size_max",
                                     "label": "Letter Size in cm (max)",
-                                    "type": "input"
+                                    "type": "numeric_input",
+                                    "step": 0.1
                                 },
                                 {
                                     "column": "object_execution_technique",

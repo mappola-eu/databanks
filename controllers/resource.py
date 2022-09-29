@@ -251,16 +251,19 @@ def apply_defn_post_data_to_obj(defn, obj):
                 continue  # for now
 
             for column in cols:
-                print(column)
-                if column['type'] in ['input', 'text', 'reference', 'reference_list']:
+                #print(column)
+                if column['type'] in ['input', 'text', 'numeric_input', 'boolean_input', 'reference', 'reference_list']:
                     # These are the simple (singular) column types
-                    if column['column'] not in request.form.keys():
+                    if column['column'] not in request.form.keys() and column['type'] != 'boolean_input':
                         print('xyz')
                         continue
 
-                    if column['type'] in ['input', 'text']:
+                    if column['type'] in ['input', 'text', 'numeric_input']:
                         setattr(obj, column['column'],
                                 request.form[column['column']])
+                    elif column['type'] == 'boolean_input':
+                        setattr(obj, column['column'],
+                                column['column'] in request.form.keys())
                     elif column['type'] == 'reference':
                         cls = get_enum(column['refersto'])
                         other = cls.query.get(request.form[column['column']])

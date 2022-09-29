@@ -103,8 +103,14 @@
         {% elif column.type == "boolean_input" %}
         <tr>
             <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
-            <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column)[0] }}"
+            <td><input id="{{ name }}-{{ column.column }}" {{ 'checked' if render_column(item, column)[0] }}
                     name="{{ column.column }}" type="checkbox"></td>
+        </tr>
+        {% elif column.type == "numeric_input" %}
+        <tr>
+            <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
+            <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column)[0] }}"
+                    name="{{ column.column }}" type="number" step="{{ column.step }}"></td>
         </tr>
         {% elif column.type == "text" %}
         <tr>
@@ -177,8 +183,12 @@
     name="{{ part.single.column }}" type="text">
 {% elif part.single.type == "boolean_input" %}
     <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
-    <input id="{{ name }}-{{ part.single.column }}" value="{{ render_column(item, part.single)[0] }}"
+    <input id="{{ name }}-{{ part.single.column }}" {{ 'checked' if render_column(item, part.single)[0] }}
         name="{{ part.single.column }}" type="checkbox">
+{% elif part.single.type == "numeric_input" %}
+    <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
+    <input id="{{ name }}-{{ part.single.column }}" value="{{ render_column(item, part.single)[0] }}"
+        name="{{ part.single.column }}" type="number" step="{{ part.single.step }}">
 {% elif part.single.type == "text" %}
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
 <textarea id="{{ name }}-{{ part.single.column }}"

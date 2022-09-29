@@ -387,9 +387,12 @@ def render_column(item, col):
     else:
         linker = LINKERS['null']
 
-    if col["type"] in ["input", "text"]:
+    if col["type"] in ["input", "text", "numeric_input"]:
         if hasattr(item, col["column"]):
             return ((getattr(item, col["column"]) or ""), linkage)
+    elif col["type"] == "boolean_input":
+        if hasattr(item, col["column"]):
+            return (getattr(item, col["column"]), linkage)
     elif col["type"] == "call":
         return (defn_parse(col["column"], item), linkage)
     elif col["type"] == "dimension":
