@@ -263,7 +263,14 @@ class VerseTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
     parent_verse_type_id = db.Column(db.Integer, db.ForeignKey('verse_types.id'))
+    parent_verse_type = db.relationship('VerseTypes', remote_side=[id])
     enum_lod = db.Column(db.String(150))
+
+    def parent_verse_name(self):
+        if self.parent_verse_type_id is not None:
+            return self.parent_verse_type.title
+        else:
+            return "-"
 
 class Translations(db.Model):
     id = db.Column(db.Integer(), primary_key=True)

@@ -46,8 +46,7 @@
         "PeopleLegalStatus",
         "PeopleRanks",
         "PeopleProfessions",
-        "DatingCriteria",
-        "VerseTypes"
+        "DatingCriteria"
     ],
     "relations": {
         "Translations": {
@@ -181,6 +180,29 @@
                 {
                     "name": "LOD",
                     "value": "obj#lod"
+                }
+            ]
+        },
+        "VerseTypes": {
+            "create_op": "New Item",
+            "update_op": "Rename",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Title",
+                    "value": "obj#title"
+                },
+                {
+                    "name": "Parent Type",
+                    "value": "obj#parent_verse_name()"
+                },
+                {
+                    "name": "LOD",
+                    "value": "obj#enum_lod"
                 }
             ]
         }
@@ -736,6 +758,45 @@
                                     "label": "Modern State",
                                     "type": "reference",
                                     "refersto": "ModernStates"
+                                },
+                                {
+                                    "column": "enum_lod",
+                                    "label": "LOD",
+                                    "type": "input"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "VerseTypes": {
+            "create_action": "Create",
+            "update_action": "Rename",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "edit_prefix": "Choose a name, under which this item will be shown across this database:",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "title",
+                                    "label": "Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "parent_verse_type",
+                                    "label": "Name",
+                                    "type": "reference",
+                                    "refersto": "VerseTypes",
+                                    "refopt": true
                                 },
                                 {
                                     "column": "enum_lod",

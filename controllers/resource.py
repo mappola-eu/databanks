@@ -267,7 +267,10 @@ def apply_defn_post_data_to_obj(defn, obj):
                     elif column['type'] == 'reference':
                         cls = get_enum(column['refersto'])
                         other = cls.query.get(request.form[column['column']])
-                        setattr(obj, column['column'], other)
+                        if 'refopt' in column.keys() and column['refopt'] and other is None:
+                            setattr(obj, column['column'] + "_id", None)
+                        else:
+                            setattr(obj, column['column'], other)
                     elif column['type'] == 'reference_list':
                         cls = get_enum(column['refersto'])
                         data = [cls.query.get(
