@@ -185,7 +185,7 @@
         },
         "VerseTypes": {
             "create_op": "New Item",
-            "update_op": "Rename",
+            "update_op": "Update",
             "delete_op": false,
             "table": [
                 {
@@ -542,17 +542,17 @@
                             "columns": [
                                 {
                                     "column": "date_begin",
-                                    "label": "Earliest Likely Date",
+                                    "label": "Date (From)",
                                     "type": "input"
                                 },
                                 {
                                     "column": "date_end",
-                                    "label": "Latest Likely Date",
+                                    "label": "Date (To)",
                                     "type": "input"
                                 },
                                 {
                                     "column": "dating_criteria",
-                                    "label": "Criteria",
+                                    "label": "Date (Criteria)",
                                     "type": "reference_list",
                                     "refersto": "DatingCriteria"
                                 }
@@ -772,7 +772,7 @@
         },
         "VerseTypes": {
             "create_action": "Create",
-            "update_action": "Rename",
+            "update_action": "Update",
             "cancel_action": "Cancel",
             "update_op": "Edit This Item",
             "delete_op": false,
@@ -793,7 +793,7 @@
                                 },
                                 {
                                     "column": "parent_verse_type",
-                                    "label": "Name",
+                                    "label": "Parent Verse Type (may be blank)",
                                     "type": "reference",
                                     "refersto": "VerseTypes",
                                     "refopt": true
