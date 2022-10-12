@@ -23,7 +23,8 @@
         "PeopleRanks",
         "PeopleProfessions",
         "DatingCriteria",
-        "VerseTypes"
+        "VerseTypes",
+        "Religions"
     ],
     "enums": [
         "ObjectTypes",
@@ -46,7 +47,8 @@
         "PeopleLegalStatus",
         "PeopleRanks",
         "PeopleProfessions",
-        "DatingCriteria"
+        "DatingCriteria",
+        "Religions"
     ],
     "relations": {
         "Translations": {
@@ -442,6 +444,12 @@
                                     "column": "apparatus_criticus",
                                     "label": "Apparatus Criticus",
                                     "type": "text"
+                                },
+                                {
+                                    "column": "religion",
+                                    "label": "Religion",
+                                    "type": "reference",
+                                    "refersto": "Religions"
                                 }
                             ]
                         }

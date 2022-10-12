@@ -99,6 +99,8 @@ class Inscriptions(db.Model):
     date_begin = db.Column(db.Integer)
     date_end = db.Column(db.Integer)
 
+    religion_id = db.Column(db.Integer, db.ForeignKey('religions.id'))
+
     place = db.relationship('Places', backref='inscriptions')
     current_location = db.relationship('CurrentLocations', backref='inscriptions')
     object_type = db.relationship('ObjectTypes', backref='inscriptions')
@@ -106,6 +108,7 @@ class Inscriptions(db.Model):
     object_preservation_state = db.relationship('ObjectPreservationStates', backref='inscriptions')
     object_execution_technique = db.relationship('ObjectExecutionTechniques', backref='inscriptions')
     text_function = db.relationship('TextFunctions', backref='inscriptions')
+    religion = db.relationship('Religions', backref='inscriptions')
 
     languages = db.relationship('Languages', secondary=inscription_language_assoc, backref='inscriptions')
     decoration_tags = db.relationship('ObjectDecorationTags', secondary=inscription_decoration_tag_assoc, backref='inscriptions')
@@ -322,6 +325,11 @@ class People(db.Model):
     legal_status = db.relationship('PeopleLegalStatus', backref='people')
     rank = db.relationship('PeopleRanks', backref='people')
     profession = db.relationship('PeopleProfessions', backref='people')
+
+class Religions(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
 
 def get_enum(enum):
     if enum in defn["classes"]:
