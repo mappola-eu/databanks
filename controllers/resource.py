@@ -1,6 +1,6 @@
 from flask import *
 from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet, get_rel, get_rel_defn
-from flask_security import login_required
+from flask_security import login_required, current_user
 
 resource = Blueprint('resource', __name__)
 
@@ -164,7 +164,7 @@ def relnew(name, id, relname):
     relval = rel(**q)
 
     if request.method == "POST":
-        relval = apply_defn_post_data_to_obj(rel_defn, relval)
+        relval = apply_defn_post_data_to_obj(rel_defn, relval, current_user)
         print(relval)
         db.session.add(relval)
         db.session.commit()
@@ -209,7 +209,7 @@ def reledit(name, id, relname, relid):
     relval = rel.query.get_or_404(relid)
 
     if request.method == "POST":
-        relval = apply_defn_post_data_to_obj(rel_defn, relval)
+        relval = apply_defn_post_data_to_obj(rel_defn, relval, current_user)
         db.session.commit()
         flash('Changes committed successfully.')
         return redirect(url_for('resource.reledit', name=name, id=item.id, relname=relname, relid=relval.id))
@@ -235,7 +235,7 @@ def reledit(name, id, relname, relid):
 def reldelete(name, id, relname, relid):
     pass
 
-def apply_defn_post_data_to_obj(defn, obj):
+def apply_defn_post_data_to_obj(defn, obj, current_user=None):
     for slide in defn['slides']:
         for part in slide['parts']:
             if part["component"] == "standalone":
@@ -285,4 +285,8 @@ def apply_defn_post_data_to_obj(defn, obj):
                         setattr(obj, colname, value)
                 else:
                     print("LOG: unsaveable column %s" % column['column'])
+    
+    if 'add_update_user_to' in defn.keys():
+        setattr(obj, defn['add_update_user_to'], current_user)
+
     return obj

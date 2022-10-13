@@ -24,7 +24,8 @@
         "PeopleProfessions",
         "DatingCriteria",
         "VerseTypes",
-        "Religions"
+        "Religions",
+        "WorkStatus"
     ],
     "enums": [
         "ObjectTypes",
@@ -48,7 +49,8 @@
         "PeopleRanks",
         "PeopleProfessions",
         "DatingCriteria",
-        "Religions"
+        "Religions",
+        "WorkStatus"
     ],
     "relations": {
         "Translations": {
@@ -102,6 +104,14 @@
                 {
                     "name": "Trismegistos-ID",
                     "value": "obj#trismegistos_nr"
+                },
+                {
+                    "name": "Updated",
+                    "value": "obj#update_str()"
+                },
+                {
+                    "name": "Work Status",
+                    "value": "obj#work_status_str()"
                 }
             ]
         },
@@ -249,6 +259,7 @@
             "update_op": "Edit This Inscription",
             "delete_op": false,
             "title": "obj#title",
+            "add_update_user_to": "last_updated_by",
             "slides": [
                 {
                     "title": "Identification",
@@ -577,6 +588,23 @@
                                 "refersto": "Publications",
                                 "ext_linkage": "zotero"
                             }
+                        },
+                        {
+                            "title": "Editing History",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "obj#update_str()",
+                                    "label": "Updated",
+                                    "type": "call"
+                                },
+                                {
+                                    "column": "work_status",
+                                    "label": "Work Status",
+                                    "type": "reference",
+                                    "refersto": "WorkStatus"
+                                }
+                            ]
                         }
                     ]
                 }

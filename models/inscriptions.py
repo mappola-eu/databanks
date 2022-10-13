@@ -120,6 +120,13 @@ class Inscriptions(db.Model):
 
     have_squeeze = db.Column(db.Boolean)
 
+    last_updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+    last_updated_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    last_updated_by = db.relationship('User')
+    work_status_id = db.Column(db.Integer, db.ForeignKey('work_status.id'))
+    work_status = db.relationship('WorkStatus')
+
+
     def long_id(self):
         if self.id is not None:
             return "MPL" + str(self.id).zfill(5)
@@ -135,6 +142,19 @@ class Inscriptions(db.Model):
     def text_with_metrics_visualised(self):
         return "[[MV]]"
 
+    def work_status_str(self):
+        return '' if not self.work_status else self.work_status.title
+
+    def update_str(self):
+        if self.last_updated_by is None:
+            return self.last_updated_at.strftime("%Y-%m-%d") + ", by anon"
+        else:
+            return self.last_updated_at.strftime("%Y-%m-%d") + ", by " + self.last_updated_by.full_name
+
+class WorkStatus(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
 
 class ObjectTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
