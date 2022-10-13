@@ -394,6 +394,12 @@
                                     "label": "Execution Technique",
                                     "type": "reference",
                                     "refersto": "ObjectExecutionTechniques"
+                                },
+                                {
+                                    "column": "religion",
+                                    "label": "Religion",
+                                    "type": "reference",
+                                    "refersto": "Religions"
                                 }
                             ]
                         },
@@ -455,12 +461,6 @@
                                     "column": "apparatus_criticus",
                                     "label": "Apparatus Criticus",
                                     "type": "text"
-                                },
-                                {
-                                    "column": "religion",
-                                    "label": "Religion",
-                                    "type": "reference",
-                                    "refersto": "Religions"
                                 }
                             ]
                         }
