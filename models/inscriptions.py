@@ -435,8 +435,8 @@ def render_column(item, col):
                                    getattr(item, col["column"][2])
         return ([width, height, depth], linkage)
     elif col["type"] == "reference":
-        if hasattr(item, col["column"]):
-            return (getattr(item, col["column"]).title, linkage)
+        if hasattr(item, col["column"]) and (column_value := getattr(item, col["column"])) is not None:
+            return (column_value.title, linkage)
     elif col["type"] == "reference_list":
         if hasattr(item, col["column"]):
             return [(i.title, linker.link(i)) for i in getattr(item, col["column"])]
