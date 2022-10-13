@@ -164,7 +164,7 @@ def relnew(name, id, relname):
     relval = rel(**q)
 
     if request.method == "POST":
-        relval = apply_defn_post_data_to_obj(rel_defn, relval, current_user)
+        relval = apply_defn_post_data_to_obj(rel_defn, relval)
         print(relval)
         db.session.add(relval)
         db.session.commit()
@@ -209,7 +209,7 @@ def reledit(name, id, relname, relid):
     relval = rel.query.get_or_404(relid)
 
     if request.method == "POST":
-        relval = apply_defn_post_data_to_obj(rel_defn, relval, current_user)
+        relval = apply_defn_post_data_to_obj(rel_defn, relval)
         db.session.commit()
         flash('Changes committed successfully.')
         return redirect(url_for('resource.reledit', name=name, id=item.id, relname=relname, relid=relval.id))
@@ -235,7 +235,7 @@ def reledit(name, id, relname, relid):
 def reldelete(name, id, relname, relid):
     pass
 
-def apply_defn_post_data_to_obj(defn, obj, current_user=None):
+def apply_defn_post_data_to_obj(defn, obj):
     for slide in defn['slides']:
         for part in slide['parts']:
             if part["component"] == "standalone":
