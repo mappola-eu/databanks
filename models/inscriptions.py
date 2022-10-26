@@ -220,6 +220,9 @@ class Places(db.Model):
     enum_lod = db.Column(db.String(150))
 
     def modern_region_name(self):
+        if not self.modern_region:
+            return '-'
+
         return f"{self.modern_region.title} ({self.modern_region.modern_state_name()})"
     
 class Provinces(db.Model):
