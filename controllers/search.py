@@ -1,6 +1,8 @@
 from flask import *
-from ..models import db, get_enum, Inscriptions
+from ..models import db, get_enum, Inscriptions, Places, ModernRegions
 from ..config import SETTINGS
+
+from sqlalchemy import select
 
 search = Blueprint('search', __name__)
 
@@ -15,12 +17,55 @@ def basic():
 @search.route("/basic/do", methods=["GET"])
 def basic_do():
     query = Inscriptions.query
+    places = Places.query
 
     if 'mappola_id' in request.values.keys() and (mappola_id := request.values.get('mappola_id')) != '':
-        query = query.filter_by(id=mappola_id)
+        query = query.where(Inscriptions.id==mappola_id)
     
     if 'province' in request.values.keys() and (province := request.values.get('province')) != '':
-        query = query.filter_by(place_id=province)
+        places = places.filter_by(province_id=province)
+
+    if 'region' in request.values.keys() and (region := request.values.get('region')) != '':
+        places = places.filter_by(modern_region_id=region)
+
+    if 'state' in request.values.keys() and (state := request.values.get('state')) != '':
+        regions_in_state = [i.id for i in ModernRegions.query.filter_by(state_id=state).all()]
+        places = places.where(Places.id.in_(regions_in_state))
+
+    if 'date_min' in request.values.keys() and (date_min := request.values.get('date_min')) != '':
+        query = query.where(Inscriptions.date_begin >= date_min)
+
+    if 'date_max' in request.values.keys() and (date_max := request.values.get('date_max')) != '':
+        query = query.where(Inscriptions.date_end <= date_max)
+
+
+    query = query.where(Inscriptions.place_id.in_([i[0] for i in places.values(Places.id)]))
+
+    if 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '':
+        text_1_query = query.where(Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+    else:
+        text_1_query = None
+    
+    if 'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
+        text_2_query = query.where(Inscriptions.text_epidoc_form.like(f"%{text2}%"))
+    else:
+        text_2_query = None
+
+    if 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '' and \
+        'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
+        
+        if request.values.get('text_conj', 'AND') == 'OR':
+            query = query.where(Inscriptions.text_epidoc_form.like(f"%{text1}%")) \
+                .union(query.where(Inscriptions.text_epidoc_form.like(f"%{text2}%")))
+        else:
+            query = query.where(Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+            query = query.where(Inscriptions.text_epidoc_form.like(f"%{text2}%"))
+
+    elif text1:
+        query = query.where(Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+
+    elif text2:
+        query = query.where(Inscriptions.text_epidoc_form.like(f"%{text2}%"))
 
     count = query.count()
 

@@ -25,11 +25,11 @@
                 </td>
             </tr>
             <tr>
-                <th>find place</th>
+                <th>province</th>
                 <td>
                     <select id="q-province" name="province">
                         <option selected></option>
-                        {% for e in get_enum('Places').query.all() %}
+                        {% for e in get_enum('Provinces').query.all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -38,7 +38,33 @@
                 </td>
             </tr>
             <tr>
-                <th>date</th> <!-- check if it should stay free-text or become a number -->
+                <th>region</th>
+                <td>
+                    <select id="q-region" name="region">
+                        <option selected></option>
+                        {% for e in get_enum('ModernRegions').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>
+                    <select id="q-state" name="state">
+                        <option selected></option>
+                        {% for e in get_enum('ModernStates').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>date</th>
                 <td>
                     from <input id="q-date_from" type="number" class="no-block" name="date_min">
                     to <input id="q-date_to" type="number" class="no-block" name="date_max">
