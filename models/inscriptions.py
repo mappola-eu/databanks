@@ -479,5 +479,4 @@ def get_enum_with_grouping(refersto, grouping):
             "entities": gv
         }]
     
-    print(out_data)
     return out_data

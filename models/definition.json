@@ -798,7 +798,7 @@
                                     "type": "input"
                                 },
                                 {
-                                    "column": "modern_state",
+                                    "column": "state",
                                     "label": "Modern State",
                                     "type": "reference",
                                     "refersto": "ModernStates"
