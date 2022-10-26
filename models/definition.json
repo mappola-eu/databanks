@@ -331,7 +331,11 @@
                                     "column": "place",
                                     "label": "Find Place",
                                     "type": "reference",
-                                    "refersto": "Places"
+                                    "refersto": "Places",
+                                    "reference_grouping": {
+                                        "attribute": "modern_region_id",
+                                        "representation": "obj#modern_region_name()"
+                                    }
                                 },
                                 {
                                     "column": "find_comment",
@@ -739,7 +743,11 @@
                                     "column": "modern_region",
                                     "label": "Modern Region",
                                     "type": "reference",
-                                    "refersto": "ModernRegions"
+                                    "refersto": "ModernRegions",
+                                    "reference_grouping": {
+                                        "attribute": "state_id",
+                                        "representation": "obj#modern_state_name()"
+                                    }
                                 },
                                 {
                                     "column": "pleiades_id",

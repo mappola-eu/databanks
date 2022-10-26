@@ -218,6 +218,9 @@ class Places(db.Model):
 
     pleiades_id = db.Column(db.Integer())
     enum_lod = db.Column(db.String(150))
+
+    def modern_region_name(self):
+        return f"{self.modern_region.title} ({self.modern_region.modern_state_name()})"
     
 class Provinces(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -231,6 +234,9 @@ class ModernRegions(db.Model):
 
     state_id = db.Column(db.Integer, db.ForeignKey('modern_states.id'))
     state = db.relationship('ModernStates', backref='modern_regions')
+
+    def modern_state_name(self):
+        return self.state.title if self.state else '-'
 
 class ModernStates(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -452,3 +458,26 @@ def defn_snippet(snippet, *args, **kwargs):
     return re.sub(r"\$\{([a-zA-Z]+\#[a-zA-Z]+(?:\(\))?)\}",
                   lambda mo: defn_parse(mo.group(1), *args, **kwargs),
                   snippet)
+
+def get_enum_with_grouping(refersto, grouping):
+    data = get_enum(refersto).query.all()
+
+    groups = {}
+
+    for e in data:
+        group = getattr(e, grouping['attribute'])
+
+        if group in groups:
+            groups[group] += [e]
+        else:
+            groups[group] = [e]
+        
+    out_data = []
+    for gv in groups.values():
+        out_data += [{
+            "label": defn_parse_raw(grouping['representation'], gv[0]),
+            "entities": gv
+        }]
+    
+    print(out_data)
+    return out_data
