@@ -146,6 +146,9 @@ class Inscriptions(db.Model):
         return '' if not self.work_status else self.work_status.title
 
     def update_str(self):
+        if self.last_updated_at is None:
+            return "never (either you are creating this inscription right now or this is an error)."
+
         if self.last_updated_by is None:
             return self.last_updated_at.strftime("%Y-%m-%d") + ", by anon"
         else:
