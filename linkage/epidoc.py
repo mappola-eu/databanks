@@ -1,5 +1,3 @@
-#! /usr/bin/python3
-
 import json
 from base64 import b64encode, b64decode
 from subprocess import Popen, PIPE
@@ -30,7 +28,7 @@ def full_parse_on_inscription(inscription):
     epidoc = inscription.text_epidoc_form
     encoded = b64encode(epidoc.encode())
 
-    pipe = Popen(__file__, stdin=PIPE, stdout=PIPE)
+    pipe = Popen(['python3', __file__], stdin=PIPE, stdout=PIPE)
     response = pipe.communicate(encoded + b'\n', timeout=2)
 
     if not len(response[0]):

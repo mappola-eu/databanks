@@ -167,6 +167,7 @@ form table[role="table"] {
     padding: 1rem 0;
     position: sticky;
     top: 0;
+    z-index: 22;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .toolbar a[role="button"],
