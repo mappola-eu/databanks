@@ -1,32 +1,51 @@
-from xml.dom.minidom import parseString
+#! /usr/bin/python3
 
-def epidoc_to_diplomatic(epidoc):
-    text = ""
-    xml = "<epidoc>" + epidoc + "</epidoc>"
+import json
+from base64 import b64encode, b64decode
+from subprocess import Popen, PIPE
 
-    try:
-        md = parseString(xml)
-    except Exception:
-        return "[Unable to parse, please contact mappola team; here is a copy of the Epidoc XML]\n"+epidoc
+if __name__ == "__main__":
+    from epdioc_converter import *
+else:
+    from .epdioc_converter import *
 
-    root = md.childNodes[0]
+def apply_replacements(str):
+    str = str.replace('<a id="al1" />', '<a id="al1"></a>')
+    str = str.replace("""class="textpart">
+    <""", 'class="textpart"><')
 
-    for child in root.childNodes:
-        if child.nodeName == "#text":
-            text += child.nodeValue.strip("\n").upper()
-        elif child.nodeName == "lb":
-            if len(text) != 0:
-                text += "\n"
-        elif child.nodeName == "expan":
-            for expan_child in child.childNodes:
-                if expan_child.nodeName == "#text":
-                    text += expan_child.nodeValue.strip("\n").upper()
-                elif expan_child.nodeName != "ex":
-                    text += expan_child.childNodes[0].nodeValue.strip("\n").upper()
-        elif child.nodeName == "supplied":
-            length = len(child.childNodes[0].nodeValue.strip("\n"))
-            text += " " * length
-        else:
-            print(child.nodeName)
+    return str
 
-    return text
+def full_parse(epidoc):
+    with generate_processor() as proc:
+        diplomatic = apply_replacements(convert_to_diplomatic(proc, epidoc))
+        interpretative = apply_replacements(convert_to_interpretative(proc, epidoc))
+    
+    return {
+        'diplomatic': diplomatic,
+        'interpretative': interpretative
+    }
+
+def full_parse_on_inscription(inscription):
+    epidoc = inscription.text_epidoc_form
+    encoded = b64encode(epidoc.encode())
+
+    pipe = Popen(__file__, stdin=PIPE, stdout=PIPE)
+    response = pipe.communicate(encoded + b'\n', timeout=2)
+
+    if not len(response[0]):
+        inscription.text_interpretative_cached = "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML"
+        inscription.text_diplomatic_cached = "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML"
+        return inscription
+
+    parsed = json.loads(response[0])
+
+    inscription.text_interpretative_cached = parsed['interpretative']
+    inscription.text_diplomatic_cached = parsed['diplomatic']
+    return inscription
+
+if __name__ == '__main__':
+    uinput = input()
+    epidoc = b64decode(uinput.strip()).decode()
+    parsed = full_parse(epidoc)
+    print(json.dumps(parsed))

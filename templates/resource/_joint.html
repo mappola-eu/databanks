@@ -66,9 +66,9 @@
         <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
         <label for="text-form--mevs">With Metrics Visualised</label>
     </div>
-    <div class="text-presentation active" data-tp="diplomatic">{{ item.text_diplomatic() }}</div>
-    <div class="text-presentation" data-tp="interpretative">{{ item.text_interpretative() }}</div>
-    <div class="text-presentation" data-tp="metrics-visualised">{{ item.text_with_metrics_visualised() }}</div>
+    <div class="text-presentation __epidoc_render active" data-tp="diplomatic">{{ item.text_diplomatic()|safe }}</div>
+    <div class="text-presentation __epidoc_render" data-tp="interpretative">{{ item.text_interpretative()|safe }}</div>
+    <div class="text-presentation __epidoc_render" data-tp="metrics-visualised">{{ item.text_with_metrics_visualised()|safe }}</div>
 </div>
 {% endif %}
 

@@ -6,3 +6,5 @@ email_validator
 
 pyzotero
 tabulate
+
+saxonpy

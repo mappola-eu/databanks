@@ -1,4 +1,5 @@
 from . import db
+from sqlalchemy import event
 from ..linkage import LINKERS
 from ..linkage.epidoc import *
 import json, re
@@ -92,6 +93,9 @@ class Inscriptions(db.Model):
     text_function_id = db.Column(db.Integer, db.ForeignKey('text_functions.id'))
     text_epidoc_form = db.Column(db.Text)
 
+    text_interpretative_cached = db.Column(db.Text)
+    text_diplomatic_cached = db.Column(db.Text)
+
     layout_conditioned_by_language = db.Column(db.Boolean)
 
     text_apparatus_criticus_comment = db.Column(db.Text)
@@ -134,10 +138,10 @@ class Inscriptions(db.Model):
             return "MPL?????"
 
     def text_diplomatic(self):
-        return epidoc_to_diplomatic(self.text_epidoc_form)
+        return self.text_diplomatic_cached
     
     def text_interpretative(self):
-        return "[[I]]"
+        return self.text_interpretative_cached
     
     def text_with_metrics_visualised(self):
         return "[[MV]]"

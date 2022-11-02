@@ -2,6 +2,8 @@ from flask import *
 from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet, get_rel, get_rel_defn, get_enum_with_grouping
 from flask_security import login_required, current_user
 
+from ..linkage.epidoc import full_parse_on_inscription
+
 resource = Blueprint('resource', __name__)
 
 
@@ -289,5 +291,8 @@ def apply_defn_post_data_to_obj(defn, obj):
     
     if 'add_update_user_to' in defn.keys():
         setattr(obj, defn['add_update_user_to'], current_user)
+
+    if 'perform_epidoc_update' in defn.keys():
+        obj = full_parse_on_inscription(obj)
 
     return obj
