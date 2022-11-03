@@ -170,12 +170,23 @@
             </th>
             <td>
                 <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}" multiple>
-                    <option disabled {{ 'selected' if item[column.column]|length == 0 }}></option>
+                    {% if column.reference_grouping %}
+                    {% for og in get_enum_with_grouping(column.refersto, column.reference_grouping) %}
+                    <optgroup label="{{ og.label }}">
+                        {% for e in og.entities %}
+                        <option value="{{ e.id }}" {{ 'selected' if e in item[column.column] }}>
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </optgroup>
+                    {% endfor %}
+                    {% else %}
                     {% for e in get_enum(column.refersto).query.all() %}
                     <option value="{{ e.id }}" {{ 'selected' if e in item[column.column] }}>
                         {{ e.title }}
                     </option>
                     {% endfor %}
+                    {% endif %}
                 </select>
             </td>
         </tr>
