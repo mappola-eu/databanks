@@ -18,10 +18,12 @@ def full_parse(epidoc):
     with generate_processor() as proc:
         diplomatic = apply_replacements(convert_to_diplomatic(proc, epidoc))
         interpretative = apply_replacements(convert_to_interpretative(proc, epidoc))
+        metrics_visualised = apply_replacements((mv := convert_to_metrics_visualised(proc, epidoc)))
     
     return {
         'diplomatic': diplomatic,
-        'interpretative': interpretative
+        'interpretative': interpretative,
+        'metrics_visualised': metrics_visualised
     }
 
 def full_parse_on_inscription(inscription):
@@ -34,12 +36,14 @@ def full_parse_on_inscription(inscription):
     if not len(response[0]):
         inscription.text_interpretative_cached = "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML"
         inscription.text_diplomatic_cached = "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML"
+        inscription.text_metrics_visualised_cached = "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML"
         return inscription
 
     parsed = json.loads(response[0])
 
     inscription.text_interpretative_cached = parsed['interpretative']
     inscription.text_diplomatic_cached = parsed['diplomatic']
+    inscription.text_metrics_visualised_cached = parsed['metrics_visualised']
     return inscription
 
 if __name__ == '__main__':

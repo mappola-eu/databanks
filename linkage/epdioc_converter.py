@@ -28,10 +28,22 @@ def _apply_stylesheet(proc, xml_intro, props=None):
     return output
 
 def _prepare(xml_intro):
-    return '<?xml version="1.0" encoding="UTF-8"?><?xml-model href="http://www.stoa.org/epidoc/schema/latest/tei-epidoc.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0"><text><body><div type="edition" xml:space="preserve"><ab>' + xml_intro + '</ab></div></body></text></TEI>'
+    return '<?xml version="1.0" encoding="UTF-8"?><?xml-model href="http://www.stoa.org/epidoc/schema/latest/tei-epidoc.rng" schematypens="http://relaxng.org/ns/structure/1.0"?><TEI xmlns="http://www.tei-c.org/ns/1.0"><text><body><div type="edition" xml:space="preserve">' + xml_intro + '</div></body></text></TEI>'
 
 def convert_to_diplomatic(proc, xml_intro):
-    return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "diplomatic"})
+    return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "diplomatic",
+                                                          "leiden-style": "edh-web",
+                                                          "internal-app-style": "none"
+                                                        })
 
 def convert_to_interpretative(proc, xml_intro):
-    return _apply_stylesheet(proc, _prepare(xml_intro))#, { "edition-type": "interpretative"})
+    return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "interpretive",
+                                                          "leiden-style": "edh-web",
+                                                          "internal-app-style": "none"
+                                                        })
+
+def convert_to_metrics_visualised(proc, xml_intro):
+    return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "interpretive",
+                                                          "verse-lines": "on",
+                                                          "internal-app-style": "none"
+                                                        })

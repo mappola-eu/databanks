@@ -95,6 +95,7 @@ class Inscriptions(db.Model):
 
     text_interpretative_cached = db.Column(db.Text)
     text_diplomatic_cached = db.Column(db.Text)
+    text_metrics_visualised_cached = db.Column(db.Text)
 
     layout_conditioned_by_language = db.Column(db.Boolean)
 
@@ -144,7 +145,7 @@ class Inscriptions(db.Model):
         return self.text_interpretative_cached
     
     def text_with_metrics_visualised(self):
-        return "[[MV]]"
+        return self.text_metrics_visualised_cached
 
     def work_status_str(self):
         return '' if not self.work_status else self.work_status.title
