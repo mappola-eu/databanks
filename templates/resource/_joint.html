@@ -32,13 +32,13 @@
         {% for column in part.columns %}
         <tr>
             <th>{{ column.label }}</th>
-            <td>{{ rendel(render_column(item, column), column.type) }}</td>
+            <td>{{ rendel(postproc(render_column(item, column), column), column.type) }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 {% elif part.component == "standalone" %}
-{{ rendel(render_column(item, part.single), part.single.type, standalone=True) }}
+{{ rendel(postproc(render_column(item, part.single), part.single), part.single.type, standalone=True) }}
 {% elif part.component == "embed" %}
 {% set table = defn_parse_raw(part.table, item) %}
 <table role="table">
@@ -47,9 +47,9 @@
         <tr>
             {% for column in part.columns %}
             {% if column.heading %}
-            <th>{{ rendel(render_column(row, column)) }}</th>
+            <th>{{ rendel(postproc(render_column(row, column), column)) }}</th>
             {% else %}
-            <td>{{ rendel(render_column(row, column)) }}</td>
+            <td>{{ rendel(postproc(render_column(row, column), column)) }}</td>
             {% endif %}
             {% endfor %}
         </tr>

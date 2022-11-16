@@ -1,5 +1,5 @@
 from flask import *
-from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet, get_rel, get_rel_defn, get_enum_with_grouping
+from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet, get_rel, get_rel_defn, get_enum_with_grouping, postproc
 from flask_security import login_required, current_user
 
 from ..linkage.epidoc import full_parse_on_inscription
@@ -14,7 +14,8 @@ def inject_resource_helpers():
         "render_column": render_column,
         "defn_parse_raw": defn_parse_raw,
         "defn_snippet": defn_snippet,
-        "get_enum_with_grouping": get_enum_with_grouping
+        "get_enum_with_grouping": get_enum_with_grouping,
+        "postproc": postproc
     }
 
 

@@ -454,7 +454,8 @@
                                 {
                                     "column": "layout_conditioned_by_language",
                                     "label": "Layout Conditioned by Language?",
-                                    "type": "boolean_input"
+                                    "type": "boolean_input",
+                                    "post_process": "bool"
                                 },
                                 {
                                     "column": "verse_types",
@@ -559,7 +560,8 @@
                                 {
                                     "column": "have_squeeze",
                                     "label": "Have Squeeze?",
-                                    "type": "boolean_input"
+                                    "type": "boolean_input",
+                                    "post_process": "bool"
                                 }
                             ]
                         },
@@ -571,12 +573,14 @@
                                 {
                                     "column": "date_begin",
                                     "label": "Date (From)",
-                                    "type": "input"
+                                    "type": "input",
+                                    "post_process": "date"
                                 },
                                 {
                                     "column": "date_end",
                                     "label": "Date (To)",
-                                    "type": "input"
+                                    "type": "input",
+                                    "post_process": "date"
                                 },
                                 {
                                     "column": "dating_criteria",
