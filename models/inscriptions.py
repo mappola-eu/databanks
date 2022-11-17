@@ -204,7 +204,7 @@ class ObjectDecorationTags(db.Model):
         if self.parent_object_decoration_tag is not None:
             return self.parent_object_decoration_tag.title
         else:
-            return "-"
+            return self.title
     
 class TextFunctions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -327,7 +327,7 @@ class VerseTypes(db.Model):
         if self.parent_verse_type_id is not None:
             return self.parent_verse_type.title
         else:
-            return "-"
+            return self.title
 
 class Translations(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -494,6 +494,9 @@ def get_enum_with_grouping(refersto, grouping):
 
     for e in data:
         group = getattr(e, grouping['attribute'])
+
+        if group is None and "id_if_equal" in grouping:
+            group = e.id
 
         if group in groups:
             groups[group] += [e]

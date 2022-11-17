@@ -446,6 +446,7 @@
                                     "refersto": "ObjectDecorationTags",
                                     "reference_grouping": {
                                         "attribute": "parent_object_decoration_tag_id",
+                                        "id_if_equal": true,
                                         "representation": "obj#parent_object_decoration_tag_name()"
                                     }
                                 },
@@ -490,6 +491,7 @@
                                     "refersto": "VerseTypes",
                                     "reference_grouping": {
                                         "attribute": "parent_verse_type_id",
+                                        "id_if_equal": true,
                                         "representation": "obj#parent_verse_name()"
                                     }
                                 },
