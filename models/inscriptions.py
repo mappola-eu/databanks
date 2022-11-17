@@ -139,7 +139,14 @@ class Inscriptions(db.Model):
             return "MPL?????"
 
     def text_diplomatic(self):
-        return self.text_diplomatic_cached
+        base = self.text_diplomatic_cached
+        base = base.replace("U", "V")
+        base = re.subn("\[.*\..*\]", lambda s: s.replace(".", ""), base)[0]
+
+        while "=<br" in base:
+            base = base.replace("=<br", "<br")
+
+        return base
     
     def text_interpretative(self):
         return self.text_interpretative_cached
