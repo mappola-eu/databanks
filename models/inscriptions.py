@@ -195,7 +195,16 @@ class ObjectExecutionTechniques(db.Model):
 class ObjectDecorationTags(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
+
+    parent_object_decoration_tag_id = db.Column(db.Integer, db.ForeignKey('object_decoration_tags.id'))
+    parent_object_decoration_tag = db.relationship('ObjectDecorationTags', remote_side=[id])
     enum_lod = db.Column(db.String(150))
+
+    def parent_object_decoration_tag_name(self):
+        if self.parent_object_decoration_tag is not None:
+            return self.parent_object_decoration_tag.title
+        else:
+            return "-"
     
 class TextFunctions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
