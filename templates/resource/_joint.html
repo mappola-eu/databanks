@@ -63,8 +63,10 @@
         <label for="text-form--dipl">Diplomatic</label>
         <input type="radio" name="text-form" id="text-form--intp" value="interpretative">
         <label for="text-form--intp">Interpretative</label>
+        {% if item.text_with_metrics_visualised() != item.text_interpretative() %}
         <input type="radio" name="text-form" id="text-form--mevs" value="metrics-visualised">
         <label for="text-form--mevs">With Metrics Visualised</label>
+        {% endif %}
     </div>
     <div class="text-presentation __epidoc_render active" data-tp="diplomatic">{{ item.text_diplomatic()|safe }}</div>
     <div class="text-presentation __epidoc_render" data-tp="interpretative">{{ item.text_interpretative()|safe }}</div>

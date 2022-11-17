@@ -141,10 +141,11 @@ class Inscriptions(db.Model):
     def text_diplomatic(self):
         base = self.text_diplomatic_cached
         base = base.replace("U", "V")
-        base = re.subn("\[.*\..*\]", lambda s: s.replace(".", ""), base)[0]
+        base = re.subn("\[.*\..*\]", lambda s: s[0].replace(".", ""), base)[0]
 
-        while "=<br" in base:
+        while "=<br" in base or "= <br" in base:
             base = base.replace("=<br", "<br")
+            base = base.replace("= <br", "<br")
 
         return base
     
