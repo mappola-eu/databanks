@@ -13,8 +13,8 @@ ext_zotero = Blueprint('ext_zotero', __name__)
 def initialize_connection():
     g.zot = zotero.Zotero(SETTINGS['ZOTERO_ID'], 'group', API_KEY)
 
-@login_required
 @ext_zotero.route("/query", methods=["GET"])
+@login_required
 def query():
     query_string = request.args.get("for", None)
     if query_string is None:
@@ -29,8 +29,8 @@ def query():
         "items": [*items]
     }
 
-@login_required
 @ext_zotero.route("/fetch/<key>", methods=["GET"])
+@login_required
 def fetch(key):    
     item = g.zot.item(key)
 
@@ -39,8 +39,8 @@ def fetch(key):
         "items": [item]
     }
 
-@login_required
 @ext_zotero.route("/quickadd/types", methods=["GET"])
+@login_required
 def qadd_types():    
     types = g.zot.item_types()
 
@@ -49,8 +49,8 @@ def qadd_types():
         "items": types
     }
 
-@login_required
 @ext_zotero.route("/quickadd/of/type/<type>", methods=["POST"])
+@login_required
 def qadd(type):    
     title = request.form.get("title", None)
     

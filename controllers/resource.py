@@ -48,8 +48,8 @@ def show(name, id):
                            defn=get_defn(name, scope="display"))
 
 
-@login_required
 @resource.route("/<name>/edit/<id>", methods=["GET", "POST"])
+@login_required
 def edit(name, id):
     try:
         R = get_enum(name)
@@ -77,8 +77,8 @@ def edit(name, id):
                            get_enum=get_enum)
 
 
-@login_required
 @resource.route("/<name>/delete/<id>", methods=["GET", "POST"])
+@login_required
 def delete(name, id):
     try:
         R = get_enum(name)
@@ -98,8 +98,8 @@ def delete(name, id):
                            defn=get_defn(name, scope="display"))
 
 
-@login_required
 @resource.route("/<name>/new", methods=["GET", "POST"])
+@login_required
 def new(name):
     try:
         R = get_enum(name)
@@ -129,7 +129,6 @@ def new(name):
                            get_enum=get_enum)
 
 
-@login_required
 @resource.route("/<name>/-/<id>/rel/<relname>")
 def relindex(name, id, relname):
     try:
@@ -153,8 +152,8 @@ def relindex(name, id, relname):
                            defn=get_defn(name, scope="display"))
 
 
-@login_required
 @resource.route("/<name>/-/<id>/rel/<relname>/new", methods=["GET", "POST"])
+@login_required
 def relnew(name, id, relname):
     try:
         R = get_enum(name)
@@ -192,14 +191,13 @@ def relnew(name, id, relname):
                            get_rel_defn=get_rel_defn)
 
 
-@login_required
 @resource.route("/<name>/-/<id>/rel/<relname>/show/<relid>", methods=["GET", "POST"])
 def relshow(name, id, relname):
     pass
 
 
-@login_required
 @resource.route("/<name>/-/<id>/rel/<relname>/edit/<relid>", methods=["GET", "POST"])
+@login_required
 def reledit(name, id, relname, relid):
     try:
         R = get_enum(name)
@@ -234,8 +232,8 @@ def reledit(name, id, relname, relid):
                            get_rel_defn=get_rel_defn)
 
 
-@login_required
 @resource.route("/<name>/-/<id>/rel/<relname>/delete/<relid>", methods=["GET", "POST"])
+@login_required
 def reldelete(name, id, relname, relid):
     pass
 
