@@ -25,12 +25,22 @@ def _apply_stylesheet(proc, xml_intro, props=None):
         xsltproc.set_parameter(k, proc.make_string_value(v))
 
     transformed_xml = xsltproc.transform_to_string()
+
+    with open(f"./_o/{props['internal-app-style']}.xhtml", 'w') as f:
+        f.write(transformed_xml)
     
     tree = ET.fromstring(transformed_xml)
-    output_element = tree.find(".//*[@id=\"edition\"]/*")
+    output_element = tree.find(".//*[@id=\"edition\"]/*[@class='textpart']")
     output = ET.tostring(output_element, short_empty_elements=False).decode()
-
     output = output.replace("></br>", "/>")
+
+    if props['internal-app-style'] != 'none':
+        app_tree = ET.fromstring(transformed_xml)
+        app_output_element = tree.find(".//*[@id=\"apparatus\"]")
+        app_output = ET.tostring(app_output_element, short_empty_elements=False).decode()
+        app_output = app_output.replace("></br>", "/>")
+
+        output = output + '~~~APP BELOW~~~' + app_output
 
     return output
 
@@ -46,7 +56,7 @@ def convert_to_diplomatic(proc, xml_intro):
 def convert_to_interpretative(proc, xml_intro):
     return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "interpretive",
                                                           "leiden-style": "edh-web",
-                                                          "internal-app-style": "none"
+                                                          "internal-app-style": "ddbdp"
                                                         })
 
 def convert_to_metrics_visualised(proc, xml_intro):

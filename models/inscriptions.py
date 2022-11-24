@@ -150,13 +150,21 @@ class Inscriptions(db.Model):
         return base
     
     def text_interpretative(self):
-        return self.text_interpretative_cached
+        return self.text_interpretative_cached.split('~~~APP BELOW~~~')[0]
     
     def text_with_metrics_visualised(self):
         return self.text_metrics_visualised_cached
 
     def work_status_str(self):
         return '' if not self.work_status else self.work_status.title
+
+    def auto_apparatus(self):
+        itt = self.text_interpretative_cached.split('~~~APP BELOW~~~')
+
+        if len(itt) == 1:
+            return ""
+
+        return itt[1] 
 
     def update_str(self):
         if self.last_updated_at is None:
