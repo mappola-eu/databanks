@@ -25,9 +25,6 @@ def _apply_stylesheet(proc, xml_intro, props=None):
         xsltproc.set_parameter(k, proc.make_string_value(v))
 
     transformed_xml = xsltproc.transform_to_string()
-
-    with open(f"./_o/{props['internal-app-style']}.xhtml", 'w') as f:
-        f.write(transformed_xml)
     
     tree = ET.fromstring(transformed_xml)
     output_element = tree.find(".//*[@id=\"edition\"]/*[@class='textpart']")
