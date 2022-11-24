@@ -18,7 +18,7 @@ def full_parse(epidoc):
     with generate_processor() as proc:
         diplomatic = apply_replacements(convert_to_diplomatic(proc, epidoc))
         interpretative = apply_replacements(convert_to_interpretative(proc, epidoc))
-        metrics_visualised = apply_replacements((mv := convert_to_metrics_visualised(proc, epidoc)))
+        metrics_visualised = apply_replacements(convert_to_metrics_visualised(proc, epidoc))
     
     return {
         'diplomatic': diplomatic,
