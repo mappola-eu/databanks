@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import re
 from saxonpy import PySaxonProcessor
 
 def generate_processor():
@@ -7,6 +8,11 @@ def generate_processor():
 def _apply_stylesheet(proc, xml_intro, props=None):
     if props is None:
         props = {}
+
+    if 'verse-lines' in props and props['verse-lines'] == 'on':
+        # ignore all <lb />s
+        xml_intro = re.subn("\<lb( n=\"[0-9]*\")?/>", '', xml_intro)[0]
+        xml_intro = re.subn("(\r?\n)*\<lb( n=\"[0-9]*\")? break=\"no\"/>", '', xml_intro)[0]
 
     xsltproc = proc.new_xslt_processor()
     

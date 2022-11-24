@@ -153,10 +153,7 @@ class Inscriptions(db.Model):
         return self.text_interpretative_cached
     
     def text_with_metrics_visualised(self):
-        base = self.text_metrics_visualised_cached
-        base = base.replace(" | ", " ")
-        base = re.subn("\([0-5]+\) ", "", base)[0]
-        return base
+        return self.text_metrics_visualised_cached
 
     def work_status_str(self):
         return '' if not self.work_status else self.work_status.title
