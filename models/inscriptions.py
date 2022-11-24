@@ -525,8 +525,8 @@ def postproc(data, type_):
         return data
     
     elif type_['post_process'] == 'date':
-        if type(data) == str:
-            data = int(data)
+        if type(data[0]) == str:
+            data = int(data[0]), data[1]
 
         if data[0] < 0:
             return f"{-data[0]} BC", data[1]
