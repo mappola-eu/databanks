@@ -520,12 +520,12 @@ def get_enum_with_grouping(refersto, grouping):
     
     return out_data
 
-def postproc(data, type):
-    if 'post_process' not in type:
+def postproc(data, type_):
+    if 'post_process' not in type_:
         return data
     
-    elif type['post_process'] == 'date':
-        if type(data) == 'str':
+    elif type_['post_process'] == 'date':
+        if type(data) == str:
             data = int(data)
 
         if data[0] < 0:
@@ -533,7 +533,7 @@ def postproc(data, type):
         else:
             return f"{data[0]} AD", data[1]
 
-    elif type['post_process'] == 'bool':
+    elif type_['post_process'] == 'bool':
         if data[0]:
             return "yes", data[1]
         else:
