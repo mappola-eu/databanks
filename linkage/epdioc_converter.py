@@ -32,12 +32,13 @@ def _apply_stylesheet(proc, xml_intro, props=None):
     output = output.replace("></br>", "/>")
 
     if props['internal-app-style'] != 'none':
-        app_tree = ET.fromstring(transformed_xml)
         app_output_element = tree.find(".//*[@id=\"apparatus\"]")
-        app_output = ET.tostring(app_output_element, short_empty_elements=False).decode()
-        app_output = app_output.replace("></br>", "/>")
 
-        output = output + '~~~APP BELOW~~~' + app_output
+        if app_output_element:
+            app_output = ET.tostring(app_output_element, short_empty_elements=False).decode()
+            app_output = app_output.replace("></br>", "/>")
+
+            output = output + '~~~APP BELOW~~~' + app_output
 
     return output
 
