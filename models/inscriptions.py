@@ -250,6 +250,7 @@ class Places(db.Model):
     modern_region = db.relationship('ModernRegions', backref='places')
 
     pleiades_id = db.Column(db.Integer())
+    geonames_id = db.Column(db.Integer())
     enum_lod = db.Column(db.String(150))
 
     def modern_region_name(self):
