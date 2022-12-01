@@ -311,39 +311,6 @@
                     ]
                 },
                 {
-                    "title": "Inscription & Translations",
-                    "parts": [
-                        {
-                            "title": null,
-                            "component": "text_view",
-                            "columns": {
-                                "epidoc": "text_epidoc_form"
-                            }
-                        },
-                        {
-                            "title": "Translations",
-                            "component": "embed",
-                            "table": "obj#translations",
-                            "edit": {
-                                "type": "relation",
-                                "which": "Translations"
-                            },
-                            "columns": [
-                                {
-                                    "heading": true,
-                                    "column": "obj#language_title()",
-                                    "type": "call"
-                                },
-                                {
-                                    "heading": false,
-                                    "column": "translated_form",
-                                    "type": "text"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
                     "title": "Object",
                     "parts": [
                         {
@@ -494,10 +461,47 @@
                                         "id_if_equal": true,
                                         "representation": "obj#parent_verse_name()"
                                     }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Inscription & Translations",
+                    "parts": [
+                        {
+                            "title": null,
+                            "component": "text_view",
+                            "columns": {
+                                "epidoc": "text_epidoc_form"
+                            }
+                        },
+                        {
+                            "title": null,
+                            "component": "standalone",
+                            "single": {
+                                "column": "text_apparatus_criticus_comment",
+                                "label": "Apparatus Criticus",
+                                "type": "text"
+                            }
+                        },
+                        {
+                            "title": "Translations",
+                            "component": "embed",
+                            "table": "obj#translations",
+                            "edit": {
+                                "type": "relation",
+                                "which": "Translations"
+                            },
+                            "columns": [
+                                {
+                                    "heading": true,
+                                    "column": "obj#language_title()",
+                                    "type": "call"
                                 },
                                 {
-                                    "column": "apparatus_criticus",
-                                    "label": "Apparatus Criticus",
+                                    "heading": false,
+                                    "column": "translated_form",
                                     "type": "text"
                                 }
                             ]
