@@ -90,6 +90,9 @@ class Inscriptions(db.Model):
     find_comment = db.Column(db.Text)
     current_location_id = db.Column(
         db.Integer, db.ForeignKey('current_locations.id'))
+    current_location_inventory = db.Column(db.String(80))
+    current_location_details = db.Column(db.Text)
+    
 
     object_type_id = db.Column(db.Integer, db.ForeignKey('object_types.id'))
     object_material_id = db.Column(

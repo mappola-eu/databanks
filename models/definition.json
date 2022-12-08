@@ -339,6 +339,16 @@
                                     "label": "Current Location",
                                     "type": "reference",
                                     "refersto": "CurrentLocations"
+                                },
+                                {
+                                    "column": "current_location_inventory",
+                                    "label": "Inventory number",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "current_location_details",
+                                    "label": "Current Location Details",
+                                    "type": "text"
                                 }
                             ]
                         },
