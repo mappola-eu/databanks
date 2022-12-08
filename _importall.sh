@@ -6,3 +6,4 @@ flask import enum ObjectMaterials import_data/Material.csv
 flask import enum ObjectTypes import_data/ObjectType.csv
 flask import enum Provinces import_data/Provinces.csv
 flask import enum ObjectPreservationStates import_data/StateOfPreservation.csv
+flask import complex ObjectDecorationTags import_data/ObjectDecorationTags.c.json

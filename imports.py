@@ -1,4 +1,4 @@
-import csv
+import csv, json
 import click
 from flask import Blueprint
 from .models import db, get_enum
@@ -27,4 +27,32 @@ def enum(enum_name, from_file):
     
     db.session.commit()
     print("IMPORT END, Success.")
+
+@import_.cli.command("complex")
+@click.argument("enum_name")
+@click.argument("from_file")
+def complex(enum_name, from_file):
+    print("IMPORT BEGIN:", enum_name)
+    enum = get_enum(enum_name)
+    with open(from_file, "r") as complex_data_file:
+        data = json.loads(complex_data_file.read())
     
+    reftbl = {'': None}
+
+    _load_complex_data('', data, reftbl, enum)
+    db.session.commit()
+    print("IMPORT END, Success.")
+
+def _load_complex_data(ok, odata, reftbl, enum):
+    for k, data in odata.items():
+        lk = f"{ok}.{k}"
+
+        name, lod = data['name'], data['lod']
+        print("Importing:", name)
+
+        item = enum(title=name, enum_lod=lod, parent_object_decoration_tag=reftbl[ok])
+        db.session.add(item)
+
+        reftbl[lk] = item
+
+        _load_complex_data(lk, data['children'], reftbl, enum)
