@@ -130,8 +130,8 @@
                     "value": "obj#language_title()"
                 },
                 {
-                    "name": "Excerpt",
-                    "value": "obj#excerpt()"
+                    "name": "Publicated Translation",
+                    "value": "obj#link_to_published_translation"
                 }
             ]
         },
@@ -504,25 +504,32 @@
                             }
                         },
                         {
-                            "title": "Translations",
-                            "component": "embed",
-                            "table": "obj#translations",
-                            "edit": {
-                                "type": "relation",
-                                "which": "Translations"
-                            },
+                            "title": "Main Translation",
+                            "component": "table",
                             "columns": [
                                 {
-                                    "heading": true,
-                                    "column": "obj#language_title()",
-                                    "type": "call"
+                                    "column": "main_translation",
+                                    "label": "Translation",
+                                    "type": "text"
                                 },
                                 {
-                                    "heading": false,
-                                    "column": "translated_form",
-                                    "type": "text"
+                                    "column": "translation_author",
+                                    "label": "Translation",
+                                    "type": "input"
                                 }
                             ]
+                        },
+                        {
+                            "title": "Other Translations",
+                            "component": "standalone",
+                            "single": {
+                                "column": "translations",
+                                "label": "Other Translations",
+                                "type": "reference_func",
+                                "render": "display",
+                                "refersto": "Translations",
+                                "ext_linkage": "smart"
+                            }
                         }
                     ]
                 },
@@ -694,17 +701,6 @@
                                     "type": "reference",
                                     "refersto": "Languages"
                                 },
-                                {
-                                    "column": "translated_form",
-                                    "label": "Translated Form",
-                                    "type": "text"
-                                }
-                            ]
-                        },
-                        {
-                            "title": "Bibliography",
-                            "component": "table",
-                            "columns": [
                                 {
                                     "column": "link_to_published_translation",
                                     "label": "Publicated Translation",

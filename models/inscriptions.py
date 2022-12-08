@@ -120,6 +120,9 @@ class Inscriptions(db.Model):
     text_diplomatic_cached = db.Column(db.Text)
     text_metrics_visualised_cached = db.Column(db.Text)
 
+    main_translation = db.Column(db.Text)
+    translation_author = db.Column(db.String(150))
+
     layout_conditioned_by_language = db.Column(db.Boolean)
 
     text_apparatus_criticus_comment = db.Column(db.Text)
@@ -411,11 +414,8 @@ class Translations(db.Model):
     def language_title(self):
         return self.language.title
 
-    def excerpt(self):
-        if len(self.translated_form) > 150:
-            return self.translated_form[:100] + "..."
-        else:
-            return self.translated_form
+    def display(self):
+        return self.link_to_published_translation + " (" + self.language_title() + ")"
 
 
 class TextLayoutTags(db.Model):
