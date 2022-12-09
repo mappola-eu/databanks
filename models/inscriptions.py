@@ -433,7 +433,7 @@ class Publications(db.Model):
     inscription = db.relationship('Inscriptions', backref='publications')
 
     def display(self):
-        return self.reference_comment + " (" + self.zotero_item_id + ")"
+        return self.reference_comment #+ " (" + self.zotero_item_id + ")"
 
 
 class People(db.Model):

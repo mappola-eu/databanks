@@ -514,7 +514,7 @@
                                 },
                                 {
                                     "column": "translation_author",
-                                    "label": "Translation",
+                                    "label": "Author",
                                     "type": "input"
                                 }
                             ]
