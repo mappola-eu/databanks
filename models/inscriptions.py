@@ -432,6 +432,8 @@ class Publications(db.Model):
 
     inscription = db.relationship('Inscriptions', backref='publications')
 
+    order_number = db.Column(db.Integer)
+
     def display(self):
         return self.reference_comment #+ " (" + self.zotero_item_id + ")"
 
@@ -568,10 +570,27 @@ def render_column(item, col):
             return [(i.title, linker.link(i)) for i in getattr(item, col["column"])]
     elif col["type"] == "reference_complex":
         if hasattr(item, col["column"]):
-            return [(getattr(i, col["render"]), linker.link(i)) for i in getattr(item, col["column"])]
+            base = getattr(item, col["column"])
+
+            if 'order' in col:
+                base = sorted(base, key=lambda i: getattr(i, col["order"]) or -1)[::-1]
+
+            base = [(getattr(i, col["render"]), linker.link(i)) for i in base]
+
+            print(base, col['column'])
+
+            if 'order' not in col:
+                return base
+            else:
+                return sorted(base, key=lambda i: getattr(i, col["order"]))
     elif col["type"] == "reference_func":
         if hasattr(item, col["column"]):
-            return [(getattr(i, col["render"])(), linker.link(i)) for i in getattr(item, col["column"])]
+            base = getattr(item, col["column"])
+
+            if 'order' in col:
+                base = sorted(base, key=lambda i: getattr(i, col["order"]) or -1)[::-1]
+
+            return [(getattr(i, col["render"])(), linker.link(i)) for i in base]
     return ("", linkage)
 
 

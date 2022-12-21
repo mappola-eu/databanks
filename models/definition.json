@@ -656,6 +656,7 @@
                                 "type": "reference_func",
                                 "render": "display",
                                 "refersto": "Publications",
+                                "order": "order_number",
                                 "ext_linkage": "zotero"
                             }
                         },
@@ -740,6 +741,15 @@
                                     "column": "reference_comment",
                                     "label": "Reference description",
                                     "type": "text"
+                            }
+                        },
+                        {
+                            "title": null,
+                            "component": "standalone",
+                            "single": {
+                                    "column": "order_number",
+                                    "label": "Order Number",
+                                    "type": "input"
                             }
                         }
                     ]
