@@ -7,7 +7,7 @@ from .imports import import_
 
 from . import controllers
 
-app = Flask(__name__)
+app = Flask(__name__, instance_path=SETTINGS['INSTANCE_PATH'])
 app.config['SQLALCHEMY_DATABASE_URI'] = SETTINGS['SQL_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'mappola-databanks#secret_key'
