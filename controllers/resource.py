@@ -235,7 +235,27 @@ def reledit(name, id, relname, relid):
 @resource.route("/<name>/-/<id>/rel/<relname>/delete/<relid>", methods=["GET", "POST"])
 @login_required
 def reldelete(name, id, relname, relid):
-    pass
+    try:
+        R = get_enum(name)
+        rel = get_rel(relname)
+    except:
+        abort(403)
+
+    rel_defn = get_defn(relname, scope="display")
+    item = R.query.get_or_404(id)
+    q = {get_rel_defn(relname)["per"]: item.id}
+    relval = rel.query.get_or_404(relid)
+
+    if request.method == "POST":
+        db.session.delete(relval)
+        db.session.commit()
+        return redirect(url_for('resource.relindex', name=name, id=id, relname=relname))
+    
+    return render_template("resource/rel/confirm_delete.html",
+                           name=name,
+                           relname=relname,
+                           relval=relval,
+                           item=item)
 
 def apply_defn_post_data_to_obj(defn, obj):
     for slide in defn['slides']:

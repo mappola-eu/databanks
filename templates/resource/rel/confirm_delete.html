@@ -1,0 +1,15 @@
+{% set title = name %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1><a href="{{ url_for('resource.relindex', name=name, id=item.id, relname=relname) }}">{{ relname|camel2human }}</a>: Delete relation</h1>
+
+<form action="" method="post">
+
+    <p>Are you sure you want to delete <strong>{{ relval.display() }}</strong>? This action cannot be undone.</p>
+
+    <button type="submit">Delete</button>&nbsp;
+    <a href="{{ url_for('resource.relindex', name=name, id=item.id, relname=relname) }}">Cancel</a>
+</form>
+
+{% endblock %}
