@@ -14,7 +14,7 @@ if(pleiades = document.querySelector('[data-ext-hint=pleiades]')) {
     pleiades_query_button.addEventListener("click", (e) => {
         key = pleiades_id.value;
 
-        fetch('http://pleiades.stoa.org/places/' + key + '/json')
+        fetch('https://pleiades.stoa.org/places/' + key + '/json')
             .then(response => response.json())
             .then(result => {
                 pleiades_long.value = result['reprPoint'][0];
