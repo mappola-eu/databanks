@@ -88,6 +88,8 @@ class Inscriptions(db.Model):
 
     place_id = db.Column(db.Integer, db.ForeignKey('places.id'))
     find_comment = db.Column(db.Text)
+    coordinates_long = db.Column(db.Float())
+    coordinates_lat = db.Column(db.Float())
     current_location_id = db.Column(
         db.Integer, db.ForeignKey('current_locations.id'))
     current_location_inventory = db.Column(db.String(80))

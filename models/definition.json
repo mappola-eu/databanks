@@ -318,6 +318,7 @@
                         {
                             "title": "Provenance and Location",
                             "component": "table",
+                            "edit_prefix": "Longitude and Latitude: these are the coordinates where this Inscription was found. If unknown/empty use zero for both.",
                             "columns": [
                                 {
                                     "column": "place",
@@ -333,6 +334,16 @@
                                     "column": "find_comment",
                                     "label": "Find Context",
                                     "type": "text"
+                                },
+                                {
+                                    "column": "coordinates_lat",
+                                    "label": "Latitude",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "coordinates_long",
+                                    "label": "Longitude",
+                                    "type": "input"
                                 },
                                 {
                                     "column": "current_location",
