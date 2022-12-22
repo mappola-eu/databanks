@@ -830,6 +830,7 @@
                             "title": "Location",
                             "component": "table",
                             "edit_prefix": "Longitude and Latitude coordinates for this Place. If unknown/empty use zero for both.",
+                            "ext_hint": "pleiades",
                             "columns": [
                                 {
                                     "column": "coordinates_lat",
