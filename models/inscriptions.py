@@ -3,7 +3,9 @@ from sqlalchemy import event
 from ..linkage import LINKERS
 from ..linkage.epidoc import *
 import json
-import re
+import re, sys
+
+VERY_LARGE_NUMBER = sys.maxsize
 
 with open("models/definition.json", "r") as f:
     defn = json.load(f)
@@ -575,22 +577,15 @@ def render_column(item, col):
             base = getattr(item, col["column"])
 
             if 'order' in col:
-                base = sorted(base, key=lambda i: getattr(i, col["order"]) or -1)[::-1]
+                base = sorted(base, key=lambda i: getattr(i, col["order"]) or VERY_LARGE_NUMBER)
 
-            base = [(getattr(i, col["render"]), linker.link(i)) for i in base]
-
-            print(base, col['column'])
-
-            if 'order' not in col:
-                return base
-            else:
-                return sorted(base, key=lambda i: getattr(i, col["order"]))
+            return [(getattr(i, col["render"]), linker.link(i)) for i in base]
     elif col["type"] == "reference_func":
         if hasattr(item, col["column"]):
             base = getattr(item, col["column"])
 
             if 'order' in col:
-                base = sorted(base, key=lambda i: getattr(i, col["order"]) or -1)[::-1]
+                base = sorted(base, key=lambda i: getattr(i, col["order"]) or VERY_LARGE_NUMBER)
 
             return [(getattr(i, col["render"])(), linker.link(i)) for i in base]
     return ("", linkage)
