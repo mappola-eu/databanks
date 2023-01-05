@@ -549,8 +549,8 @@ def render_column(item, col):
     linkage = None
     if 'ext_linkage' in col:
         linker = LINKERS[col['ext_linkage']]
-        if col['type'] not in ("reference_list", "reference_complex", "reference_func"):
-            linkage = linker.link(item)
+        if col['type'] not in ("reference_list", "reference_complex", "reference_func", "dimension"):
+            linkage = linker.pair(item)
     else:
         linker = LINKERS['null']
 

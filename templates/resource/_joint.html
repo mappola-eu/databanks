@@ -3,7 +3,9 @@
 <ul>
     {% for entry in data %}
     <li>
-        {{ entry[0] }}{% if entry[1] %} <a href="{{ entry[1] }}" class="reflink" target="_blank">🔗 link</a>{% endif %}
+        {% if entry[1] %}
+        {{ entry[1][1] }} <a href="{{ entry[1][0] }}" class="reflink" target="_blank">🔗 link</a>
+        {% else %}{{ entry[0] }}{% endif %}
     </li>
     {% endfor %}
 </ul>
@@ -13,7 +15,8 @@
 <p>depth: {% if data[0][2] %}{{ data[0][2] }} cm{% else %}unknown{% endif %}</p>
 {% if data[1] %}<p><a href="{{ data[1] }}" class="reflink" target="_blank">🔗 link</a></p>{% endif %}
 {% else %}
-{% if standalone %}<p>{{ data[0] }}{% if data[1] %} <a href="{{ data[1] }}" class="reflink" target="_blank">🔗 link</a>{% endif %}</p>{% else %}{{ data[0] }}{% if data[1] %} <a href="{{ data[1] }}" class="reflink" target="_blank">🔗 link</a>{% endif %}{% endif %}
+{% if standalone %}
+<p>{% if data[1] %}{{ data[1][1] }} <a href="{{ data[1][0] }}" class="reflink" target="_blank">🔗 link</a>{% else %}{{ data[0] }}{% endif %}</p>{% else %}{% if data[1] %}{{ data[1][1] }} <a href="{{ data[1][0] }}" class="reflink" target="_blank">🔗 link</a>{% else %}{{ data[0] }}{% endif %}{% endif %}
 {% endif %}
 {% endmacro %}
 
