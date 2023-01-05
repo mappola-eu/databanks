@@ -750,7 +750,7 @@
                             "component": "standalone",
                             "single": {
                                     "column": "reference_comment",
-                                    "label": "Reference description",
+                                    "label": "Reference description (use | for link-text division)",
                                     "type": "text"
                             }
                         },
