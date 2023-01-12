@@ -615,10 +615,13 @@ def get_enum_with_grouping(refersto, grouping):
 
     out_data = []
     for gv in groups.values():
+        gv = sorted(gv, key = lambda x: x.title)
         out_data += [{
             "label": defn_parse_raw(grouping['representation'], gv[0]),
             "entities": gv
         }]
+
+    out_data = sorted(out_data, key = lambda x: x['label'])
 
     return out_data
 
