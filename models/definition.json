@@ -921,8 +921,7 @@
                                     "column": "parent_verse_type",
                                     "label": "Parent Verse Type (may be blank)",
                                     "type": "reference",
-                                    "refersto": "VerseTypes",
-                                    "refopt": true
+                                    "refersto": "VerseTypes"
                                 },
                                 {
                                     "column": "enum_lod",
@@ -960,8 +959,7 @@
                                     "column": "parent_object_decoration_tag",
                                     "label": "Parent Decoration Tag (may be blank)",
                                     "type": "reference",
-                                    "refersto": "ObjectDecorationTags",
-                                    "refopt": true
+                                    "refersto": "ObjectDecorationTags"
                                 },
                                 {
                                     "column": "enum_lod",

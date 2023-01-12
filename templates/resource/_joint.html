@@ -152,7 +152,7 @@
             </th>
             <td>
                 <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}">
-                    <option {{ 'disabled' if not column.refopt }} {{ 'selected' if item[column.column] == None }}></option>
+                    <option {{ 'disabled' if column.refreq }} {{ 'selected' if item[column.column] == None }}></option>
                     {% if column.reference_grouping %}
                     {% for og in get_enum_with_grouping(column.refersto, column.reference_grouping) %}
                     <optgroup label="{{ og.label }}">
@@ -242,7 +242,7 @@
 <label for="{{ name }}-{{ part.single.column }}">{{ part.single.label }}</label>
 <small><a href="{{ url_for('resource.index', name=part.single.refersto) }}" target="_blank">edit list</a></small>
 <select id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}">
-    <option {{ 'disabled' if not part.single.refopt }} {{ 'selected' if item[part.single.column] == None }}></option>
+    <option {{ 'disabled' if part.single.refreq }} {{ 'selected' if item[part.single.column] == None }}></option>
     {% for e in get_enum(part.single.refersto).query.all() %}
     <option value="{{ e.id }}" {{ 'selected' if e==item[part.single.column] }}>
         {{ e.title }}
