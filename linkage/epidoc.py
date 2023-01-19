@@ -3,9 +3,9 @@ from base64 import b64encode, b64decode
 from subprocess import Popen, PIPE
 
 if __name__ == "__main__":
-    from epdioc_converter import *
+    from linkage.epidoc_converter import *
 else:
-    from .epdioc_converter import *
+    from .epidoc_converter import *
 
 def apply_replacements(str):
     str = str.replace('<a id="al1" />', '<a id="al1"></a>')
