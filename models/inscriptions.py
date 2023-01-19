@@ -4,6 +4,7 @@ from ..linkage import LINKERS
 from ..linkage.epidoc import *
 import json
 import re, sys
+from lxml import html
 
 VERY_LARGE_NUMBER = sys.maxsize
 
@@ -193,6 +194,15 @@ class Inscriptions(db.Model):
 
     def text_with_metrics_visualised(self):
         return self.text_metrics_visualised_cached
+    
+    def text_only_preview(self):
+        tree = html.fromstring(self.text_interpretative())
+        text = tree.text_content().strip()
+
+        if len(text) < 50:
+            return text
+        else:
+            return text[:50] + "…"
 
     def work_status_str(self):
         return '' if not self.work_status else self.work_status.title
@@ -204,6 +214,16 @@ class Inscriptions(db.Model):
             return ""
 
         return itt[1]
+    
+    def full_coords(self):
+        if self.coordinates_lat != 0 and self.coordinates_long != 0:
+            return [self.coordinates_lat, self.coordinates_long]
+        
+        if (place := self.place) is not None:
+            if place.coordinates_lat != 0 and place.coordinates_long != 0:
+                return [place.coordinates_lat, place.coordinates_long]
+        
+        return None
 
     def update_str(self):
         if self.last_updated_at is None:

@@ -5,83 +5,22 @@ from flask_security import login_required
 
 inscriptions = Blueprint('inscriptions', __name__)
 
-accepted_properties = [
-    "title",
-    "trismegistos_nr",
-    "text_interpretative_form",
-    "text_diplomatic_form",
-    "text_metrics_visualised_form",
-    "place_id",
-    "find_comment",
-    "current_location_id",
-    "object_type_id",
-    "object_material_id",
-    "object_preservation_state_id",
-    "object_execution_technique_id",
-    "object_decoration_comment",
-    "object_text_layout_comment",
-    "text_function_id",
-    "apparatus_criticus"
-]
-accepted_multiple_properties = {
-    "decoration_tags": ObjectDecorationTags,
-    "languages": Languages,
-    "verse_types": VerseTypes,
-    "dating_criteria": DatingCriteria
-}
 
-@inscriptions.route("/")
-def index():
+@inscriptions.route("/map")
+def map():
     inscs = Inscriptions.query.all()
-    return render_template("inscriptions/index.html", inscs=inscs)
 
-@inscriptions.route("/<id>")
-def show(id):
-    inscription = Inscriptions.query.get_or_404(id)
-    return render_template("inscriptions/show.html", inscription=inscription)
+    mc = []
 
-@login_required
-@inscriptions.route("/<id>/edit", methods=["GET", "POST"])
-def edit(id):
-    inscription = Inscriptions.query.get_or_404(id)
+    for insc in inscs:
+        mc += [{
+            "id": insc.id,
+            "long_id": insc.long_id(),
+            "title": insc.title,
+            "text": insc.text_only_preview(),
+            "thumbnail_url": None,
+            "coords": insc.full_coords(),
+            "place": insc.place.title if insc.place else None
+        }]
 
-    if request.method == "POST":
-        for prop in accepted_properties:
-            inscription.__setattr__(prop, request.form[prop])
-
-        db.session.commit()
-
-        for prop, conv in accepted_multiple_properties.items():
-            items = [conv.query.get(int(i)) for i in request.form.getlist(prop)]
-            inscription.__setattr__(prop, items)
-        
-        db.session.commit()
-
-        flash('Changes committed successfully')
-
-        return redirect(url_for('inscriptions.edit', id=inscription.id))
-
-    return render_template("inscriptions/edit.html", inscription=inscription, get_enum=get_enum,
-                           get_ids = lambda list: [i.id for i in list])
-
-@login_required
-@inscriptions.route("/new", methods=["GET", "POST"])
-def new():
-    inscription = Inscriptions()
-
-    for prop in accepted_properties:
-        inscription.__setattr__(prop, '')
-
-    if request.method == "POST":
-        for prop in accepted_properties:
-            inscription.__setattr__(prop, request.form[prop])
-
-        db.session.add(inscription)
-        db.session.commit()
-
-        flash('Changes committed successfully')
-
-        return redirect(url_for('inscriptions.edit', id=inscription.id))
-
-    return render_template("inscriptions/new.html", inscription=inscription, get_enum=get_enum,
-                           get_ids = lambda list: [i.id for i in list])
+    return render_template("inscriptions/map.html", mc=mc)

@@ -8,3 +8,4 @@ pyzotero
 tabulate
 
 saxonpy
+lxml

@@ -1,0 +1,11 @@
+{% set title = "Inscriptions" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Map</h1>
+<div id="inscriptionsMap"></div>
+
+<script>
+MAP_DATA = {{ mc|tojson }};
+</script>
+{% endblock %}
