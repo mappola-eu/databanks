@@ -283,7 +283,7 @@
             "update_op": "Edit This Inscription",
             "delete_op": false,
             "title": "obj#title",
-            "add_update_user_to": "last_updated_by",
+            "add_create_user_to": "last_updated_by",
             "perform_epidoc_update": true,
             "slides": [
                 {

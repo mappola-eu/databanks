@@ -111,7 +111,7 @@ def new(name):
     item.title = ""
 
     if request.method == "POST":
-        item = apply_defn_post_data_to_obj(defn, item)
+        item = apply_defn_post_data_to_obj(defn, item, is_create=True)
         db.session.add(item)
         db.session.commit()
 
@@ -167,7 +167,7 @@ def relnew(name, id, relname):
     relval = rel(**q)
 
     if request.method == "POST":
-        relval = apply_defn_post_data_to_obj(rel_defn, relval)
+        relval = apply_defn_post_data_to_obj(rel_defn, relval, is_create=True)
         print(relval)
         db.session.add(relval)
         db.session.commit()
@@ -257,7 +257,7 @@ def reldelete(name, id, relname, relid):
                            relval=relval,
                            item=item)
 
-def apply_defn_post_data_to_obj(defn, obj):
+def apply_defn_post_data_to_obj(defn, obj, is_create=False):
     for slide in defn['slides']:
         for part in slide['parts']:
             if part["component"] == "standalone":
@@ -310,6 +310,9 @@ def apply_defn_post_data_to_obj(defn, obj):
     
     if 'add_update_user_to' in defn.keys():
         setattr(obj, defn['add_update_user_to'], current_user)
+
+    if 'add_create_user_to' in defn.keys() and is_create:
+        setattr(obj, defn['add_create_user_to'], current_user)
 
     if 'perform_epidoc_update' in defn.keys():
         obj = full_parse_on_inscription(obj)
