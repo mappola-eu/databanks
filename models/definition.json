@@ -12,7 +12,6 @@
         "CurrentLocations",
         "Places",
         "Provinces",
-        "ModernRegions",
         "ModernStates",
         "PeopleGenders",
         "PeopleAges",
@@ -178,25 +177,6 @@
                 }
             ]
         },
-        "ModernRegions": {
-            "create_op": "New Item",
-            "update_op": "Update",
-            "delete_op": false,
-            "table": [
-                {
-                    "name": "#",
-                    "value": "loop#index"
-                },
-                {
-                    "name": "Title",
-                    "value": "obj#title"
-                },
-                {
-                    "name": "LOD",
-                    "value": "obj#lod"
-                }
-            ]
-        },
         "VerseTypes": {
             "create_op": "New Item",
             "update_op": "Update",
@@ -328,8 +308,8 @@
                                     "type": "reference",
                                     "refersto": "Places",
                                     "reference_grouping": {
-                                        "attribute": "modern_region_id",
-                                        "representation": "obj#modern_region_name()"
+                                        "attribute": "modern_state_id",
+                                        "representation": "obj#modern_state_name()"
                                     }
                                 },
                                 {
@@ -821,14 +801,10 @@
                                     "type": "input"
                                 },
                                 {
-                                    "column": "modern_region",
-                                    "label": "Modern Region",
+                                    "column": "modern_state",
+                                    "label": "Modern State",
                                     "type": "reference",
-                                    "refersto": "ModernRegions",
-                                    "reference_grouping": {
-                                        "attribute": "state_id",
-                                        "representation": "obj#modern_state_name()"
-                                    }
+                                    "refersto": "ModernStates"
                                 },
                                 {
                                     "column": "pleiades_id",
@@ -856,43 +832,6 @@
                                 {
                                     "column": "coordinates_long",
                                     "label": "Longitude",
-                                    "type": "input"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "ModernRegions": {
-            "create_action": "Create",
-            "update_action": "Update",
-            "cancel_action": "Cancel",
-            "update_op": "Edit This Item",
-            "delete_op": false,
-            "title": "obj#title",
-            "slides": [
-                {
-                    "title": null,
-                    "parts": [
-                        {
-                            "title": "General",
-                            "component": "table",
-                            "columns": [
-                                {
-                                    "column": "title",
-                                    "label": "Name",
-                                    "type": "input"
-                                },
-                                {
-                                    "column": "state",
-                                    "label": "Modern State",
-                                    "type": "reference",
-                                    "refersto": "ModernStates"
-                                },
-                                {
-                                    "column": "enum_lod",
-                                    "label": "LOD",
                                     "type": "input"
                                 }
                             ]

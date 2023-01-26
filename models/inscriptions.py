@@ -335,15 +335,19 @@ class Places(db.Model):
         db.Integer, db.ForeignKey('modern_regions.id'))
     modern_region = db.relationship('ModernRegions', backref='places')
 
+    modern_state_id = db.Column(
+        db.Integer, db.ForeignKey('modern_states.id'))
+    modern_state = db.relationship('ModernStates', backref='places')
+
     pleiades_id = db.Column(db.Integer())
     geonames_id = db.Column(db.Integer())
     enum_lod = db.Column(db.String(150))
 
-    def modern_region_name(self):
-        if not self.modern_region:
+    def modern_state_name(self):
+        if not self.modern_state:
             return '-'
 
-        return f"{self.modern_region.title} ({self.modern_region.modern_state_name()})"
+        return self.modern_state.title
 
 
 class Provinces(db.Model):
