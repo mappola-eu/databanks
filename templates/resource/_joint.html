@@ -81,6 +81,19 @@
     {{ item.auto_apparatus()|safe }}
 </div>
 {% endif %}
+{% elif part.component == "revisions" %}
+<h5 style="margin-top: 1rem;">Revisions</h5>
+<ol>
+    {% for rev in item.revisions %}
+    <li>
+        by <strong>{{ rev.user.full_name }}</strong><br>
+        at {{ rev.revision_at.strftime("%Y-%m-%d %H:%M") }}
+        {% if rev.revision_comment %}<br>
+        <em>{{ rev.revision_comment }}</em>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ol>
 {% endif %}
 
 {% if part.view_postfix %}
@@ -315,6 +328,19 @@
         </tr>
     </tbody>
 </table>
+{% elif part.component == "revisions" %}
+<h5 style="margin-top: 1rem;">Revisions</h5>
+<ol>
+    {% for rev in item.revisions %}
+    <li>
+        by <strong>{{ rev.user.full_name }}</strong><br>
+        at {{ rev.revision_at.strftime("%Y-%m-%d %H:%M") }}
+        {% if rev.revision_comment %}<br>
+        <em>{{ rev.revision_comment }}</em>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ol>
 {% endif %}
 
 {% if part.ext_hint %}

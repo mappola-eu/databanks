@@ -108,7 +108,7 @@
                     "value": "obj#trismegistos_nr"
                 },
                 {
-                    "name": "Updated",
+                    "name": "Created",
                     "value": "obj#update_str()"
                 },
                 {
@@ -679,7 +679,7 @@
                             "columns": [
                                 {
                                     "column": "obj#update_str()",
-                                    "label": "Updated",
+                                    "label": "Created",
                                     "type": "call"
                                 },
                                 {
@@ -689,6 +689,9 @@
                                     "refersto": "WorkStatus"
                                 }
                             ]
+                        },
+                        {
+                            "component": "revisions"
                         }
                     ]
                 }
