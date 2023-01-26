@@ -56,3 +56,20 @@ def _load_complex_data(ok, odata, reftbl, enum):
         reftbl[lk] = item
 
         _load_complex_data(lk, data['children'], reftbl, enum)
+
+@import_.cli.command("cleanup_bom")
+def cleanup_bom():
+    with open("models/definition.json", "r") as f:
+        defn = json.load(f)
+    
+    enums = defn['enums']
+
+    for enum in enums:
+        print(f"Processing: {enum}")
+        for item in get_enum(enum).query.all():
+            item.title = item.title.strip()
+            item.title = item.title.encode("utf-8").decode("utf-8-sig")
+            print(f"  {item.title}")
+    
+    db.session.commit()
+    print("Done.")
