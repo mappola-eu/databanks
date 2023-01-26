@@ -164,7 +164,7 @@
                     </optgroup>
                     {% endfor %}
                     {% else %}
-                    {% for e in get_enum(column.refersto).query.all() %}
+                    {% for e in get_enum(column.refersto).query.order_by("title").all() %}
                     <option value="{{ e.id }}" {{ 'selected' if e==item[column.column] }}>
                         {{ e.title }}
                     </option>
@@ -192,7 +192,7 @@
                     </optgroup>
                     {% endfor %}
                     {% else %}
-                    {% for e in get_enum(column.refersto).query.all() %}
+                    {% for e in get_enum(column.refersto).query.order_by("title").all() %}
                     <option value="{{ e.id }}" {{ 'selected' if e in item[column.column] }}>
                         {{ e.title }}
                     </option>
@@ -243,7 +243,7 @@
 <small><a href="{{ url_for('resource.index', name=part.single.refersto) }}" target="_blank">edit list</a></small>
 <select id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}">
     <option {{ 'disabled' if part.single.refreq }} {{ 'selected' if item[part.single.column] == None }}></option>
-    {% for e in get_enum(part.single.refersto).query.all() %}
+    {% for e in get_enum(part.single.refersto).query.order_by("title").all() %}
     <option value="{{ e.id }}" {{ 'selected' if e==item[part.single.column] }}>
         {{ e.title }}
     </option>
@@ -255,7 +255,7 @@
                     <option disabled {{ 'selected' if item[column.column]|length == 0 }}></option>
 <select id="{{ name }}-{{ part.single.column }}" name="{{ part.single.column }}" multiple>
     <option disabled {{ 'selected' if item[part.single.column]|length == 0 }}></option>
-    {% for e in get_enum(part.single.refersto).query.all() %}
+    {% for e in get_enum(part.single.refersto).query.order_by("title").all() %}
     <option value="{{ e.id }}" {{ 'selected' if e in item[part.single.column] }}>
         {{ e.title }}
     </option>
