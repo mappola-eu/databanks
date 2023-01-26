@@ -1,6 +1,7 @@
 from flask import *
 from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet, get_rel, get_rel_defn, get_enum_with_grouping, postproc
 from flask_security import login_required, current_user
+from datetime import datetime
 
 from ..linkage.epidoc import full_parse_on_inscription
 
@@ -314,7 +315,22 @@ def apply_defn_post_data_to_obj(defn, obj, is_create=False):
     if 'add_create_user_to' in defn.keys() and is_create:
         setattr(obj, defn['add_create_user_to'], current_user)
 
+    if 'add_revisions_to_table' in defn.keys():
+        add_revisions_to_table(obj, defn['add_revisions_to_table'], current_user)
+
     if 'perform_epidoc_update' in defn.keys():
         obj = full_parse_on_inscription(obj)
 
     return obj
+
+
+def add_revisions_to_table(obj, key, user):
+    rtbl, rkey = key.split(":")
+    rcls = get_enum(rtbl)
+
+    rev = rcls()
+    rev.user = user
+    setattr(rev, rkey, obj)
+    rev.revision_at = datetime.now()
+
+    db.session.add(rev)

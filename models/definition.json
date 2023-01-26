@@ -26,7 +26,8 @@
         "VerseTypes",
         "Religions",
         "WorkStatus",
-        "TextLayoutTags"
+        "TextLayoutTags",
+        "InscriptionEdited"
     ],
     "enums": [
         "ObjectTypes",
@@ -284,6 +285,7 @@
             "delete_op": false,
             "title": "obj#title",
             "add_create_user_to": "last_updated_by",
+            "add_revisions_to_table": "InscriptionEdited:inscription",
             "perform_epidoc_update": true,
             "slides": [
                 {

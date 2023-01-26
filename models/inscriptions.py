@@ -235,6 +235,19 @@ class Inscriptions(db.Model):
             return self.last_updated_at.strftime("%Y-%m-%d") + ", by " + self.last_updated_by.full_name
 
 
+class InscriptionEdited(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+
+    inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
+    inscription = db.relationship('Inscriptions', backref='revisions')
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User')
+
+    revision_at = db.Column(db.DateTime, default=db.func.now())
+    revision_comment = db.Column(db.Text)
+
+
 class WorkStatus(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
