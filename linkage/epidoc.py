@@ -3,7 +3,7 @@ from base64 import b64encode, b64decode
 from subprocess import Popen, PIPE
 
 if __name__ == "__main__":
-    from linkage.epidoc_converter import *
+    from epidoc_converter import *
 else:
     from .epidoc_converter import *
 

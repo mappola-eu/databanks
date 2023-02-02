@@ -47,19 +47,19 @@ def _prepare(xml_intro):
 
 def convert_to_diplomatic(proc, xml_intro):
     return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "diplomatic",
-                                                          "leiden-style": "edh-web",
+                                                          "leiden-style": "panciera",
                                                           "internal-app-style": "none"
                                                         })
 
 def convert_to_interpretative(proc, xml_intro):
     return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "interpretive",
-                                                          "leiden-style": "edh-web",
+                                                          "leiden-style": "panciera",
                                                           "internal-app-style": "ddbdp"
                                                         })
 
 def convert_to_metrics_visualised(proc, xml_intro):
     return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "interpretive",
-                                                          "leiden-style": "edh-web",
+                                                          "leiden-style": "panciera",
                                                           "verse-lines": "on",
                                                           "internal-app-style": "none"
                                                         })
