@@ -4,6 +4,7 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from .models import db, Role, User
 from .config import SETTINGS
 from .imports import import_
+from .maintenance import maintenance
 
 from . import controllers
 
@@ -42,3 +43,4 @@ app.register_blueprint(controllers.resource, url_prefix='/r')
 app.register_blueprint(controllers.search, url_prefix='/s')
 app.register_blueprint(controllers.ext_zotero, url_prefix='/ext/zotero')
 app.register_blueprint(import_)
+app.register_blueprint(maintenance)

@@ -2,6 +2,7 @@ import csv, json
 import click
 from flask import Blueprint
 from .models import db, get_enum
+from .linkage.epidoc import full_parse_on_inscription
 
 import_ = Blueprint('import', __name__)
 
@@ -70,6 +71,19 @@ def cleanup_bom():
             item.title = item.title.strip()
             item.title = item.title.encode("utf-8").decode("utf-8-sig")
             print(f"  {item.title}")
+    
+    db.session.commit()
+    print("Done.")
+
+
+@import_.cli.command("rerender_ínscription_text")
+def rerender_insc_text():
+    insc = get_enum('Inscriptions')
+
+    for i in insc.query.all():
+        full_parse_on_inscription(i)
+        if inscription.text_interpretative_cached == "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML":
+            print(f"Inscription #{i.id} failed to render.")
     
     db.session.commit()
     print("Done.")
