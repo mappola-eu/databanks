@@ -34,7 +34,6 @@
         "ObjectPreservationStates",
         "ObjectExecutionTechniques",
         "TextFunctions",
-        "VerseTimingTypes",
         "Languages",
         "CurrentLocations",
         "Places",
@@ -220,6 +219,21 @@
                 {
                     "name": "LOD",
                     "value": "obj#enum_lod"
+                }
+            ]
+        },
+        "VerseTimingTypes": {
+            "create_op": "New Item",
+            "update_op": "Update",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Title",
+                    "value": "obj#title"
                 }
             ]
         }
@@ -472,6 +486,12 @@
                                         "id_if_equal": true,
                                         "representation": "obj#parent_verse_name()"
                                     }
+                                },
+                                {
+                                    "column": "verse_timing_type",
+                                    "label": "Verse Timing Type",
+                                    "type": "reference",
+                                    "refersto": "VerseTimingTypes"
                                 }
                             ]
                         }
@@ -908,6 +928,33 @@
                                 {
                                     "column": "enum_lod",
                                     "label": "LOD",
+                                    "type": "input"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "VerseTimingTypes": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "edit_prefix": "Choose a name, under which this item will be shown across this database:",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "title",
+                                    "label": "Name",
                                     "type": "input"
                                 }
                             ]

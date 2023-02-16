@@ -125,6 +125,8 @@ class Inscriptions(db.Model):
     text_diplomatic_cached = db.Column(db.Text)
     text_metrics_visualised_cached = db.Column(db.Text)
 
+    verse_timing_type_id = db.Column(db.Integer, db.ForeignKey('verse_timing_types.id'))
+
     main_translation = db.Column(db.Text)
     translation_author = db.Column(db.String(150))
 
@@ -149,6 +151,7 @@ class Inscriptions(db.Model):
         'ObjectExecutionTechniques', backref='inscriptions')
     text_function = db.relationship('TextFunctions', backref='inscriptions')
     religion = db.relationship('Religions', backref='inscriptions')
+    verse_timing_type = db.relationship('VerseTimingTypes', backref='inscriptions')
 
     languages = db.relationship(
         'Languages', secondary=inscription_language_assoc, backref='inscriptions')
@@ -304,7 +307,6 @@ class TextFunctions(db.Model):
 class VerseTimingTypes(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
-    enum_lod = db.Column(db.String(150))
 
 
 class Languages(db.Model):
