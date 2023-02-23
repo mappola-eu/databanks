@@ -23,7 +23,11 @@ def enum(enum_name, from_file):
     
     for entry in data:
         print("Importing:", entry[0])
-        item = enum(title=entry[0], enum_lod=entry[1])
+        item = enum(title=entry[0])
+
+        if entry[1]:
+            item.enum_lod = entry[1]
+
         db.session.add(item)
     
     db.session.commit()
