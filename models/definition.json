@@ -38,7 +38,6 @@
         "CurrentLocations",
         "Places",
         "Provinces",
-        "ModernStates",
         "PeopleGenders",
         "PeopleAges",
         "PeopleAgeExpressions",
@@ -234,6 +233,25 @@
                 {
                     "name": "Title",
                     "value": "obj#title"
+                }
+            ]
+        },
+        "ModernStates": {
+            "create_op": "New Item",
+            "update_op": "Update",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Title",
+                    "value": "obj#title"
+                },
+                {
+                    "name": "GeoNames-ID",
+                    "value": "obj#enum_lod"
                 }
             ]
         }
@@ -955,6 +973,38 @@
                                 {
                                     "column": "title",
                                     "label": "Name",
+                                    "type": "input"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "ModernStates": {
+            "create_action": "Create",
+            "update_action": "Rename",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "edit_prefix": "Choose a name, under which this item will be shown across this database:",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "title",
+                                    "label": "Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "enum_lod",
+                                    "label": "GeoNames-ID",
                                     "type": "input"
                                 }
                             ]
