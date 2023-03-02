@@ -19,6 +19,6 @@ if(epidoc_btn = document.querySelector('[data-ext-hint=epidoc-btn]')) {
     }
 
     epidoc_btn.addEventListener("click", () => {
-        epidoc_target.value = "<ab>\n" + convertAncientText(epidoc_source.value, 'edr') + "\n</ab>"
+        epidoc_target.value = "<!--\n" + epidoc_source.value + "\n-->\n\n<ab>\n" + convertAncientText(epidoc_source.value, 'edr') + "\n</ab>"
     })
 }
