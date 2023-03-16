@@ -1,0 +1,4 @@
+title: /teiHeader/fileDesc/titleStmt/title->content
+trismegistos_nr: /teiHeader/fileDesc/idno[@type="TM"]->content
+place: /teiHeader/fileDesc/msDesc/history/origin/origPlace/placeName->content
+find_comment
