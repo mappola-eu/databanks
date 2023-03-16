@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 import re
-from saxonche import PySaxonProcessor
+from saxonpy import PySaxonProcessor
 
 def generate_processor():
     return PySaxonProcessor(license=False)
