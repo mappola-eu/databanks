@@ -531,7 +531,8 @@
                             "single": {
                                 "column": "text_apparatus_criticus_comment",
                                 "label": "Apparatus Criticus",
-                                "type": "text"
+                                "type": "text",
+                                "post_process": "text:nl2br"
                             }
                         },
                         {

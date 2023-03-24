@@ -3,7 +3,7 @@ from sqlalchemy import event
 from ..linkage import LINKERS
 from ..linkage.epidoc import *
 import json
-import re, sys
+import re, sys, flask
 from lxml import html
 
 VERY_LARGE_NUMBER = sys.maxsize
@@ -685,5 +685,12 @@ def postproc(data, type_):
             return "yes", data[1]
         else:
             return "no", data[1]
+
+    elif type_['post_process'] == 'text:nl2br':
+        text = data[0]
+        text = text.replace("\r\n", "\n")
+        text = text.replace("\r", "\n")
+        text = flask.Markup("<br>").join(text.split("\n"))
+        return text, data[1]
 
     return data
