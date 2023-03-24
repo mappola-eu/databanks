@@ -18,3 +18,11 @@ class User(db.Model, UserMixin):
     active = db.Column(db.Boolean())
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
+    
+    def has_dev_permissions(self):
+        devrole = Role.query.filter_by(name='developer').all()
+
+        if len(devrole) != 1:
+            return False
+
+        return self in devrole[0].users

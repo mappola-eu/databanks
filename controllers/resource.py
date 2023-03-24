@@ -2,6 +2,7 @@ from flask import *
 from ..models import db, get_enum, defn, get_defn, defn_parse, render_column, defn_parse_raw, defn_snippet, get_rel, get_rel_defn, get_enum_with_grouping, postproc
 from flask_security import login_required, current_user
 from datetime import datetime
+from sqlalchemy.inspection import inspect
 
 from ..linkage.epidoc import full_parse_on_inscription
 
@@ -128,6 +129,45 @@ def new(name):
                            render_column=render_column,
                            defn_parse_raw=defn_parse_raw,
                            get_enum=get_enum)
+
+
+@resource.route("/<name>/merge/<id>", methods=["GET", "POST"])
+@login_required
+def merge(name, id):
+    if not current_user.has_dev_permissions():
+        abort(404)
+
+    try:
+        R = get_enum(name)
+    except:
+        abort(403)
+
+    item = R.query.get_or_404(id)
+
+    if request.method == "POST":
+        other = R.query.get(request.form['target'])
+        rels = inspect(R).relationships.items()
+        for rk, _ in rels:
+            here = getattr(item, rk)
+            there = getattr(other, rk)
+
+            for entry in here:
+                if entry not in there:
+                    there.append(entry)
+            
+            here.clear()
+
+        db.session.delete(item)
+        db.session.commit()
+
+        flash('Successfully merged!')
+        return redirect(url_for("resource.index", name=name))
+
+    return render_template("resource/merge.html",
+                           name=name,
+                           R=R,
+                           item=item,
+                           defn=get_defn(name, scope="display"))
 
 
 @resource.route("/<name>/-/<id>/rel/<relname>")

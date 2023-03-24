@@ -1,0 +1,23 @@
+{% set title = name %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1><a href="{{ url_for('resource.index', name=name) }}">{{ name|camel2human }}</a>: Merge Tool</h1>
+
+<form action="" method="post">
+
+    <p>Which item do you want to merge <strong>{{ item.title }}</strong> into?</p>
+
+    <select name="target">
+        {% for tgt in R.query.all() if tgt.id != item.id %}
+        <option value="{{ tgt.id }}">{{ tgt.title }}</option>
+        {% endfor %}
+    </select>
+
+    <p><strong>Attention!</strong> Be careful, this cannot be reversed.</p>
+
+    <button type="submit">Delete</button>&nbsp;
+    <a href="{{ url_for('resource.relindex', name=name, id=item.id, relname=relname) }}">Cancel</a>
+</form>
+
+{% endblock %}
