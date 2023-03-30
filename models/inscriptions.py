@@ -483,7 +483,8 @@ class Publications(db.Model):
 
 class People(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    reference_link = db.Column(db.Text)
+    r1b1_link = db.Column(db.Text)
+    trismegistos_link = db.Column(db.Text)
     name = db.Column(db.Text)
     people_gender_id = db.Column(
         db.Integer, db.ForeignKey('people_genders.id'))
