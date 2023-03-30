@@ -1,4 +1,28 @@
-title: /teiHeader/fileDesc/titleStmt/title->content
-trismegistos_nr: /teiHeader/fileDesc/idno[@type="TM"]->content
-place: /teiHeader/fileDesc/msDesc/history/origin/origPlace/placeName->content
-find_comment
+title: /teiHeader/fileDesc/titleStmt/title/text()
+trismegistos_nr: /teiHeader/fileDesc/idno[@type="TM"]/text()
+place: /teiHeader/fileDesc/msDesc/history/origin/origPlace/placeName->ref
+
+
+??? current_location ???
+??? find_comment ???
+
+
+find_comment: /teiHeader/fileDesc/msDesc/history/origin/provenance[@type="found"]/placeName[@type="locus"]/text()
+object_type: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/objectType->ref
+object_material: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/material->ref
+object_preservation_state: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/rs[@type="statPreserv"]->ref
+object_dim_height: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/height/text()
+object_dim_width: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/width/text()
+object_dim_depth: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/depth/text()
+object_execution_technique: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/layoutDesc/layout/rs[@type="execution"]->ref
+decoration_tags: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/rs[@type="decoration"]->ref
+text_function: /teiHeader/profileDesc/textClass/keywords/term->ref
+languages: /teiHeader/profileDesc/textClass/keywords/term->ref
+letter_size_min: /teiHeader/fileDesc/msDesc/physDesc/handDesc/handNote/height/text()->minmaxmin
+letter_size_max: /teiHeader/fileDesc/msDesc/physDesc/handDesc/handNote/height/text()->minmaxmax
+text_epidoc_form: /text/body/div[@type="edition"]/ab->outerXML
+text_apparatus_criticus_comment: /text/body/div[@type="apparatus"]->stripXML
+general_comment: /text/body/div[@type="commentary"]->stripXML
+date_begin: /teiHeader/fileDesc/msDesc/history/origin/origDate/@notBefore-custom
+date_end: /teiHeader/fileDesc/msDesc/history/origin/origDate/@notAfter-custom
+publications: /text/body/div[@type="bibliography"]/listBibl/bibl/text()
