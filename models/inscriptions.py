@@ -72,17 +72,6 @@ inscription_text_layout_tag_assoc = db.Table(
         db.Integer(),
         db.ForeignKey('text_layout_tags.id')))
 
-inscription_people_assoc = db.Table(
-    'inscription_people_assoc',
-    db.Column(
-        'inscription_id',
-        db.Integer(),
-        db.ForeignKey('inscriptions.id')),
-    db.Column(
-        'people_id',
-        db.Integer(),
-        db.ForeignKey('people.id')))
-
 
 class Inscriptions(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -161,10 +150,9 @@ class Inscriptions(db.Model):
         'DatingCriteria', secondary=inscription_dating_criterion_assoc, backref='inscriptions')
     verse_types = db.relationship(
         'VerseTypes', secondary=inscription_verse_type_assoc, backref='inscriptions')
-    people = db.relationship(
-        'People', secondary=inscription_people_assoc, backref='inscriptions')
 
     translations = db.relationship('Translations', backref='inscription')
+    people = db.relationship('People', backref='inscription')
 
     have_squeeze = db.Column(db.Boolean)
 
@@ -483,6 +471,8 @@ class Publications(db.Model):
 
 class People(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
+    inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
+
     r1b1_link = db.Column(db.Text)
     trismegistos_link = db.Column(db.Text)
     name = db.Column(db.Text)
