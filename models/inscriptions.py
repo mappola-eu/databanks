@@ -4,6 +4,7 @@ from ..linkage import LINKERS
 from ..linkage.epidoc import *
 import json
 import re, sys, flask
+from flask import Markup
 from lxml import html
 
 VERY_LARGE_NUMBER = sys.maxsize
@@ -499,6 +500,31 @@ class People(db.Model):
     legal_status = db.relationship('PeopleLegalStatus', backref='people')
     rank = db.relationship('PeopleRanks', backref='people')
     profession = db.relationship('PeopleProfessions', backref='people')
+
+    def display(self):
+        html = Markup("<table role=\"table\">")
+
+        def safe_title(o):
+            if not o:
+                return ""
+            
+            return o.title
+
+        for col, val in [
+            ("Name", self.name),
+            ("Gender", safe_title(self.gender)),
+            ("Age", safe_title(self.age) + " [expression: " + safe_title(self.age_expression) + ", precisison: " + safe_title(self.age_precision) + "]"),
+            ("Origin", safe_title(self.origin)),
+            ("Legal Status", safe_title(self.legal_status)),
+            ("Rank", safe_title(self.rank)),
+            ("Profession", safe_title(self.profession))
+        ]:
+            html += Markup("<tr><th>" + col + "</th><td>")
+            html += val
+            html += Markup("</td></tr>")
+
+        html += Markup("</table>")
+        return html
 
 
 class Religions(db.Model):

@@ -598,65 +598,7 @@
                                 "column": "people",
                                 "label": "",
                                 "type": "reference_func",
-                                "render_complex": {
-                                    "title_column": "name",
-                                    "component": "table",
-                                    "columns": [
-                                        {
-                                            "column": "name",
-                                            "label": "Name Of Person",
-                                            "type": "text"
-                                        },
-                                        {
-                                            "column": "gender",
-                                            "label": "Gender",
-                                            "type": "reference",
-                                            "refersto": "PeopleGenders"
-                                        },
-                                        {
-                                            "column": "age",
-                                            "label": "Age",
-                                            "type": "reference",
-                                            "refersto": "PeopleAges"
-                                        },
-                                        {
-                                            "column": "age_expression",
-                                            "label": "Age Expression",
-                                            "type": "reference",
-                                            "refersto": "PeopleAgeExpressions"
-                                        },
-                                        {
-                                            "column": "age_precision",
-                                            "label": "Age Precision",
-                                            "type": "reference",
-                                            "refersto": "PeopleAgePrecisions"
-                                        },
-                                        {
-                                            "column": "origin",
-                                            "label": "Origin",
-                                            "type": "reference",
-                                            "refersto": "PeopleOrigins"
-                                        },
-                                        {
-                                            "column": "legal_status",
-                                            "label": "Legal Status",
-                                            "type": "reference",
-                                            "refersto": "PeopleLegalStatus"
-                                        },
-                                        {
-                                            "column": "rank",
-                                            "label": "Rank",
-                                            "type": "reference",
-                                            "refersto": "PeopleRanks"
-                                        },
-                                        {
-                                            "column": "profession",
-                                            "label": "Profession",
-                                            "type": "reference",
-                                            "refersto": "PeopleProfessions"
-                                        }
-                                    ]
-                                },
+                                "render": "display",
                                 "refersto": "People"
                             }
                         }
@@ -1039,6 +981,80 @@
                                     "column": "enum_lod",
                                     "label": "GeoNames-ID",
                                     "type": "input"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "People": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Person",
+            "delete_op": false,
+            "title": "obj#name",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "name",
+                                    "label": "Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "gender",
+                                    "label": "Gender",
+                                    "type": "reference",
+                                    "refersto": "PeopleGenders"
+                                },
+                                {
+                                    "column": "age",
+                                    "label": "Age",
+                                    "type": "reference",
+                                    "refersto": "PeopleAges"
+                                },
+                                {
+                                    "column": "age_expression",
+                                    "label": "Age Expression",
+                                    "type": "reference",
+                                    "refersto": "PeopleAgeExpressions"
+                                },
+                                {
+                                    "column": "age_precision",
+                                    "label": "Age Precision",
+                                    "type": "reference",
+                                    "refersto": "PeopleAgePrecision"
+                                },
+                                {
+                                    "column": "origin",
+                                    "label": "Origin",
+                                    "type": "reference",
+                                    "refersto": "PeopleOrigins"
+                                },
+                                {
+                                    "column": "legal_status",
+                                    "label": "Legal Status",
+                                    "type": "reference",
+                                    "refersto": "PeopleLegalStatus"
+                                },
+                                {
+                                    "column": "rank",
+                                    "label": "Rank",
+                                    "type": "reference",
+                                    "refersto": "PeopleRanks"
+                                },
+                                {
+                                    "column": "profession",
+                                    "label": "Profession",
+                                    "type": "reference",
+                                    "refersto": "PeopleProfessions"
                                 }
                             ]
                         }
