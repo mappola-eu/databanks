@@ -25,12 +25,8 @@ def basic_do():
     if 'province' in request.values.keys() and (province := request.values.get('province')) != '':
         places = places.filter(Places.province_id==province)
 
-    if 'region' in request.values.keys() and (region := request.values.get('region')) != '':
-        places = places.filter(Places.modern_region_id==region)
-
     if 'state' in request.values.keys() and (state := request.values.get('state')) != '':
-        regions_in_state = [i.id for i in ModernRegions.query.filter_by(state_id=state).all()]
-        places = places.filter(Places.id.in_(regions_in_state))
+        places = places.filter(Places.modern_state_id==state)
 
     if 'date_min' in request.values.keys() and (date_min := request.values.get('date_min')) != '':
         query = query.filter(Inscriptions.date_begin >= date_min)

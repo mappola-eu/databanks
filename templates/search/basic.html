@@ -38,20 +38,7 @@
                 </td>
             </tr>
             <tr>
-                <th>region</th>
-                <td>
-                    <select id="q-region" name="region">
-                        <option selected></option>
-                        {% for e in get_enum('ModernRegions').query.all() %}
-                        <option value="{{ e.id }}">
-                            {{ e.title }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>Country</th>
+                <th>country</th>
                 <td>
                     <select id="q-state" name="state">
                         <option selected></option>
