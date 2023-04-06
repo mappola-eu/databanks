@@ -1,12 +1,7 @@
 title: /teiHeader/fileDesc/titleStmt/title/text()
 trismegistos_nr: /teiHeader/fileDesc/idno[@type="TM"]/text()
 place: /teiHeader/fileDesc/msDesc/history/origin/origPlace/placeName->ref
-
-
-??? current_location ???
-??? find_comment ???
-
-
+current_location_details: /teiHeader/fileDesc/msDesc/msIdentifier/repository/text()
 find_comment: /teiHeader/fileDesc/msDesc/history/origin/provenance[@type="found"]/placeName[@type="locus"]/text()
 object_type: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/objectType->ref
 object_material: /teiHeader/fileDesc/msDesc/physDesc/objectDesc/supportDesc/support/material->ref
