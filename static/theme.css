@@ -293,3 +293,11 @@ form input[type=checkbox]:checked::after {
     left: 29.5px;
     color: white;
 }
+
+
+li table[role=table] {
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem;
+    border-collapse: initial;
+    margin-bottom: 1rem;
+}
