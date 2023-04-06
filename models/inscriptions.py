@@ -517,7 +517,9 @@ class People(db.Model):
             ("Origin", safe_title(self.origin)),
             ("Legal Status", safe_title(self.legal_status)),
             ("Rank", safe_title(self.rank)),
-            ("Profession", safe_title(self.profession))
+            ("Profession", safe_title(self.profession)),
+            ("Romans 1by1 Link", self.r1b1_link or ""),
+            ("Trismegistos Link", self.trismegistos_link or "")
         ]:
             html += Markup("<tr><th>" + col + "</th><td>")
             html += val

@@ -1058,6 +1058,16 @@
                                     "label": "Profession",
                                     "type": "reference",
                                     "refersto": "PeopleProfessions"
+                                },
+                                {
+                                    "column": "r1b1_link",
+                                    "label": "Romans 1by1 Link",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "trismegistos_link",
+                                    "label": "Trismegistos Link",
+                                    "type": "input"
                                 }
                             ]
                         }
