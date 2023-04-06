@@ -3,9 +3,21 @@
 
 {% block body %}
 <h1>{{ name|camel2human }}</h1>
-{% if defn.create_op %}
+{% if defn.create_op or (defn.show_only_own_op and defn.show_all_op and current_user.is_authenticated) %}
 <div class="toolbar">
+    {% if defn.create_op %}
     <a href="{{ url_for('resource.new', name=name) }}" role="button">{{ defn.create_op }}</a>
+    {% endif %}
+
+    {% if (defn.show_only_own_op and defn.show_all_op and current_user.is_authenticated) %}
+    {% if request.values["filter"] == "own" %}
+    {% set show_only_mine = true %}
+    <a href="?filter=all" role="button">{{ defn.show_all_op }}</a>
+    {% else %}
+    {% set show_only_mine = false %}
+    <a href="?filter=own" role="button">{{ defn.show_only_own_op }}</a>
+    {% endif %}
+    {% endif %}
 </div>
 {% endif %}
 
@@ -19,7 +31,7 @@
             <th></th>
             {% endif %}
         </tr>
-        {% for item in R.query.all() %}
+        {% for item in R.query.all() if not show_only_mine or item[defn.show_only_own_column] == current_user %}
         <tr>
             {% set primary_loop=loop %}
             {% for column in defn.table %}

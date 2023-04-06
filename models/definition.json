@@ -90,6 +90,9 @@
             "create_op": "Add Inscription",
             "update_op": false,
             "delete_op": false,
+            "show_only_own_op": "Show mine",
+            "show_all_op": "Show all (only mine shown)",
+            "show_only_own_column": "last_updated_by",
             "table": [
                 {
                     "name": "#",
