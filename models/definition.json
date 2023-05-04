@@ -133,8 +133,12 @@
                     "value": "obj#language_title()"
                 },
                 {
-                    "name": "Publicated Translation",
+                    "name": "Translation",
                     "value": "obj#link_to_published_translation"
+                },
+                {
+                    "name": "Author",
+                    "value": "obj#translation_author"
                 }
             ]
         },
@@ -587,8 +591,7 @@
                                 "label": "Other Translations",
                                 "type": "reference_func",
                                 "render": "display",
-                                "refersto": "Translations",
-                                "ext_linkage": "smart"
+                                "refersto": "Translations"
                             }
                         }
                     ]
@@ -718,8 +721,13 @@
                                 },
                                 {
                                     "column": "link_to_published_translation",
-                                    "label": "Publicated Translation",
+                                    "label": "Translation",
                                     "type": "text"
+                                },
+                                {
+                                    "column": "translation_author",
+                                    "label": "Author",
+                                    "type": "input"
                                 }
                             ]
                         }

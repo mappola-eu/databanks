@@ -3,7 +3,9 @@ from sqlalchemy import event
 from ..linkage import LINKERS
 from ..linkage.epidoc import *
 import json
-import re, sys, flask
+import re
+import sys
+import flask
 from flask import Markup
 from lxml import html
 
@@ -87,7 +89,6 @@ class Inscriptions(db.Model):
         db.Integer, db.ForeignKey('current_locations.id'))
     current_location_inventory = db.Column(db.String(80))
     current_location_details = db.Column(db.Text)
-    
 
     object_type_id = db.Column(db.Integer, db.ForeignKey('object_types.id'))
     object_material_id = db.Column(
@@ -115,7 +116,8 @@ class Inscriptions(db.Model):
     text_diplomatic_cached = db.Column(db.Text)
     text_metrics_visualised_cached = db.Column(db.Text)
 
-    verse_timing_type_id = db.Column(db.Integer, db.ForeignKey('verse_timing_types.id'))
+    verse_timing_type_id = db.Column(
+        db.Integer, db.ForeignKey('verse_timing_types.id'))
 
     main_translation = db.Column(db.Text)
     translation_author = db.Column(db.String(150))
@@ -141,7 +143,8 @@ class Inscriptions(db.Model):
         'ObjectExecutionTechniques', backref='inscriptions')
     text_function = db.relationship('TextFunctions', backref='inscriptions')
     religion = db.relationship('Religions', backref='inscriptions')
-    verse_timing_type = db.relationship('VerseTimingTypes', backref='inscriptions')
+    verse_timing_type = db.relationship(
+        'VerseTimingTypes', backref='inscriptions')
 
     languages = db.relationship(
         'Languages', secondary=inscription_language_assoc, backref='inscriptions')
@@ -186,7 +189,7 @@ class Inscriptions(db.Model):
 
     def text_with_metrics_visualised(self):
         return self.text_metrics_visualised_cached
-    
+
     def text_only_preview(self):
         tree = html.fromstring(self.text_interpretative())
         text = tree.text_content().strip()
@@ -206,15 +209,15 @@ class Inscriptions(db.Model):
             return ""
 
         return itt[1]
-    
+
     def full_coords(self):
         if self.coordinates_lat != 0 and self.coordinates_long != 0:
             return [self.coordinates_lat, self.coordinates_long]
-        
+
         if (place := self.place) is not None:
             if place.coordinates_lat != 0 and place.coordinates_long != 0:
                 return [place.coordinates_lat, place.coordinates_long]
-        
+
         return None
 
     def update_str(self):
@@ -446,6 +449,7 @@ class Translations(db.Model):
     translated_form = db.Column(db.Text)
     language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
     link_to_published_translation = db.Column(db.Text)
+    translation_author = db.Column(db.String(210))
 
     language = db.relationship('Languages')
 
@@ -453,6 +457,10 @@ class Translations(db.Model):
         return self.language.title
 
     def display(self):
+        if self.translation_author:
+            return self.link_to_published_translation + " (" + self.language_title() + ", " \
+                + self.translation_author + ")"
+
         return self.link_to_published_translation + " (" + self.language_title() + ")"
 
 
@@ -473,7 +481,7 @@ class Publications(db.Model):
     order_number = db.Column(db.Integer)
 
     def display(self):
-        return self.reference_comment #+ " (" + self.zotero_item_id + ")"
+        return self.reference_comment  # + " (" + self.zotero_item_id + ")"
 
 
 class People(db.Model):
@@ -515,13 +523,14 @@ class People(db.Model):
         def safe_title(o):
             if not o:
                 return ""
-            
+
             return o.title
 
         for col, val in [
             ("Name", self.name),
             ("Gender", safe_title(self.gender)),
-            ("Age Range", safe_title(self.age) + " [expression: " + safe_title(self.age_expression) + ", precisison: " + safe_title(self.age_precision) + "]"),
+            ("Age Range", safe_title(self.age) + " [expression: " + safe_title(
+                self.age_expression) + ", precisison: " + safe_title(self.age_precision) + "]"),
             ("Origin", safe_title(self.origin)),
             ("Legal Status", safe_title(self.legal_status)),
             ("Rank", safe_title(self.rank)),
@@ -647,7 +656,8 @@ def render_column(item, col):
             base = getattr(item, col["column"])
 
             if 'order' in col:
-                base = sorted(base, key=lambda i: getattr(i, col["order"]) or VERY_LARGE_NUMBER)
+                base = sorted(base, key=lambda i: getattr(
+                    i, col["order"]) or VERY_LARGE_NUMBER)
 
             return [(getattr(i, col["render"]), linker.link(i)) for i in base]
     elif col["type"] == "reference_func":
@@ -655,7 +665,8 @@ def render_column(item, col):
             base = getattr(item, col["column"])
 
             if 'order' in col:
-                base = sorted(base, key=lambda i: getattr(i, col["order"]) or VERY_LARGE_NUMBER)
+                base = sorted(base, key=lambda i: getattr(
+                    i, col["order"]) or VERY_LARGE_NUMBER)
 
             return [(getattr(i, col["render"])(), linker.link(i)) for i in base]
     return ("", linkage)
@@ -685,13 +696,13 @@ def get_enum_with_grouping(refersto, grouping):
 
     out_data = []
     for gv in groups.values():
-        gv = sorted(gv, key = lambda x: x.title)
+        gv = sorted(gv, key=lambda x: x.title)
         out_data += [{
             "label": defn_parse_raw(grouping['representation'], gv[0]),
             "entities": gv
         }]
 
-    out_data = sorted(out_data, key = lambda x: x['label'])
+    out_data = sorted(out_data, key=lambda x: x['label'])
 
     return out_data
 
