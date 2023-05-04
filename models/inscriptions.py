@@ -413,6 +413,12 @@ class PeopleProfessions(db.Model):
     enum_lod = db.Column(db.String(150))
 
 
+class PeopleRoles(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+
+
 class DatingCriteria(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(100))
@@ -491,6 +497,7 @@ class People(db.Model):
     people_rank_id = db.Column(db.Integer, db.ForeignKey('people_ranks.id'))
     people_profession_id = db.Column(
         db.Integer, db.ForeignKey('people_professions.id'))
+    people_role_id = db.Column(db.Integer, db.ForeignKey('people_roles.id'))
 
     gender = db.relationship('PeopleGenders', backref='people')
     age = db.relationship('PeopleAges', backref='people')
@@ -500,6 +507,7 @@ class People(db.Model):
     legal_status = db.relationship('PeopleLegalStatus', backref='people')
     rank = db.relationship('PeopleRanks', backref='people')
     profession = db.relationship('PeopleProfessions', backref='people')
+    role = db.relationship('PeopleRoles', backref='people')
 
     def display(self):
         html = Markup("<table role=\"table\">")
@@ -513,14 +521,18 @@ class People(db.Model):
         for col, val in [
             ("Name", self.name),
             ("Gender", safe_title(self.gender)),
-            ("Age", safe_title(self.age) + " [expression: " + safe_title(self.age_expression) + ", precisison: " + safe_title(self.age_precision) + "]"),
+            ("Age Range", safe_title(self.age) + " [expression: " + safe_title(self.age_expression) + ", precisison: " + safe_title(self.age_precision) + "]"),
             ("Origin", safe_title(self.origin)),
             ("Legal Status", safe_title(self.legal_status)),
             ("Rank", safe_title(self.rank)),
             ("Profession", safe_title(self.profession)),
             ("Romans 1by1 Link", self.r1b1_link or ""),
-            ("Trismegistos Link", self.trismegistos_link or "")
+            ("Trismegistos Link", self.trismegistos_link or ""),
+            ("Role", safe_title(self.role)),
         ]:
+            if not val:
+                continue
+
             html += Markup("<tr><th>" + col + "</th><td>")
             html += val
             html += Markup("</td></tr>")

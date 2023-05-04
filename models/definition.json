@@ -22,6 +22,7 @@
         "PeopleLegalStatus",
         "PeopleRanks",
         "PeopleProfessions",
+        "PeopleRoles",
         "DatingCriteria",
         "VerseTypes",
         "Religions",
@@ -47,6 +48,7 @@
         "PeopleLegalStatus",
         "PeopleRanks",
         "PeopleProfessions",
+        "PeopleRoles",
         "DatingCriteria",
         "Religions",
         "WorkStatus",
@@ -1019,7 +1021,7 @@
                                 },
                                 {
                                     "column": "age",
-                                    "label": "Age",
+                                    "label": "Age Range",
                                     "type": "reference",
                                     "refersto": "PeopleAges"
                                 },
@@ -1068,6 +1070,12 @@
                                     "column": "trismegistos_link",
                                     "label": "Trismegistos Link",
                                     "type": "input"
+                                },
+                                {
+                                    "column": "role",
+                                    "label": "Role",
+                                    "type": "reference",
+                                    "refersto": "PeopleRoles"
                                 }
                             ]
                         }
