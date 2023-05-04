@@ -16,7 +16,7 @@ class ZoteroLinker:
             return link_format, item.reference_comment
         
         elif item.reference_comment.startswith("http:") or item.reference_comment.startswith("https:") or item.reference_comment.startswith("ftp:"):
-            if "|" in item.reference_comment:
-                return item.reference_comment.split("|", 1)
+            if " | " in item.reference_comment:
+                return item.reference_comment.split(" | ", 1)
             else:
                 return item.reference_comment, item.reference_comment
