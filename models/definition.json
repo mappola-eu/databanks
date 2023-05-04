@@ -574,7 +574,8 @@
                                 {
                                     "column": "main_translation",
                                     "label": "Translation",
-                                    "type": "text"
+                                    "type": "text",
+                                    "post_process": "text:nl2br"
                                 },
                                 {
                                     "column": "translation_author",
@@ -591,7 +592,8 @@
                                 "label": "Other Translations",
                                 "type": "reference_func",
                                 "render": "display",
-                                "refersto": "Translations"
+                                "refersto": "Translations",
+                                "post_process": "text:nl2br"
                             }
                         }
                     ]

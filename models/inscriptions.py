@@ -729,7 +729,11 @@ def postproc(data, type_):
             return "no", data[1]
 
     elif type_['post_process'] == 'text:nl2br':
+        if type(data) == list:
+            return [postproc(i, type_) for i in data]
+
         text = data[0]
+
         text = text.replace("\r\n", "\n")
         text = text.replace("\r", "\n")
         text = flask.Markup("<br>").join(text.split("\n"))
