@@ -537,7 +537,7 @@ class People(db.Model):
             ("Rank", safe_title(self.rank)),
             ("Profession", safe_title(self.profession)),
             ("Romans 1by1 Link", self.r1b1_link or ""),
-            ("Trismegistos Link", self.trismegistos_link or ""),
+            ("Trismegistos People-No.", self.trismegistos_link or ""),
             ("Role", safe_title(self.role)),
         ]:
             if not val:

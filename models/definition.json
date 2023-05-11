@@ -160,7 +160,7 @@
                     "value": "obj#r1b1_link"
                 },
                 {
-                    "name": "Trismegistos Link",
+                    "name": "Trismegistos People-No.",
                     "value": "obj#trismegistos_link"
                 }
             ]
@@ -846,7 +846,7 @@
                                 },
                                 {
                                     "column": "trismegistos_nr",
-                                    "label": "Trismegistos-No.",
+                                    "label": "Trismegistos Places-No.",
                                     "type": "input"
                                 }
                             ]
@@ -1083,7 +1083,7 @@
                                 },
                                 {
                                     "column": "trismegistos_link",
-                                    "label": "Trismegistos Link",
+                                    "label": "Trismegistos People Link",
                                     "type": "input"
                                 },
                                 {
