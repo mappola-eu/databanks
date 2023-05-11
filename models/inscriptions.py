@@ -335,6 +335,7 @@ class Places(db.Model):
 
     pleiades_id = db.Column(db.Integer())
     geonames_id = db.Column(db.Integer())
+    trismegistos_nr = db.Column(db.String(40))
     enum_lod = db.Column(db.String(150))
 
     def modern_state_name(self):

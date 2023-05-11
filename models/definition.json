@@ -843,6 +843,11 @@
                                     "column": "geonames_id",
                                     "label": "GeoNames-ID",
                                     "type": "input"
+                                },
+                                {
+                                    "column": "trismegistos_nr",
+                                    "label": "Trismegistos-No.",
+                                    "type": "input"
                                 }
                             ]
                         },
