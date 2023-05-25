@@ -1,5 +1,5 @@
 from flask import *
-from ..models import db, get_enum, Inscriptions, Places, ModernRegions
+from ..models import db, get_enum, Inscriptions, Places, VerseTypes
 from ..config import SETTINGS
 
 from sqlalchemy import select
@@ -33,6 +33,22 @@ def basic_do():
 
     if 'date_max' in request.values.keys() and (date_max := request.values.get('date_max')) != '':
         query = query.filter(Inscriptions.date_end <= date_max)
+    
+    if 'verse_type' in request.values.keys() and (verse_type := request.values.get('verse_type')) != '':
+        verse_type = VerseTypes.query.filter_by(id=verse_type).one()
+        not_expanded = [verse_type]
+        searched_verse_types = []
+
+        while len(not_expanded):
+            vt = not_expanded.pop()
+
+            if vt in searched_verse_types:
+                continue
+
+            searched_verse_types.append(vt)
+            not_expanded += vt.children
+
+        # TODO: implement filtering
 
 
     query = query.filter(Inscriptions.place_id.in_([i[0] for i in places.values(Places.id)]))

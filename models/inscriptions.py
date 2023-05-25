@@ -434,7 +434,7 @@ class VerseTypes(db.Model):
     title = db.Column(db.String(100))
     parent_verse_type_id = db.Column(
         db.Integer, db.ForeignKey('verse_types.id'))
-    parent_verse_type = db.relationship('VerseTypes', remote_side=[id])
+    parent_verse_type = db.relationship('VerseTypes', remote_side=[id], backref="children")
     enum_lod = db.Column(db.String(150))
 
     def parent_verse_name(self):

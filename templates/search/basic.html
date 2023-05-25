@@ -51,6 +51,19 @@
                 </td>
             </tr>
             <tr>
+                <th>verse type</th>
+                <td>
+                    <select id="q-verse_type" name="verse_type">
+                        <option selected></option>
+                        {% for e in get_enum('VerseTypes').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <th>date</th>
                 <td>
                     from <input id="q-date_from" type="number" class="no-block" name="date_min">
