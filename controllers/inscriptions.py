@@ -1,4 +1,4 @@
-from flask import *
+from flask import Blueprint, url_for, render_template
 from ..models import Inscriptions, db, get_enum
 from ..models import ObjectDecorationTags, Languages, VerseTypes, DatingCriteria
 from flask_security import login_required
@@ -18,7 +18,8 @@ def map():
             "long_id": insc.long_id(),
             "title": insc.title,
             "text": insc.text_only_preview(),
-            "thumbnail_url": None,
+            "thumbnail_url": "https://placekitten.com/g/200/200",  # TODO: Change to proper URL later
+            "item_url": url_for("resource.show", name="Inscriptions", id=insc.id, _external=True),
             "coords": insc.full_coords(),
             "place": insc.place.title if insc.place else None
         }]
