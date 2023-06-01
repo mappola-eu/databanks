@@ -530,8 +530,8 @@ class People(db.Model):
         for col, val in [
             ("Name", self.name),
             ("Gender", safe_title(self.gender)),
-            ("Age Range", safe_title(self.age) + " [expression: " + safe_title(
-                self.age_expression) + ", precisison: " + safe_title(self.age_precision) + "]"),
+            ("Age Range", safe_title(self.age) + safe_title(
+                self.age_expression) + safe_title(self.age_precision)),
             ("Origin", safe_title(self.origin)),
             ("Legal Status", safe_title(self.legal_status)),
             ("Rank", safe_title(self.rank)),
@@ -542,6 +542,15 @@ class People(db.Model):
         ]:
             if not val:
                 continue
+
+            if col == "Age Range":
+                val = safe_title(self.age)
+                if self.age_expression and self.age_precision:
+                    val += "[expression:" + safe_title(self.age_expression) + ", precision:" + safe_title(self.age_precision) + "]"
+                elif self.age_expression:
+                    val += "[expression:" + safe_title(self.age_expression) + "]"
+                elif self.age_precision:
+                    val += "[precision:" + safe_title(self.age_precision) + "]"
 
             html += Markup("<tr><th>" + col + "</th><td>")
             html += val
