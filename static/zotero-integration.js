@@ -92,21 +92,7 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
 
         fetch('/ext/zotero/fetch/' + key)
             .then(response => response.json())
-            .then(result => {
-                const response = result.items[0];
-                let creator_length = response.data.creators.length;
-                let creator_string;
-                if (creator_length == 1) {
-                    creator_string = response.data.creators[0].firstName + " " + response.data.creators[0].lastName
-                } else {
-                    creator_string = response.data.creators[0].firstName + " " + response.data.creators[0].lastName + " et al.";
-                }
-                inscription_zotero_item_id.value = response.key;
-                inscription_reference_comment.value = 
-                    creator_string + ", " +
-                    response.data.date + ": " +
-                    response.data.title;
-            })
+            .then(updateCitation)
             .catch(error => {
                 alert("ERROR using Zotero integration, please retry.\n\nmessage:" + error);
             });
@@ -137,23 +123,74 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
 
         fetch('/ext/zotero/fetch/' + key)
             .then(response => response.json())
-            .then(result => {
-                const response = result.items[0];
-                let creator_length = response.data.creators.length;
-                let creator_string;
-                if (creator_length == 1) {
-                    creator_string = response.data.creators[0].firstName + " " + response.data.creators[0].lastName
-                } else {
-                    creator_string = response.data.creators[0].firstName + " " + response.data.creators[0].lastName + " et al.";
-                }
-                inscription_zotero_item_id.value = response.key;
-                inscription_reference_comment.value = 
-                    creator_string + ", " +
-                    response.data.date + ": " +
-                    response.data.title;
-            })
+            .then(updateCitation)
             .catch(error => {
                 alert("ERROR using Zotero integration, please retry.\n\nmessage:" + error);
             });
     });
+
+    const updateCitation = (result) => {
+        const response = result.items[0];
+        let authors = filterCreatorFor(response.data.creators, "author");
+        let creator_string = makeCreatorString(authors)
+
+        citation = creator_string + ", " + response.data.title
+
+        if (response.data.itemType == "journalArticle") {
+            let journal = response.data.journalAbbreviation || response.data.publicationTitle
+            let edition = response.data.issue
+            let date = response.data.date
+            let pages = response.data.pages
+
+            citation += ", " + journal + " " + edition + " (" + date + "), " + pages + "."
+        } else if (response.data.itemType == "book") {
+            let place = response.data.place
+            let date = response.data.date
+            citation += ", " + place + " " + date + "."
+        } else if (response.data.itemType == "bookSection") {
+            let bookTitle = response.data.bookTitle
+            let editors = makeCreatorString(filterCreatorFor(response.data.creators, "editor"), " (ed.)")
+            let place = response.data.place
+            let date = response.data.date
+            let pages = response.data.pages
+            citation += ". In: " + editors + ", " + bookTitle + ", " + place + " " + date
+            if (pages) citation += ", " + pages
+            citation += "."
+        }
+
+        console.log(response.data)
+        inscription_zotero_item_id.value = response.key;
+        inscription_reference_comment.value = citation;
+    }
+
+    const filterCreatorFor = (creators, filter) => {
+        return creators.filter((i) => {
+            return i.creatorType == filter
+        })
+    }
+
+    const optconc = (a, b) => {
+        if(a) return a + b
+        return ""
+    }
+
+    const makeCreatorString = (creators, prefix) => {
+        let creators_length = creators.length;
+        if (creators_length == 1) {
+            creator_string = optconc(creators[0].firstName[0], ". ") + creators[0].lastName
+            if (prefix) creator_string += prefix
+        } else if (creators_length >= 2) {
+            creator_string = optconc(creators[0].firstName[0], ". ") + creators[0].lastName
+            if (prefix) creator_string += prefix
+            creator_string += ", "
+            creator_string += optconc(creators[0].firstName[0], ". ") + creators[1].lastName
+            if (prefix) creator_string += prefix
+
+            if (creators_length >= 3) {
+                creator_string += " et al."
+            }
+        }
+
+        return creator_string
+    }
 }
