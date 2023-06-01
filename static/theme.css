@@ -117,7 +117,7 @@ section:first-of-type {
 }
 section:last-child {
     border-bottom: none;
-    padding-bottom: ß;
+    padding-bottom: 0;
 }
 
 section table[role="table"] th {
@@ -300,4 +300,9 @@ li table[role=table] {
     padding: 0.5rem;
     border-collapse: initial;
     margin-bottom: 1rem;
+}
+
+.prosopography ul {
+    list-style: none;
+    padding-left: 0;
 }

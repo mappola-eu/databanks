@@ -604,6 +604,7 @@
                         {
                             "title": null,
                             "component": "standalone",
+                            "class": "prosopography",
                             "single": {
                                 "column": "people",
                                 "label": "",

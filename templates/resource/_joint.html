@@ -41,7 +41,9 @@
     </tbody>
 </table>
 {% elif part.component == "standalone" %}
+{% if part.class %}<div class="{{ part.class }}">{% endif %}
 {{ rendel(postproc(render_column(item, part.single), part.single), part.single.type, standalone=True) }}
+{% if part.class %}</div>{% endif %}
 {% elif part.component == "embed" %}
 {% set table = defn_parse_raw(part.table, item) %}
 <table role="table">
