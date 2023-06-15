@@ -137,7 +137,7 @@
                     "value": "obj#link_to_published_translation"
                 },
                 {
-                    "name": "Author",
+                    "name": "Citation",
                     "value": "obj#translation_author"
                 }
             ]
@@ -579,7 +579,7 @@
                                 },
                                 {
                                     "column": "translation_author",
-                                    "label": "Author",
+                                    "label": "Citation",
                                     "type": "input"
                                 }
                             ]
@@ -729,7 +729,7 @@
                                 },
                                 {
                                     "column": "translation_author",
-                                    "label": "Author",
+                                    "label": "Citation",
                                     "type": "input"
                                 }
                             ]
