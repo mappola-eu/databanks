@@ -156,6 +156,7 @@ class Inscriptions(db.Model):
         'VerseTypes', secondary=inscription_verse_type_assoc, backref='inscriptions')
 
     translations = db.relationship('Translations', backref='inscription')
+    images = db.relationship('Images', backref='inscription')
     people = db.relationship('People', backref='inscription')
 
     have_squeeze = db.Column(db.Boolean)
@@ -566,6 +567,17 @@ class Religions(db.Model):
     enum_lod = db.Column(db.String(150))
 
 
+class Images(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
+    image_link = db.Column(db.Text)#
+    image_alt = db.Column(db.Text)
+    image_citation = db.Column(db.String(210))
+
+    def display(self):
+        return f"<img src=\"{self.image_link}\" alt=\"{self.image_alt}\">"
+
+
 def get_enum(enum):
     if enum in defn["classes"]:
         return eval(enum)
@@ -748,5 +760,11 @@ def postproc(data, type_):
         text = text.replace("\r", "\n")
         text = flask.Markup("<br>").join(text.split("\n"))
         return text, data[1]
+    
+    elif type_['post_process'] == 'allow_html':
+        if type(data) == list:
+            return [postproc(i, type_) for i in data]
+
+        return flask.Markup(data[0]), data[1]
 
     return data

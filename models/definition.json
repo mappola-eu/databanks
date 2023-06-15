@@ -28,7 +28,8 @@
         "Religions",
         "WorkStatus",
         "TextLayoutTags",
-        "InscriptionEdited"
+        "InscriptionEdited",
+        "Images"
     ],
     "enums": [
         "ObjectTypes",
@@ -64,6 +65,10 @@
             "per": "inscription_id"
         },
         "People": {
+            "on": "Inscriptions",
+            "per": "inscription_id"
+        },
+        "Images": {
             "on": "Inscriptions",
             "per": "inscription_id"
         }
@@ -139,6 +144,29 @@
                 {
                     "name": "Citation",
                     "value": "obj#translation_author"
+                }
+            ]
+        },
+        "Images": {
+            "create_op": "Add Image",
+            "update_op": "Update",
+            "delete_op": "Remove",
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Image Link",
+                    "value": "obj#image_link"
+                },
+                {
+                    "name": "Image Description",
+                    "value": "obj#image_alt"
+                },
+                {
+                    "name": "Citation",
+                    "value": "obj#image_citation"
                 }
             ]
         },
@@ -678,6 +706,18 @@
                             }
                         },
                         {
+                            "title": "Images",
+                            "component": "standalone",
+                            "single": {
+                                "column": "images",
+                                "label": "Images",
+                                "type": "reference_func",
+                                "render": "display",
+                                "refersto": "Images",
+                                "post_process": "allow_html"
+                            }
+                        },
+                        {
                             "title": "Editing History",
                             "component": "table",
                             "columns": [
@@ -731,6 +771,42 @@
                                     "column": "translation_author",
                                     "label": "Citation",
                                     "type": "input"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "Images": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Image",
+            "delete_op": false,
+            "title": "obj#image_description",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": "Image",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "image_link",
+                                    "label": "Link",
+                                    "type": "text"
+                                },
+                                {
+                                    "column": "image_alt",
+                                    "label": "Description (Alt-Text)",
+                                    "type": "text"
+                                },
+                                {
+                                    "column": "image_citation",
+                                    "label": "Citation",
+                                    "type": "text"
                                 }
                             ]
                         }
