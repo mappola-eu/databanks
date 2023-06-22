@@ -156,6 +156,12 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
             citation += ". In: " + editors + ", " + bookTitle + ", " + place + " " + date
             if (pages) citation += ", " + pages
             citation += "."
+        } else if (response.data.itemType == "blogPost") {
+            let postTitle = response.data.title
+            let date = response.data.date
+            let url = response.data.url
+
+            citation += ", " + postTitle + ", " + date + " (" + url + ")"
         }
 
         console.log(response.data)
@@ -183,7 +189,7 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
             creator_string = optconc(creators[0].firstName[0], ". ") + creators[0].lastName
             if (prefix) creator_string += prefix
             creator_string += ", "
-            creator_string += optconc(creators[0].firstName[0], ". ") + creators[1].lastName
+            creator_string += optconc(creators[1].firstName[0], ". ") + creators[1].lastName
             if (prefix) creator_string += prefix
 
             if (creators_length >= 3) {
