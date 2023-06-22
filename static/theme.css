@@ -306,3 +306,27 @@ li table[role=table] {
     list-style: none;
     padding-left: 0;
 }
+
+.images ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.images ul li {
+    margin: 0.5rem;
+    width: 300px;
+}
+
+li figure {
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem;
+    border-collapse: initial;
+    margin-bottom: 1rem;
+    margin: 0;
+}
+
+li figure img {
+    width: 100%;
+}

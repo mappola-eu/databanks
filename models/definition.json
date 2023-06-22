@@ -708,13 +708,13 @@
                         {
                             "title": "Images",
                             "component": "standalone",
+                            "class": "images",
                             "single": {
                                 "column": "images",
                                 "label": "Images",
                                 "type": "reference_func",
                                 "render": "display",
-                                "refersto": "Images",
-                                "post_process": "allow_html"
+                                "refersto": "Images"
                             }
                         },
                         {

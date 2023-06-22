@@ -575,7 +575,14 @@ class Images(db.Model):
     image_citation = db.Column(db.String(210))
 
     def display(self):
-        return f"<img src=\"{self.image_link}\" alt=\"{self.image_alt}\">"
+        img = Markup(f"<img src=\"") + self.image_link + Markup("\" alt=\"") + self.image_alt + Markup("\">")
+        img_link = Markup("<a href=\"") + self.image_link + Markup("\">") + img + Markup("</a>")
+        description = Markup("<p>") + self.image_alt + Markup("</p>")
+        copyright = Markup("<p>") + self.image_citation + Markup("</p>")
+
+        figure = Markup("<figure>") + img_link + Markup("<figcaption>") + description + copyright + Markup("</figcaption></figure>")
+
+        return figure
 
 
 def get_enum(enum):
