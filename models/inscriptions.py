@@ -212,7 +212,7 @@ class Inscriptions(db.Model):
         return itt[1]
 
     def full_coords(self):
-        if self.coordinates_lat != 0 and self.coordinates_long != 0:
+        if self.coordinates_lat not in (0, None) and self.coordinates_long not in (0, None):
             return [self.coordinates_lat, self.coordinates_long]
 
         if (place := self.place) is not None:
