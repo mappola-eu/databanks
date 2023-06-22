@@ -18,7 +18,7 @@ def map():
             "long_id": insc.long_id(),
             "title": insc.title,
             "text": insc.text_only_preview(),
-            "thumbnail_url": "https://placekitten.com/g/200/200",  # TODO: Change to proper URL later
+            "thumbnail_url": insc.thumbnail_url(),
             "item_url": url_for("resource.show", name="Inscriptions", id=insc.id, _external=True),
             "coords": insc.full_coords(),
             "place": insc.place.title if insc.place else None

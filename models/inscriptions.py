@@ -229,6 +229,12 @@ class Inscriptions(db.Model):
             return self.last_updated_at.strftime("%Y-%m-%d") + ", by anon"
         else:
             return self.last_updated_at.strftime("%Y-%m-%d") + ", by " + self.last_updated_by.full_name
+    
+    def thumbnail_url(self):
+        if len(self.images) == 0:
+            return None
+        
+        return self.images[0].image_link
 
 
 class InscriptionEdited(db.Model):
