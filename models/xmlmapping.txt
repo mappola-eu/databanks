@@ -19,4 +19,4 @@ text_apparatus_criticus_comment: /text/body/div[@type="apparatus"]->stripXML
 general_comment: /text/body/div[@type="commentary"]->stripXML
 date_begin: /teiHeader/fileDesc/sourceDesc/msDesc/history/origin/origDate->attr:@notBefore-custom
 date_end: /teiHeader/fileDesc/sourceDesc/msDesc/history/origin/origDate->attr:@notAfter-custom
-publications: /text/body/div[@type="bibliography"]/listBibl/bibl->text
+publications@Publications.reference_comment: /text/body/div[@type="bibliography"]/listBibl/bibl->text

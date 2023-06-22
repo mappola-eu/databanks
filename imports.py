@@ -2,9 +2,9 @@ import csv, json
 import xml.etree.ElementTree as ET
 import click
 from flask import Blueprint
-from .models import db, get_enum, get_defn, Inscriptions
+from .models import db, get_enum, get_defn, Inscriptions, User
 from .linkage.epidoc import full_parse_on_inscription
-from .controllers.resource import apply_defn_post_data_to_obj
+from .controllers.resource import apply_special_defn_to_item
 
 import_ = Blueprint('import', __name__)
 
@@ -144,27 +144,35 @@ def inscription(from_file):
 
     for col, val in outmap.items():
         if not val: continue
-        print(col, repr(val))
-        setattr(i, col, val)
+
+        if "@" in col:
+            col, clspath = col.split("@")
+            cls, attr = clspath.split(".")
+            cls = get_enum(cls)
+
+            val = cls(**{attr: val})
+
+            getattr(i, col).append(val)
+
+        else:
+            setattr(i, col, val)
 
     defn = get_defn('Inscriptions')
-    apply_defn_post_data_to_obj(defn, i, True)
-
-    print(i)
+    apply_special_defn_to_item(defn, i, True, User.query.first())
     
-    #db.session.add(i)
-    #db.session.commit()
+    db.session.add(i)
+    db.session.commit()
 
 
 def import_mods(col, mod, node, conflicts):
     if mod == 'text':
-        return node.text
+        return node.text.strip()
     
     elif mod == 'minmaxmin':
-        return float(node.text.split("-")[0].replace(",", "."))
+        return float(node.text.strip().split("-")[0].replace(",", "."))
     
     elif mod == 'minmaxmax':
-        return float(node.text.split("-")[-1].replace(",", "."))
+        return float(node.text.strip().split("-")[-1].replace(",", "."))
     
     elif mod == "outerXML":
         return ET.tostring(node, encoding="utf-8").decode("utf-8")
@@ -177,7 +185,7 @@ def import_mods(col, mod, node, conflicts):
     elif mod.startswith("ref:") or mod.startswith("ref.lod:"):
         if mod.startswith("ref:"):
             ref = mod[len("ref:"):]
-            value = node.text
+            value = node.text.strip()
             col = 'title'
             if ":" in ref:
                 ref, col = ref.split(":")

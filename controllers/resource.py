@@ -349,14 +349,17 @@ def apply_defn_post_data_to_obj(defn, obj, is_create=False):
                 else:
                     print("LOG: unsaveable column %s" % column['column'])
     
+    return apply_special_defn_to_item(defn, obj, is_create)
+
+def apply_special_defn_to_item(defn, obj, is_create=False, cu=None):
     if 'add_update_user_to' in defn.keys():
-        setattr(obj, defn['add_update_user_to'], current_user)
+        setattr(obj, defn['add_update_user_to'], cu or current_user)
 
     if 'add_create_user_to' in defn.keys() and is_create:
-        setattr(obj, defn['add_create_user_to'], current_user)
+        setattr(obj, defn['add_create_user_to'], cu or current_user)
 
     if 'add_revisions_to_table' in defn.keys():
-        add_revisions_to_table(obj, defn['add_revisions_to_table'], current_user)
+        add_revisions_to_table(obj, defn['add_revisions_to_table'], cu or current_user)
 
     if 'perform_epidoc_update' in defn.keys():
         obj = full_parse_on_inscription(obj)
