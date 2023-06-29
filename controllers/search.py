@@ -16,7 +16,7 @@ def basic():
 
 @search.route("/basic/do", methods=["GET"])
 def basic_do():
-    query = Inscriptions.query
+    query = Inscriptions.query.distinct()
     places = Places.query
 
     if 'mappola_id' in request.values.keys() and (mappola_id := request.values.get('mappola_id')) != '':
@@ -48,7 +48,15 @@ def basic_do():
             searched_verse_types.append(vt)
             not_expanded += vt.children
 
-        # TODO: implement filtering
+        subquery = None
+
+        for vt in searched_verse_types:
+            if subquery is None:
+                subquery = Inscriptions.verse_types.contains(vt)
+            else:
+                subquery = subquery | Inscriptions.verse_types.contains(vt)
+
+        query = query.filter(subquery)
 
 
     query = query.filter(Inscriptions.place_id.in_([i[0] for i in places.values(Places.id)]))
