@@ -115,6 +115,7 @@ class Inscriptions(db.Model):
     text_interpretative_cached = db.Column(db.Text)
     text_diplomatic_cached = db.Column(db.Text)
     text_metrics_visualised_cached = db.Column(db.Text)
+    full_text_cached = db.Column(db.Text)
 
     verse_timing_type_id = db.Column(
         db.Integer, db.ForeignKey('verse_timing_types.id'))
@@ -167,6 +168,39 @@ class Inscriptions(db.Model):
     last_updated_by = db.relationship('User')
     work_status_id = db.Column(db.Integer, db.ForeignKey('work_status.id'))
     work_status = db.relationship('WorkStatus')
+
+    def make_searchable_fulltext(self):
+        text_base = self.text_epidoc_form + "\n\n"
+
+        tree = html.fromstring(self.text_interpretative())
+        text = tree.text_content().strip() + "\n\n"
+
+        text += re.subn(r"\(.*?\)|\⸢.*?\⸣", "", text.strip())[0] + "\n\n"
+
+        tree = html.fromstring(self.text_diplomatic())
+        text += tree.text_content().strip()
+
+        if self.text_metrics_visualised_cached:
+            tree = html.fromstring(self.text_with_metrics_visualised())
+            text += "\n\n" + tree.text_content().strip()
+
+        text = re.subn(r"[0-9]+", "", text)[0]
+
+        while " (" in text:
+            text = text.replace(" (", "(")
+        while " ." in text:
+            text = text.replace(" .", ".")
+        while " ," in text:
+            text = text.replace(" ,", ",")
+        while "  " in text:
+            text = text.replace("  ", " ")
+
+        text += text.replace(" ", "")
+        text += text.replace("-", "")
+        
+        self.full_text_cached = (text_base + text).upper()
+
+        return self.full_text_cached
 
     def long_id(self):
         if self.id is not None:

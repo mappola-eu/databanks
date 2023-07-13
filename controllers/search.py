@@ -108,6 +108,10 @@ def basic_do():
     elif text2:
         query = query.filter(Inscriptions.text_epidoc_form.like(f"%{text2}%"))
 
+    if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
+        query = query.filter(
+            Inscriptions.full_text_cached.like(f"%{ft.upper()}%"))
+
     count = query.count()
 
     if count > 100:

@@ -17,3 +17,13 @@ def rerender():
     
     db.session.commit()
     print("Done.")
+
+@maintenance.cli.command("rebuild_fulltext")
+def rebuild_fulltext():
+    insc = get_enum('Inscriptions')
+
+    for i in insc.query.all():
+        print(i.make_searchable_fulltext())
+    
+    db.session.commit()
+    #print("Done.")
