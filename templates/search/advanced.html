@@ -2,8 +2,8 @@
 {% extends "layouts/application.html" %}
 
 {% block body %}
-<h1>Search</h1>
-<p><a href="{{ url_for('search.advanced') }}">Prefer advanced search?</a></p>
+<h1>Advanced Search</h1>
+<p><a href="{{ url_for('search.basic') }}">Prefer basic search?</a></p>
 
 <form action="{{ url_for('search.basic_do') }}" method="GET">
     <div class="toolbar">
@@ -53,7 +53,7 @@
             <tr>
                 <th>verse type</th>
                 <td>
-                    <select id="q-verse_type" name="verse_type">
+                    <select id="q-verse_type" name="verse_type" multiple>
                         <option selected></option>
                         {% for e in get_enum('VerseTypes').query.all() %}
                         <option value="{{ e.id }}">
@@ -77,14 +77,48 @@
                 </td>
             </tr>
             <tr>
-                <th>inscription text</th>
+                <th>inscription text search method</th>
                 <td>
-                    <input id="q-text-1" name="text1">
-                    <select class="no-block" id="q-text-conj" name="text_conj">
+                    <select class="no-block" id="q-text-method" name="text_method">
+                        <option>ONE OF</option>
+                        <option>ALL OF</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>text condition 1</th>
+                <td>
+                    <input id="q-text-11" name="text11">
+                    <select class="no-block" id="q-text-conj1" name="text_conj1">
                         <option>AND</option>
                         <option>OR</option>
+                        <option>AND NOT</option>
                     </select>
-                    <input id="q-text-2" name="text2">
+                    <input id="q-text-12" name="text12">
+                </td>
+            </tr>
+            <tr>
+                <th>text condition 2</th>
+                <td>
+                    <input id="q-text-21" name="text21">
+                    <select class="no-block" id="q-text-conj2" name="text_conj2">
+                        <option>AND</option>
+                        <option>OR</option>
+                        <option>AND NOT</option>
+                    </select>
+                    <input id="q-text-22" name="text22">
+                </td>
+            </tr>
+            <tr>
+                <th>text condition 3</th>
+                <td>
+                    <input id="q-text-31" name="text31">
+                    <select class="no-block" id="q-text-conj3" name="text_conj3">
+                        <option>AND</option>
+                        <option>OR</option>
+                        <option>AND NOT</option>
+                    </select>
+                    <input id="q-text-32" name="text32">
                 </td>
             </tr>
             <tr>

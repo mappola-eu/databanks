@@ -17,6 +17,11 @@ def basic():
     return render_template("search/basic.html", get_enum=get_enum)
 
 
+@search.route("/advanced", methods=["GET"])
+def advanced():
+    return render_template("search/advanced.html", get_enum=get_enum)
+
+
 @search.route("/basic/do", methods=["GET"])
 def basic_do():
     query = Inscriptions.query.distinct()
