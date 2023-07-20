@@ -587,11 +587,11 @@ class People(db.Model):
             if col == "Age Range":
                 val = safe_title(self.age)
                 if self.age_expression and self.age_precision:
-                    val += "[expression:" + safe_title(self.age_expression) + ", precision:" + safe_title(self.age_precision) + "]"
+                    val += " [expression: " + safe_title(self.age_expression) + ", precision: " + safe_title(self.age_precision) + "]"
                 elif self.age_expression:
-                    val += "[expression:" + safe_title(self.age_expression) + "]"
+                    val += " [expression: " + safe_title(self.age_expression) + "]"
                 elif self.age_precision:
-                    val += "[precision:" + safe_title(self.age_precision) + "]"
+                    val += " [precision: " + safe_title(self.age_precision) + "]"
 
             html += Markup("<tr><th>" + col + "</th><td>")
             html += val
