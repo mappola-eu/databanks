@@ -101,6 +101,11 @@ def basic_do():
         if request.values.get('text_conj', 'AND') == 'OR':
             query = query.filter(Inscriptions.text_epidoc_form.like(f"%{text1}%")) \
                 .union(query.filter(Inscriptions.text_epidoc_form.like(f"%{text2}%")))
+        elif request.values.get('text_conj', 'AND') == 'AND NOT':
+            query = query.filter(
+                Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+            query = query.filter(
+                Inscriptions.text_epidoc_form.notlike(f"%{text2}%"))
         else:
             query = query.filter(
                 Inscriptions.text_epidoc_form.like(f"%{text1}%"))
