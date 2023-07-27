@@ -233,16 +233,19 @@ class Inscriptions(db.Model):
         for tag in self.decoration_tags:
             ft_base.append(tag.title)
         
-        for tag in self.dating_criteria:
-            ft_base.append(tag.title)
+        for crit in self.dating_criteria:
+            ft_base.append(crit.title)
         
-        for tag in self.verse_types:
-            ft_base.append(tag.title)
+        for tp in self.verse_types:
+            ft_base.append(tp.title)
         
-        for tag in self.translations:
-            ft_base.append(tag.display())
-
-        ft_base = [i for i in ft_base if i is not None and len(i)]
+        for t in self.translations:
+            ft_base.append(t.display())
+        
+        try:
+            ft_base = [i for i in ft_base if i is not None and len(i)]
+        except:
+            print(ft_base)
 
         self.full_text_cached = "\n".join(ft_base).upper()
 
