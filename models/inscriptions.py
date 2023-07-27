@@ -170,7 +170,7 @@ class Inscriptions(db.Model):
     work_status_id = db.Column(db.Integer, db.ForeignKey('work_status.id'))
     work_status = db.relationship('WorkStatus')
 
-    def make_searchable_fulltext(self):
+    def make_searchable_inscription_cache(self):
         text_base = self.text_epidoc_form + "\n\n"
 
         tree = html.fromstring(self.text_interpretative())
@@ -199,9 +199,9 @@ class Inscriptions(db.Model):
         text += text.replace(" ", "")
         text += text.replace("-", "")
         
-        self.full_text_cached = (text_base + text).upper()
+        self.inscription_search_body_cached = (text_base + text).upper()
 
-        return self.full_text_cached
+        return self.inscription_search_body_cached
 
     def long_id(self):
         if self.id is not None:

@@ -26,15 +26,18 @@ def advanced():
 def basic_do():
     query = Inscriptions.query.distinct()
     places = Places.query
+    places_subquery = False
 
     if 'mappola_id' in request.values.keys() and (mappola_id := request.values.get('mappola_id')) != '':
         query = query.filter(Inscriptions.id == mappola_id)
 
     if 'province' in request.values.keys() and (province := request.values.get('province')) != '':
         places = places.filter(Places.province_id == province)
+        places_subquery = True
 
     if 'state' in request.values.keys() and (state := request.values.get('state')) != '':
         places = places.filter(Places.modern_state_id == state)
+        places_subquery = True
 
     if 'date_min' in request.values.keys() and (date_min := request.values.get('date_min')) != '':
         query = query.filter(Inscriptions.date_begin >= date_min)
@@ -80,50 +83,41 @@ def basic_do():
 
         query = query.filter(subquery)
 
-    query = query.filter(Inscriptions.place_id.in_(
-        [i[0] for i in places.values(Places.id)]))
-
-    if 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '':
-        text_1_query = query.filter(
-            Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
-    else:
-        text_1_query = None
-
-    if 'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
-        text_2_query = query.filter(
-            Inscriptions.inscription_search_body_cached.like(f"%{text2}%"))
-    else:
-        text_2_query = None
+    if places_subquery:
+        query = query.filter(Inscriptions.place_id.in_(
+            [i[0] for i in places.values(Places.id)]))
 
     if 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '' and \
             'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
 
         if request.values.get('text_conj', 'AND') == 'OR':
-            query = query.filter(Inscriptions.inscription_search_body_cached.like(f"%{text1}%")) \
-                .union(query.filter(Inscriptions.inscription_search_body_cached.like(f"%{text2}%")))
+            query = query.filter(Inscriptions.inscription_search_body_cached.ilike(f"%{text1}%")) \
+                .union(query.filter(Inscriptions.inscription_search_body_cached.ilike(f"%{text2}%")))
         elif request.values.get('text_conj', 'AND') == 'AND NOT':
             query = query.filter(
-                Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
+                Inscriptions.inscription_search_body_cached.ilike(f"%{text1}%"))
             query = query.filter(
                 Inscriptions.inscription_search_body_cached.notlike(f"%{text2}%"))
         else:
             query = query.filter(
-                Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
+                Inscriptions.inscription_search_body_cached.ilike(f"%{text1}%"))
             query = query.filter(
-                Inscriptions.inscription_search_body_cached.like(f"%{text2}%"))
+                Inscriptions.inscription_search_body_cached.ilike(f"%{text2}%"))
 
     elif text1:
         query = query.filter(
-            Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
+            Inscriptions.inscription_search_body_cached.ilike(f"%{text1}%"))
 
     elif text2:
         query = query.filter(
-            Inscriptions.inscription_search_body_cached.like(f"%{text2}%"))
+            Inscriptions.inscription_search_body_cached.ilike(f"%{text2}%"))
 
     if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
         query = query.filter(
-            Inscriptions.full_text_cached.like(f"%{ft.upper()}%"))
+            Inscriptions.full_text_cached.like(f"%{ft}%"))
 
+    print(str(query))
+    
     count = query.count()
 
     if count > 100:
