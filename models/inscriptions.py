@@ -242,7 +242,7 @@ class Inscriptions(db.Model):
         for tag in self.translations:
             ft_base.append(tag.display())
 
-        ft_base = [i for i in ft_base if len(i)]
+        ft_base = [i for i in ft_base if i is not None and len(i)]
 
         self.full_text_cached = "\n".join(ft_base).upper()
 
