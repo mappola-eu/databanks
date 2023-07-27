@@ -115,8 +115,6 @@ def basic_do():
     if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
         query = query.filter(
             Inscriptions.full_text_cached.like(f"%{ft}%"))
-
-    print(str(query))
     
     count = query.count()
 

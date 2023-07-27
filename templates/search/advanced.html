@@ -10,6 +10,9 @@
         <button type="submit" class="primary-btn">Search</button>
         <button type="reset">Clear</button>
     </div>
+
+    <h2>Identification</h2>
+
     <table role="table">
         <tbody>
             <tr>
@@ -19,11 +22,18 @@
                 </td>
             </tr>
             <tr>
-                <th>literature</th>
+                <th>bibliography</th>
                 <td>
-                    <input id="q-literature" name="literature">
+                    <input id="q-bibliography" name="bibliography">
                 </td>
             </tr>
+        </tbody>
+    </table>
+
+    <h2>Provenance, Location and Dating</h2>
+
+    <table role="table">
+        <tbody>
             <tr>
                 <th>province</th>
                 <td>
@@ -51,11 +61,30 @@
                 </td>
             </tr>
             <tr>
-                <th>verse type</th>
+                <th>find place</th>
                 <td>
-                    <select id="q-verse_type" name="verse_type" multiple>
+                    <select id="q-find_place" name="find_place">
                         <option selected></option>
-                        {% for e in get_enum('VerseTypes').query.all() %}
+                        {% for e in get_enum('Places').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>find context</th>
+                <td>
+                    <input id="q-find_context" name="find_context">
+                </td>
+            </tr>
+            <tr>
+                <th>current location</th>
+                <td>
+                    <select id="q-current_location" name="current_location">
+                        <option selected></option>
+                        {% for e in get_enum('CurrentLocations').query.all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -70,10 +99,158 @@
                     to <input id="q-date_to" type="number" class="no-block" name="date_max">
                 </td>
             </tr>
+        </tbody>
+    </table>
+
+    <h2>Object, Decoration and Layout</h2>
+
+    <table role="table">
+        <tbody>
             <tr>
-                <th>bibliography</th>
+                <th>object type</th>
                 <td>
-                    <input id="q-bibliography" name="bibliography">
+                    <select id="q-object_type" name="object_type">
+                        <option selected></option>
+                        {% for e in get_enum('ObjectTypes').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>material</th>
+                <td>
+                    <select id="q-object_material" name="object_material">
+                        <option selected></option>
+                        {% for e in get_enum('ObjectMaterials').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>state of preservation</th>
+                <td>
+                    <select id="q-object_preservation" name="object_preservation">
+                        <option selected></option>
+                        {% for e in get_enum('ObjectPreservationStates').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>execution technique</th>
+                <td>
+                    <select id="q-object_execution" name="object_execution">
+                        <option selected></option>
+                        {% for e in get_enum('ObjectExecutionTechniques').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>religion</th>
+                <td>
+                    <select id="q-religion" name="religion">
+                        <option selected></option>
+                        {% for e in get_enum('Religions').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>decoration tags</th>
+                <td>
+                    <select id="q-decoration_tags" name="decoration_tags" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('ObjectDecorationTags').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Text and Inscription</h2>
+
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>verse type</th>
+                <td>
+                    <select id="q-verse_type" name="verse_type" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('VerseTypes').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>text layout tags</th>
+                <td>
+                    <select id="q-layout_tags" name="layout_tags" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('TextLayoutTags').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>text function</th>
+                <td>
+                    <select id="q-function" name="function">
+                        <option selected></option>
+                        {% for e in get_enum('TextFunctions').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>text language</th>
+                <td>
+                    <select id="q-language" name="language" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('Languages').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>layout conditioned by language</th>
+                <td>
+                    <select id="q-language" name="language">
+                        <option selected></option>
+                        <option value="1">yes</option>
+                        <option value="0">no</option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -121,6 +298,13 @@
                     <input id="q-text-32" name="text32">
                 </td>
             </tr>
+        </tbody>
+    </table>
+
+    <h2>Full Text Search</h2>
+
+    <table role="table">
+        <tbody>
             <tr>
                 <th>full text search</th>
                 <td>
