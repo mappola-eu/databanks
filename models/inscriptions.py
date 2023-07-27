@@ -222,7 +222,7 @@ class Inscriptions(db.Model):
         ft_base.append(_defaults(self.text_function))
         ft_base.append(_defaults(self.verse_timing_type))
         ft_base.append(self.main_translation)
-        ft_base.append(_defaults(self.translation_author))
+        ft_base.append(self.translation_author)
         ft_base.append(self.text_apparatus_criticus_comment)
         ft_base.append(self.general_comment)
         ft_base.append(_defaults(self.religion))
