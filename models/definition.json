@@ -360,6 +360,7 @@
             "add_create_user_to": "last_updated_by",
             "add_revisions_to_table": "InscriptionEdited:inscription",
             "perform_epidoc_update": true,
+            "perform_fulltext_update": true,
             "slides": [
                 {
                     "title": "Identification",

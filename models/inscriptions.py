@@ -210,7 +210,8 @@ class Inscriptions(db.Model):
 
             return ''
 
-        ft_base = [self.make_searchable_inscription_cache()]
+        ft_base = [self.title]
+        ft_base.append(self.make_searchable_inscription_cache())
         ft_base.append(self.long_id())
         ft_base.append(_defaults(self.object_type))
         ft_base.append(_defaults(self.object_material))
@@ -224,8 +225,6 @@ class Inscriptions(db.Model):
         ft_base.append(_defaults(self.translation_author))
         ft_base.append(self.text_apparatus_criticus_comment)
         ft_base.append(self.general_comment)
-        ft_base.append(str(self.date_begin))
-        ft_base.append(str(self.date_end))
         ft_base.append(_defaults(self.religion))
 
         for tag in self.object_text_layout_tags:

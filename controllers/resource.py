@@ -363,6 +363,9 @@ def apply_special_defn_to_item(defn, obj, is_create=False, cu=None):
 
     if 'perform_epidoc_update' in defn.keys():
         obj = full_parse_on_inscription(obj)
+    
+    if 'perform_fulltext_update' in defn.keys():
+        obj.make_fulltext_cache()
 
     return obj
 
