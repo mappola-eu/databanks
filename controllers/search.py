@@ -85,13 +85,13 @@ def basic_do():
 
     if 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '':
         text_1_query = query.filter(
-            Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+            Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
     else:
         text_1_query = None
 
     if 'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
         text_2_query = query.filter(
-            Inscriptions.text_epidoc_form.like(f"%{text2}%"))
+            Inscriptions.inscription_search_body_cached.like(f"%{text2}%"))
     else:
         text_2_query = None
 
@@ -99,24 +99,26 @@ def basic_do():
             'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
 
         if request.values.get('text_conj', 'AND') == 'OR':
-            query = query.filter(Inscriptions.text_epidoc_form.like(f"%{text1}%")) \
-                .union(query.filter(Inscriptions.text_epidoc_form.like(f"%{text2}%")))
+            query = query.filter(Inscriptions.inscription_search_body_cached.like(f"%{text1}%")) \
+                .union(query.filter(Inscriptions.inscription_search_body_cached.like(f"%{text2}%")))
         elif request.values.get('text_conj', 'AND') == 'AND NOT':
             query = query.filter(
-                Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+                Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
             query = query.filter(
-                Inscriptions.text_epidoc_form.notlike(f"%{text2}%"))
+                Inscriptions.inscription_search_body_cached.notlike(f"%{text2}%"))
         else:
             query = query.filter(
-                Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+                Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
             query = query.filter(
-                Inscriptions.text_epidoc_form.like(f"%{text2}%"))
+                Inscriptions.inscription_search_body_cached.like(f"%{text2}%"))
 
     elif text1:
-        query = query.filter(Inscriptions.text_epidoc_form.like(f"%{text1}%"))
+        query = query.filter(
+            Inscriptions.inscription_search_body_cached.like(f"%{text1}%"))
 
     elif text2:
-        query = query.filter(Inscriptions.text_epidoc_form.like(f"%{text2}%"))
+        query = query.filter(
+            Inscriptions.inscription_search_body_cached.like(f"%{text2}%"))
 
     if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
         query = query.filter(

@@ -18,12 +18,12 @@ def rerender():
     db.session.commit()
     print("Done.")
 
-@maintenance.cli.command("rebuild_fulltext")
-def rebuild_fulltext():
+@maintenance.cli.command("rebuild_inscription_search")
+def rebuild_inscription_search():
     insc = get_enum('Inscriptions')
 
     for i in insc.query.all():
-        print(i.make_searchable_fulltext())
+        print(i.make_searchable_inscription_cache())
     
     db.session.commit()
     #print("Done.")
