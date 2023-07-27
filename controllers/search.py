@@ -104,11 +104,11 @@ def basic_do():
             query = query.filter(
                 Inscriptions.inscription_search_body_cached.ilike(f"%{text2}%"))
 
-    elif text1:
+    elif 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '':
         query = query.filter(
             Inscriptions.inscription_search_body_cached.ilike(f"%{text1}%"))
 
-    elif text2:
+    elif 'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
         query = query.filter(
             Inscriptions.inscription_search_body_cached.ilike(f"%{text2}%"))
 

@@ -27,3 +27,13 @@ def rebuild_inscription_search():
     
     db.session.commit()
     #print("Done.")
+
+@maintenance.cli.command("rebuild_ft")
+def rebuild_ft():
+    insc = get_enum('Inscriptions')
+
+    for i in insc.query.all():
+        print(i.make_fulltext_cache())
+    
+    db.session.commit()
+    #print("Done.")

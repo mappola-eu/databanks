@@ -202,6 +202,52 @@ class Inscriptions(db.Model):
         self.inscription_search_body_cached = (text_base + text).upper()
 
         return self.inscription_search_body_cached
+    
+    def make_fulltext_cache(self):
+        def _defaults(c):
+            if c:
+                return c.title
+
+            return ''
+
+        ft_base = [self.make_searchable_inscription_cache()]
+        ft_base.append(self.long_id())
+        ft_base.append(_defaults(self.object_type))
+        ft_base.append(_defaults(self.object_material))
+        ft_base.append(_defaults(self.object_preservation_state))
+        ft_base.append(_defaults(self.object_execution_technique))
+        ft_base.append(self.object_decoration_comment)
+        ft_base.append(self.object_text_layout_comment)
+        ft_base.append(_defaults(self.text_function))
+        ft_base.append(_defaults(self.verse_timing_type))
+        ft_base.append(self.main_translation)
+        ft_base.append(_defaults(self.translation_author))
+        ft_base.append(self.text_apparatus_criticus_comment)
+        ft_base.append(self.general_comment)
+        ft_base.append(str(self.date_begin))
+        ft_base.append(str(self.date_end))
+        ft_base.append(_defaults(self.religion))
+
+        for tag in self.object_text_layout_tags:
+            ft_base.append(tag.title)
+        
+        for tag in self.decoration_tags:
+            ft_base.append(tag.title)
+        
+        for tag in self.dating_criteria:
+            ft_base.append(tag.title)
+        
+        for tag in self.verse_types:
+            ft_base.append(tag.title)
+        
+        for tag in self.translations:
+            ft_base.append(tag.display())
+
+        ft_base = [i for i in ft_base if len(i)]
+
+        self.full_text_cached = "\n".join(ft_base).upper()
+
+        return self.full_text_cached
 
     def long_id(self):
         if self.id is not None:
