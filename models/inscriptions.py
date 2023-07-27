@@ -115,6 +115,7 @@ class Inscriptions(db.Model):
     text_interpretative_cached = db.Column(db.Text)
     text_diplomatic_cached = db.Column(db.Text)
     text_metrics_visualised_cached = db.Column(db.Text)
+    inscription_search_body_cached = db.Column(db.Text)
     full_text_cached = db.Column(db.Text)
 
     verse_timing_type_id = db.Column(
