@@ -2,10 +2,27 @@
 {% extends "layouts/application.html" %}
 
 {% block body %}
-<h1>Map</h1>
-<div id="inscriptionsMap"></div>
+<h1>Inscriptions Map</h1>
+
+<div id="the-map"></div>
+<div data-json aria-hidden="true">{{ mc|tojson }}</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='maps/mappola-maps.css') }}">
+<script src="{{ url_for('static', filename='maps/mappola-maps.js') }}"></script>
 
 <script>
-MAP_DATA = {{ mc|tojson }};
+    window.onload = function() {
+        // A JavaScript array with the search results
+        var results = JSON.parse(document.querySelector("[data-json]").innerText);
+    
+        // You can set in initialization...
+        var map = new Mappola.SearchResultMap({
+          // Mandatory: the container DIV
+          parent: document.getElementById('the-map'), 
+    
+          // Optional: search results to show initially
+          results: results
+        });
+    }
 </script>
 {% endblock %}

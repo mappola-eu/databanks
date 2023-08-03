@@ -6,6 +6,7 @@
 <p><a href="{{ url_for('search.basic') }}">New search</a></p>
 
 <div id="the-map"></div>
+<div data-json aria-hidden="true">{{ mc|tojson }}</div>
 
 <p>You got <strong>{{ count }} result(s)</strong>. {% if count > 100 %}There are more than 100 results, please refine your search to be more specific.{% endif %}</p>
 
@@ -14,9 +15,6 @@
     <li><a href="{{ url_for('resource.show', name='Inscriptions', id=insc.id) }}">{{ insc.title }}</a></li>
     {% endfor %}
 </ul>
-
-<div data-json aria-hidden="true">{{ mc|tojson }}</div>
-
 
 <link rel="stylesheet" href="{{ url_for('static', filename='maps/mappola-maps.css') }}">
 <script src="{{ url_for('static', filename='maps/mappola-maps.js') }}"></script>
