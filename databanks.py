@@ -15,6 +15,7 @@ app.config['SECRET_KEY'] = 'mappola-databanks#secret_key'
 app.config['SECURITY_PASSWORD_SALT'] = 'mappola-databanks#salt'
 app.config['SECURITY_CHANGEABLE'] = True  # allow users to change their passwords
 #app.config['SECURITY_REGISTERABLE'] = True  # allow users to change their passwords
+app.config['MAPTILER_KEY'] = SETTINGS['MAPTILER_KEY']
 
 db.init_app(app)
 migrate = Migrate(app, db)

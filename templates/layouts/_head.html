@@ -1,6 +1,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>{{ title }}</title>
 
 <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
@@ -12,3 +13,8 @@
 <script src="{{ url_for('static', filename='pleiades-integration.js') }}" defer></script>
 <script src="{{ url_for('static', filename='epidoc-converter.js') }}" defer></script>
 <script src="https://patrimonium.huma-num.fr/atlas/epidoc-converter/$ausohnum-lib/resources/scripts/teiEditor/ancientTextImportRules.js" defer></script>
+
+<meta name="map.style" content="https://api.maptiler.com/maps/outdoor/style.json?key={{ config['MAPTILER_KEY'] }}" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='maps/mappola-maps.css') }}" defer>
+<script src="{{ url_for('static', filename='maps/mappola-maps.js') }}" defer></script>
