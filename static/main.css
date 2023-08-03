@@ -173,8 +173,18 @@ button.block-btn {
     display: block;
 }
 
+[data-json] {
+    display: none;
+}
 
-
+#the-map {
+    height: 600px;
+    width: 100%;
+}
+#the-map section {
+    padding: 0;
+    margin: 0;
+}
 
 
 

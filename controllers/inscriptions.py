@@ -10,6 +10,12 @@ inscriptions = Blueprint('inscriptions', __name__)
 def map():
     inscs = Inscriptions.query.all()
 
+    mc = inscriptions_to_json(inscs)
+
+    return render_template("inscriptions/map.html", mc=mc)
+
+
+def inscriptions_to_json(inscs):
     mc = []
 
     for insc in inscs:
@@ -23,5 +29,5 @@ def map():
             "coords": insc.full_coords(),
             "place": insc.place.title if insc.place else None
         }]
-
-    return render_template("inscriptions/map.html", mc=mc)
+    
+    return mc

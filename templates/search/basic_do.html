@@ -5,11 +5,35 @@
 <h1>Search</h1>
 <p><a href="{{ url_for('search.basic') }}">New search</a></p>
 
-<p>You got <strong>{{ count }} result(s)</strong>. {% if count > 100 %}Only the first 100 were shown; please refine your search to be more specific.{% endif %}</p>
+<div id="the-map"></div>
+
+<p>You got <strong>{{ count }} result(s)</strong>. {% if count > 100 %}There are more than 100 results, please refine your search to be more specific.{% endif %}</p>
 
 <ul>
     {% for insc in results %}
     <li><a href="{{ url_for('resource.show', name='Inscriptions', id=insc.id) }}">{{ insc.title }}</a></li>
     {% endfor %}
 </ul>
+
+<div data-json aria-hidden="true">{{ mc|tojson }}</div>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='maps/mappola-maps.css') }}">
+<script src="{{ url_for('static', filename='maps/mappola-maps.js') }}"></script>
+
+<script>
+window.onload = function() {
+    // A JavaScript array with the search results
+    var results = JSON.parse(document.querySelector("[data-json]").innerText);
+
+    // You can set in initialization...
+    var map = new Mappola.SearchResultMap({
+      // Mandatory: the container DIV
+      parent: document.getElementById('the-map'), 
+
+      // Optional: search results to show initially
+      results: results
+    });
+}
+</script>
 {% endblock %}

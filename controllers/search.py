@@ -1,5 +1,6 @@
 from flask import *
 from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications
+from .inscriptions import inscriptions_to_json
 from ..config import SETTINGS
 
 from sqlalchemy import select
@@ -118,9 +119,11 @@ def basic_do():
     
     count = query.count()
 
-    if count > 100:
-        query = query.limit(100)
+    # if count > 100:
+    #     query = query.limit(100)
 
     results = query.all()
 
-    return render_template("search/basic_do.html", results=results, count=count)
+    mc = inscriptions_to_json(results)
+
+    return render_template("search/basic_do.html", results=results, count=count, mc=mc)
