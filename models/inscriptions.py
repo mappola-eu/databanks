@@ -225,6 +225,7 @@ class Inscriptions(db.Model):
         ft_base.append(self.translation_author)
         ft_base.append(self.text_apparatus_criticus_comment)
         ft_base.append(self.general_comment)
+        ft_base.append(self.current_location_inventory)
         ft_base.append(_defaults(self.religion))
 
         for tag in self.object_text_layout_tags:
