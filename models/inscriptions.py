@@ -305,6 +305,24 @@ class Inscriptions(db.Model):
                 return [place.coordinates_lat, place.coordinates_long]
 
         return None
+    
+    def close_inscriptions(self):
+        chosen_items = [self]
+        coords_range = 30
+
+        chosen_items += Inscriptions.query.filter_by(place=self.place).all()
+
+        if self.coordinates_lat != 0 and self.coordinates_long != 0:
+            chosen_items += Inscriptions.query.filter(
+                Inscriptions.coordinates_lat >= (self.coordinates_lat - coords_range),
+                Inscriptions.coordinates_lat <= (self.coordinates_lat + coords_range),
+                Inscriptions.coordinates_long >= (self.coordinates_long - coords_range),
+                Inscriptions.coordinates_long <= (self.coordinates_long + coords_range),
+            ).all()
+        
+        chosen_items = set(chosen_items)
+
+        return inscriptions_to_json(chosen_items)
 
     def update_str(self):
         if self.last_updated_at is None:
@@ -789,6 +807,8 @@ def render_column(item, col):
                     i, col["order"]) or VERY_LARGE_NUMBER)
 
             return [(getattr(i, col["render"])(), linker.link(i)) for i in base]
+    elif col["type"] == "custom_map":
+        return (defn_parse_raw(col["column"], item), linkage)
     return ("", linkage)
 
 
@@ -866,3 +886,21 @@ def postproc(data, type_):
         return flask.Markup(data[0]), data[1]
 
     return data
+
+
+def inscriptions_to_json(inscs):
+    mc = []
+
+    for insc in inscs:
+        mc += [{
+            "id": insc.id,
+            "long_id": insc.long_id(),
+            "title": insc.title,
+            "text": insc.text_only_preview(),
+            "thumbnail_url": insc.thumbnail_url(),
+            "item_url": flask.url_for("resource.show", name="Inscriptions", id=insc.id, _external=True),
+            "coords": insc.full_coords(),
+            "place": insc.place.title if insc.place else None
+        }]
+    
+    return mc

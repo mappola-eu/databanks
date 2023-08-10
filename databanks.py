@@ -8,6 +8,8 @@ from .maintenance import maintenance
 
 from . import controllers
 
+import random
+
 app = Flask(__name__, instance_path=SETTINGS['INSTANCE_PATH'])
 app.config['SQLALCHEMY_DATABASE_URI'] = SETTINGS['SQL_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -37,6 +39,12 @@ def camel2human(name):
         else:
             naming_parts[-1] += c
     return " ".join(naming_parts)
+
+@app.context_processor
+def provide_global_template_data():
+    return {
+        "random_key": lambda: random.randint(1000, 9999)
+    }
 
 app.register_blueprint(controllers.inscriptions, url_prefix='/inscriptions')
 app.register_blueprint(controllers.enum, url_prefix='/api/enum')

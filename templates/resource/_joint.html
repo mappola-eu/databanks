@@ -14,6 +14,26 @@
 <p>height: {% if data[0][1] %}{{ data[0][1] }} cm{% else %}unknown{% endif %}</p>
 <p>depth: {% if data[0][2] %}{{ data[0][2] }} cm{% else %}unknown{% endif %}</p>
 {% if data[1] %}<p><a href="{{ data[1] }}" class="reflink" target="_blank">🔗 link</a></p>{% endif %}
+{% elif dt == "custom_map" %}
+{% set key = random_key() %}
+<div id="column-map-{{ key }}" class="column-map"></div>
+<div data-json-for="{{ key }}" aria-hidden="true">{{ data[0]|tojson }}</div>
+
+<script>
+    window.onload = function() {
+        // A JavaScript array with the search results
+        var results = JSON.parse(document.querySelector("[data-json-for=\"{{ key }}\"]").innerText);
+    
+        // You can set in initialization...
+        let map_{{ key }} = new Mappola.SearchResultMap({
+          // Mandatory: the container DIV
+          parent: document.getElementById('column-map-{{ key }}'), 
+    
+          // Optional: search results to show initially
+          results: results
+        });
+    }
+</script>
 {% else %}
 {% if standalone %}
 <p>{% if data[1] %}{{ data[1][1] }} <a href="{{ data[1][0] }}" class="reflink" target="_blank">🔗 link</a>{% else %}{{ data[0] }}{% endif %}</p>{% else %}{% if data[1] %}{{ data[1][1] }} <a href="{{ data[1][0] }}" class="reflink" target="_blank">🔗 link</a>{% else %}{{ data[0] }}{% endif %}{% endif %}
@@ -215,6 +235,11 @@
                     {% endif %}
                 </select>
             </td>
+        </tr>
+        {% elif column.type == "custom_map" %}
+        <tr>
+            <th>{{ column.label }}</th>
+            <td><p>This column is not editable.</p></td>
         </tr>
         {% else %}
         <tr>

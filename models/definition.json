@@ -436,6 +436,11 @@
                                     "column": "current_location_details",
                                     "label": "Current Location Details",
                                     "type": "text"
+                                },
+                                {
+                                    "column": "obj#close_inscriptions()",
+                                    "label": "Vicinity",
+                                    "type": "custom_map"
                                 }
                             ]
                         },

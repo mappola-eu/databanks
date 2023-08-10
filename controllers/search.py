@@ -1,6 +1,5 @@
 from flask import *
-from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications
-from .inscriptions import inscriptions_to_json
+from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications, inscriptions_to_json
 from ..config import SETTINGS
 
 from sqlalchemy import select
