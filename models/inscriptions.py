@@ -308,16 +308,28 @@ class Inscriptions(db.Model):
     
     def close_inscriptions(self):
         chosen_items = [self]
-        coords_range = 30
+        coords_range = 10
 
         chosen_items += Inscriptions.query.filter_by(place=self.place).all()
 
-        if self.coordinates_lat != 0 and self.coordinates_long != 0:
+        own_coords = self.full_coords()
+
+        if own_coords is not None:
+            self_lat, self_long = own_coords
             chosen_items += Inscriptions.query.filter(
-                Inscriptions.coordinates_lat >= (self.coordinates_lat - coords_range),
-                Inscriptions.coordinates_lat <= (self.coordinates_lat + coords_range),
-                Inscriptions.coordinates_long >= (self.coordinates_long - coords_range),
-                Inscriptions.coordinates_long <= (self.coordinates_long + coords_range),
+                Inscriptions.coordinates_lat >= (self_lat - coords_range),
+                Inscriptions.coordinates_lat <= (self_long + coords_range),
+                Inscriptions.coordinates_long >= (self_long - coords_range),
+                Inscriptions.coordinates_long <= (self_long + coords_range),
+            ).all()
+
+            chosen_items += Inscriptions.query.filter(
+                Inscriptions.place in Places.query.filter(
+                    Inscriptions.coordinates_lat >= (self_lat - coords_range),
+                    Inscriptions.coordinates_lat <= (self_long + coords_range),
+                    Inscriptions.coordinates_long >= (self_long - coords_range),
+                    Inscriptions.coordinates_long <= (self_long + coords_range),
+                )
             ).all()
         
         chosen_items = set(chosen_items)
