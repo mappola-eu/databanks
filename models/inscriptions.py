@@ -308,7 +308,7 @@ class Inscriptions(db.Model):
     
     def close_inscriptions(self):
         chosen_items = [self]
-        coords_range = 10
+        coords_range = 15
 
         chosen_items += Inscriptions.query.filter_by(place=self.place).all()
 
@@ -325,10 +325,10 @@ class Inscriptions(db.Model):
 
             chosen_items += Inscriptions.query.filter(
                 Inscriptions.place in Places.query.filter(
-                    Inscriptions.coordinates_lat >= (self_lat - coords_range),
-                    Inscriptions.coordinates_lat <= (self_long + coords_range),
-                    Inscriptions.coordinates_long >= (self_long - coords_range),
-                    Inscriptions.coordinates_long <= (self_long + coords_range),
+                    Places.coordinates_lat >= (self_lat - coords_range),
+                    Places.coordinates_lat <= (self_long + coords_range),
+                    Places.coordinates_long >= (self_long - coords_range),
+                    Places.coordinates_long <= (self_long + coords_range),
                 )
             ).all()
         
