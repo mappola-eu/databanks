@@ -312,8 +312,6 @@ class Inscriptions(db.Model):
 
         chosen_items += Inscriptions.query.filter_by(place=self.place).all()
 
-        print("after_place", chosen_items)
-
         own_coords = self.full_coords()
 
         if own_coords is not None:
@@ -325,8 +323,6 @@ class Inscriptions(db.Model):
                 Inscriptions.coordinates_long <= (self_long + coords_range),
             ).all()
 
-            print("after_icoords", chosen_items)
-
             chosen_items += Inscriptions.query.filter(
                 Inscriptions.place in Places.query.filter(
                     Places.coordinates_lat >= (self_lat - coords_range),
@@ -335,12 +331,8 @@ class Inscriptions(db.Model):
                     Places.coordinates_long <= (self_long + coords_range),
                 )
             ).all()
-
-            print("after_pcoords", chosen_items)
         
         chosen_items = set(chosen_items)
-
-        print("after_set", chosen_items)
 
         return inscriptions_to_json(chosen_items)
 
