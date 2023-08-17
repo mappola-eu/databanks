@@ -308,20 +308,24 @@ class Inscriptions(db.Model):
     
     def close_inscriptions(self):
         chosen_items = [self]
-        coords_range = 15
+        coords_range = 5
 
         chosen_items += Inscriptions.query.filter_by(place=self.place).all()
+
+        print("after_place", chosen_items)
 
         own_coords = self.full_coords()
 
         if own_coords is not None:
-            self_lat, self_long = own_coords
+            self_long, self_lat = own_coords
             chosen_items += Inscriptions.query.filter(
                 Inscriptions.coordinates_lat >= (self_lat - coords_range),
                 Inscriptions.coordinates_lat <= (self_long + coords_range),
                 Inscriptions.coordinates_long >= (self_long - coords_range),
                 Inscriptions.coordinates_long <= (self_long + coords_range),
             ).all()
+
+            print("after_icoords", chosen_items)
 
             chosen_items += Inscriptions.query.filter(
                 Inscriptions.place in Places.query.filter(
@@ -331,8 +335,12 @@ class Inscriptions(db.Model):
                     Places.coordinates_long <= (self_long + coords_range),
                 )
             ).all()
+
+            print("after_pcoords", chosen_items)
         
         chosen_items = set(chosen_items)
+
+        print("after_set", chosen_items)
 
         return inscriptions_to_json(chosen_items)
 
