@@ -193,6 +193,33 @@ def _apply_advanced_filters(query, places, places_subquery):
         religion = get_enum('Religions').query.get(religion)
         query = query.filter(Inscriptions.religion == religion)
 
+    if 'decoration_tags' in request.values.keys() and (decoration_tags := request.values.getlist('decoration_tags')) != ['']:
+        not_expanded = []
+        searched_decoration_tags = []
+
+        for decoration_tag in decoration_tags:
+            decoration_tag = get_enum('ObjectDecorationTags').query.filter_by(id=decoration_tag).one()
+            not_expanded += [decoration_tag]
+
+        while len(not_expanded):
+            dt = not_expanded.pop()
+
+            if dt in searched_decoration_tags:
+                continue
+
+            searched_decoration_tags.append(dt)
+            not_expanded += dt.children
+
+        subquery = None
+
+        for dt in searched_decoration_tags:
+            if subquery is None:
+                subquery = Inscriptions.decoration_tags.contains(dt)
+            else:
+                subquery = subquery | Inscriptions.decoration_tags.contains(dt)
+
+        query = query.filter(subquery)
+
     if 'layout_tags' in request.values.keys() and (layout_tags := request.values.getlist('layout_tags')) != ['']:
         subquery = None
 
@@ -202,14 +229,109 @@ def _apply_advanced_filters(query, places, places_subquery):
             if subquery is None:
                 subquery = Inscriptions.object_text_layout_tags.contains(layout_tag)
             else:
-                subquery = subquery | Inscriptions.object_text_layout_tags.contains(layout_tag)
+                subquery = subquery & Inscriptions.object_text_layout_tags.contains(layout_tag)
 
         query = query.filter(subquery)
+
+    if 'function' in request.values.keys() and (function := request.values.get('function')) != '':
+        function = get_enum('TextFunctions').query.get(function)
+        query = query.filter(Inscriptions.text_function == function)
+    
+    if 'languages' in request.values.keys() and (languages := request.values.getlist('languages')) != ['']:
+        subquery = None
+
+        for language in languages:
+            language = get_enum('Languages').query.filter_by(id=language).one()
+
+            if subquery is None:
+                subquery = Inscriptions.languages.contains(language)
+            else:
+                subquery = subquery & Inscriptions.languages.contains(language)
+
+        query = query.filter(subquery)
+    
+    if 'conditioned' in request.values.keys() and (conditioned := request.values.get('conditioned')) != '':
+        query = query.filter(Inscriptions.layout_conditioned_by_language == bool(int(conditioned)))
 
     return query, places, places_subquery
 
 
 def _apply_advanced_text_filters(query):
+    true_query = Inscriptions.id >= -1
+
+    text11 = request.values.get('text11')
+    text12 = request.values.get('text12')
+    text1_conj = request.values.get('text1_conj')
+    text1_query = true_query
+
+    text21 = request.values.get('text21')
+    text22 = request.values.get('text22')
+    text2_conj = request.values.get('text2_conj')
+    text2_query = true_query
+
+    text31 = request.values.get('text31')
+    text32 = request.values.get('text32')
+    text3_conj = request.values.get('text3_conj')
+    text3_query = true_query
+
+    text_method = request.values.get('text_method')
+
+
+    if text11 != '' or text12 != '':
+        text11_query = text12_query = true_query
+
+        if text11 != '':
+            text11_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text11}%")
+    
+        if text12 != '':
+            text12_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text12}%")
+        
+        if text1_conj == 'AND':
+            text1_query = text11_query & text12_query
+        elif text1_conj == 'OR':
+            text1_query = text11_query | text12_query
+        elif text1_conj == 'AND NOT':
+            text1_query = text11_query & ~text12_query
+    
+    if text21 != '' or text22 != '':
+        text21_query = text22_query = true_query
+
+        if text21 != '':
+            text21_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text21}%")
+    
+        if text22 != '':
+            text22_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text22}%")
+        
+        if text2_conj == 'AND':
+            text2_query = text21_query & text22_query
+        elif text2_conj == 'OR':
+            text2_query = text21_query | text22_query
+        elif text2_conj == 'AND NOT':
+            text2_query = text21_query & ~text22_query
+
+    if text31 != '' or text32 != '':
+        text31_query = text32_query = true_query
+
+        if text31 != '':
+            text31_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text31}%")
+    
+        if text32 != '':
+            text32_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text32}%")
+        
+        if text3_conj == 'AND':
+            text3_query = text31_query & text32_query
+        elif text3_conj == 'OR':
+            text3_query = text31_query | text32_query
+        elif text3_conj == 'AND NOT':
+            text3_query = text31_query & ~text32_query
+
+    if text_method == "ALL OF":
+        query.filter(text1_query & text2_query & text3_query)
+    elif text_method == "ONE OF":
+        query.filter(text1_query | text2_query | text3_query)
+
+
+
     if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
         query = query.filter(
             Inscriptions.full_text_cached.like(f"%{ft}%"))

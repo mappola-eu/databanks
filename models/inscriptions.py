@@ -405,8 +405,11 @@ class ObjectDecorationTags(db.Model):
     parent_object_decoration_tag_id = db.Column(
         db.Integer, db.ForeignKey('object_decoration_tags.id'))
     parent_object_decoration_tag = db.relationship(
-        'ObjectDecorationTags', remote_side=[id])
+        'ObjectDecorationTags', remote_side=[id], backref="children")
     enum_lod = db.Column(db.String(150))
+
+    def __repr__(self):
+        return "<" + self.title + ">"
 
     def parent_object_decoration_tag_name(self):
         if self.parent_object_decoration_tag is not None:
