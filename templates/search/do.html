@@ -5,8 +5,10 @@
 <h1>Search</h1>
 <p><a href="{{ url_for('search.basic' if origin == 'basic' else 'search.advanced') }}">New search</a></p>
 
+{% if count >= 1 %}
 <div id="the-map"></div>
 <div data-json aria-hidden="true">{{ mc|tojson }}</div>
+{% endif %}
 
 <p>You got <strong>{{ count }} result(s)</strong>. {% if count > 100 %}There are more than 100 results, please refine your search to be more specific.{% endif %}</p>
 
@@ -16,6 +18,7 @@
     {% endfor %}
 </ul>
 
+{% if count >= 1 %}
 <script>
 window.onload = function() {
     // A JavaScript array with the search results
@@ -31,4 +34,5 @@ window.onload = function() {
     });
 }
 </script>
+{% endif %}
 {% endblock %}
