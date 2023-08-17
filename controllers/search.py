@@ -29,7 +29,6 @@ def basic_do():
     places_subquery = False
 
     query, places, places_subquery = _apply_common_filters(query, places, places_subquery)
-    query, places, places_subquery = _apply_basic_other_filters(query, places, places_subquery)
 
     if places_subquery:
         query = query.filter(Inscriptions.place_id.in_(
@@ -42,6 +41,28 @@ def basic_do():
     mc = inscriptions_to_json(results)
 
     return render_template("search/do.html", results=results, count=count, mc=mc, origin='basic')
+
+
+@search.route("/advanced/do", methods=["GET"])
+def advanced_do():
+    query = Inscriptions.query.distinct()
+    places = Places.query
+    places_subquery = False
+
+    query, places, places_subquery = _apply_common_filters(query, places, places_subquery)
+    query, places, places_subquery = _apply_advanced_filters(query, places, places_subquery)
+
+    if places_subquery:
+        query = query.filter(Inscriptions.place_id.in_(
+            [i[0] for i in places.values(Places.id)]))
+        
+    query = _apply_advanced_text_filters(query)
+
+    count = query.count()
+    results = query.all()
+    mc = inscriptions_to_json(results)
+
+    return render_template("search/do.html", results=results, count=count, mc=mc, origin='advanced')
 
 
 def _apply_common_filters(query, places, places_subquery):
@@ -63,7 +84,6 @@ def _apply_common_filters(query, places, places_subquery):
         query = query.filter(Inscriptions.date_end <= date_max)
 
     if 'bibliography' in request.values.keys() and (bibliography := request.values.get('bibliography')) != '':
-        print(bibliography)
         bibliography = Publications.query.filter(Publications.reference_comment.like(
             f"%{bibliography}%")).union(Publications.query.filter_by(zotero_item_id=bibliography)).all()
         subquery = None
@@ -76,14 +96,13 @@ def _apply_common_filters(query, places, places_subquery):
 
         query = query.filter(subquery)
 
-    return query, places, places_subquery
-
-
-def _apply_basic_other_filters(query, places, places_subquery):
-    if 'verse_type' in request.values.keys() and (verse_type := request.values.get('verse_type')) != '':
-        verse_type = VerseTypes.query.filter_by(id=verse_type).one()
-        not_expanded = [verse_type]
+    if 'verse_type' in request.values.keys() and (verse_types := request.values.getlist('verse_type')) != ['']:
+        not_expanded = []
         searched_verse_types = []
+
+        for verse_type in verse_types:
+            verse_type = VerseTypes.query.filter_by(id=verse_type).one()
+            not_expanded += [verse_type]
 
         while len(not_expanded):
             vt = not_expanded.pop()
@@ -134,6 +153,38 @@ def _apply_basic_text_filters(query):
         query = query.filter(
             Inscriptions.inscription_search_body_cached.ilike(f"%{text2}%"))
 
+    if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
+        query = query.filter(
+            Inscriptions.full_text_cached.like(f"%{ft}%"))
+
+    return query
+
+
+def _apply_advanced_filters(query, places, places_subquery):
+
+    if 'find_place' in request.values.keys() and (find_place := request.values.get('find_place')) != '':
+        places = places.filter(Places.id == find_place)
+        places_subquery = True
+    
+    if 'find_context' in request.values.keys() and (find_context := request.values.get('find_context')) != '':
+        query = query.filter(Inscriptions.find_comment.ilike(f"%{find_context}%"))
+
+    if 'current_location' in request.values.keys() and (cur_loc := request.values.get('current_location')) != '':
+        cur_loc = get_enum('CurrentLocations').query.get(cur_loc)
+        query = query.filter(Inscriptions.current_location == cur_loc)
+
+    if 'object_type' in request.values.keys() and (object_type := request.values.get('object_type')) != '':
+        object_type = get_enum('ObjectTypes').query.get(object_type)
+        query = query.filter(Inscriptions.object_type == object_type)
+    
+    if 'object_material' in request.values.keys() and (object_material := request.values.get('object_material')) != '':
+        object_material = get_enum('ObjectMaterials').query.get(object_material)
+        query = query.filter(Inscriptions.object_material == object_material)
+
+    return query, places, places_subquery
+
+
+def _apply_advanced_text_filters(query):
     if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
         query = query.filter(
             Inscriptions.full_text_cached.like(f"%{ft}%"))
