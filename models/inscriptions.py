@@ -315,22 +315,25 @@ class Inscriptions(db.Model):
         own_coords = self.full_coords()
 
         if own_coords is not None:
-            self_long, self_lat = own_coords
+            self_lat, self_long = own_coords
             chosen_items += Inscriptions.query.filter(
                 Inscriptions.coordinates_lat >= (self_lat - coords_range),
-                Inscriptions.coordinates_lat <= (self_long + coords_range),
+                Inscriptions.coordinates_lat <= (self_lat + coords_range),
                 Inscriptions.coordinates_long >= (self_long - coords_range),
                 Inscriptions.coordinates_long <= (self_long + coords_range),
             ).all()
 
-            chosen_items += Inscriptions.query.filter(
-                Inscriptions.place in Places.query.filter(
-                    Places.coordinates_lat >= (self_lat - coords_range),
-                    Places.coordinates_lat <= (self_long + coords_range),
-                    Places.coordinates_long >= (self_long - coords_range),
-                    Places.coordinates_long <= (self_long + coords_range),
-                )
+            close_places = Places.query.filter(
+                Places.coordinates_lat >= (self_lat - coords_range),
+                Places.coordinates_lat <= (self_lat + coords_range),
+                Places.coordinates_long >= (self_long - coords_range),
+                Places.coordinates_long <= (self_long + coords_range),
             ).all()
+
+            for place in close_places:
+                chosen_items += Inscriptions.query.filter(
+                    Inscriptions.place == place
+                ).all()
         
         chosen_items = set(chosen_items)
 
