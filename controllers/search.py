@@ -181,6 +181,31 @@ def _apply_advanced_filters(query, places, places_subquery):
         object_material = get_enum('ObjectMaterials').query.get(object_material)
         query = query.filter(Inscriptions.object_material == object_material)
 
+    if 'object_preservation' in request.values.keys() and (object_preservation := request.values.get('object_preservation')) != '':
+        object_preservation = get_enum('ObjectPreservationStates').query.get(object_preservation)
+        query = query.filter(Inscriptions.object_preservation_state == object_preservation)
+
+    if 'object_execution' in request.values.keys() and (object_execution := request.values.get('object_execution')) != '':
+        object_execution = get_enum('ObjectExecutionTechniques').query.get(object_execution)
+        query = query.filter(Inscriptions.object_execution_technique == object_execution)
+
+    if 'religion' in request.values.keys() and (religion := request.values.get('religion')) != '':
+        religion = get_enum('Religions').query.get(religion)
+        query = query.filter(Inscriptions.religion == religion)
+
+    if 'layout_tags' in request.values.keys() and (layout_tags := request.values.getlist('layout_tags')) != ['']:
+        subquery = None
+
+        for layout_tag in layout_tags:
+            layout_tag = get_enum('TextLayoutTags').query.filter_by(id=layout_tag).one()
+
+            if subquery is None:
+                subquery = Inscriptions.object_text_layout_tags.contains(layout_tag)
+            else:
+                subquery = subquery | Inscriptions.object_text_layout_tags.contains(layout_tag)
+
+        query = query.filter(subquery)
+
     return query, places, places_subquery
 
 
