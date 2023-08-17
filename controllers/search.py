@@ -28,6 +28,23 @@ def basic_do():
     places = Places.query
     places_subquery = False
 
+    query, places, places_subquery = _apply_common_filters(query, places, places_subquery)
+    query, places, places_subquery = _apply_basic_other_filters(query, places, places_subquery)
+
+    if places_subquery:
+        query = query.filter(Inscriptions.place_id.in_(
+            [i[0] for i in places.values(Places.id)]))
+        
+    query = _apply_basic_text_filters(query)
+
+    count = query.count()
+    results = query.all()
+    mc = inscriptions_to_json(results)
+
+    return render_template("search/do.html", results=results, count=count, mc=mc, origin='basic')
+
+
+def _apply_common_filters(query, places, places_subquery):
     if 'mappola_id' in request.values.keys() and (mappola_id := request.values.get('mappola_id')) != '':
         query = query.filter(Inscriptions.id == mappola_id)
 
@@ -45,6 +62,24 @@ def basic_do():
     if 'date_max' in request.values.keys() and (date_max := request.values.get('date_max')) != '':
         query = query.filter(Inscriptions.date_end <= date_max)
 
+    if 'bibliography' in request.values.keys() and (bibliography := request.values.get('bibliography')) != '':
+        print(bibliography)
+        bibliography = Publications.query.filter(Publications.reference_comment.like(
+            f"%{bibliography}%")).union(Publications.query.filter_by(zotero_item_id=bibliography)).all()
+        subquery = None
+
+        for bib in bibliography:
+            if subquery is None:
+                subquery = Inscriptions.publications.contains(bib)
+            else:
+                subquery = subquery | Inscriptions.publications.contains(bib)
+
+        query = query.filter(subquery)
+
+    return query, places, places_subquery
+
+
+def _apply_basic_other_filters(query, places, places_subquery):
     if 'verse_type' in request.values.keys() and (verse_type := request.values.get('verse_type')) != '':
         verse_type = VerseTypes.query.filter_by(id=verse_type).one()
         not_expanded = [verse_type]
@@ -69,24 +104,11 @@ def basic_do():
 
         query = query.filter(subquery)
 
-    if 'bibliography' in request.values.keys() and (bibliography := request.values.get('bibliography')) != '':
-        print(bibliography)
-        bibliography = Publications.query.filter(Publications.reference_comment.like(
-            f"%{bibliography}%")).union(Publications.query.filter_by(zotero_item_id=bibliography)).all()
-        subquery = None
+    return query, places, places_subquery
 
-        for bib in bibliography:
-            if subquery is None:
-                subquery = Inscriptions.publications.contains(bib)
-            else:
-                subquery = subquery | Inscriptions.publications.contains(bib)
 
-        query = query.filter(subquery)
 
-    if places_subquery:
-        query = query.filter(Inscriptions.place_id.in_(
-            [i[0] for i in places.values(Places.id)]))
-
+def _apply_basic_text_filters(query):
     if 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '' and \
             'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
 
@@ -115,14 +137,5 @@ def basic_do():
     if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
         query = query.filter(
             Inscriptions.full_text_cached.like(f"%{ft}%"))
-    
-    count = query.count()
 
-    # if count > 100:
-    #     query = query.limit(100)
-
-    results = query.all()
-
-    mc = inscriptions_to_json(results)
-
-    return render_template("search/basic_do.html", results=results, count=count, mc=mc)
+    return query

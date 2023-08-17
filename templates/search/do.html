@@ -3,7 +3,7 @@
 
 {% block body %}
 <h1>Search</h1>
-<p><a href="{{ url_for('search.basic') }}">New search</a></p>
+<p><a href="{{ url_for('search.basic' if origin == 'basic' else 'search.advanced') }}">New search</a></p>
 
 <div id="the-map"></div>
 <div data-json aria-hidden="true">{{ mc|tojson }}</div>
