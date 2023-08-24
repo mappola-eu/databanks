@@ -28,12 +28,13 @@ def basic_do():
     places = Places.query
     places_subquery = False
 
-    query, places, places_subquery = _apply_common_filters(query, places, places_subquery)
+    query, places, places_subquery = _apply_common_filters(
+        query, places, places_subquery)
 
     if places_subquery:
         query = query.filter(Inscriptions.place_id.in_(
             [i[0] for i in places.values(Places.id)]))
-        
+
     query = _apply_basic_text_filters(query)
 
     count = query.count()
@@ -49,13 +50,15 @@ def advanced_do():
     places = Places.query
     places_subquery = False
 
-    query, places, places_subquery = _apply_common_filters(query, places, places_subquery)
-    query, places, places_subquery = _apply_advanced_filters(query, places, places_subquery)
+    query, places, places_subquery = _apply_common_filters(
+        query, places, places_subquery)
+    query, places, places_subquery = _apply_advanced_filters(
+        query, places, places_subquery)
 
     if places_subquery:
         query = query.filter(Inscriptions.place_id.in_(
             [i[0] for i in places.values(Places.id)]))
-        
+
     query = _apply_advanced_text_filters(query)
 
     count = query.count()
@@ -126,7 +129,6 @@ def _apply_common_filters(query, places, places_subquery):
     return query, places, places_subquery
 
 
-
 def _apply_basic_text_filters(query):
     if 'text1' in request.values.keys() and (text1 := request.values.get('text1')) != '' and \
             'text2' in request.values.keys() and (text2 := request.values.get('text2')) != '':
@@ -165,9 +167,10 @@ def _apply_advanced_filters(query, places, places_subquery):
     if 'find_place' in request.values.keys() and (find_place := request.values.get('find_place')) != '':
         places = places.filter(Places.id == find_place)
         places_subquery = True
-    
+
     if 'find_context' in request.values.keys() and (find_context := request.values.get('find_context')) != '':
-        query = query.filter(Inscriptions.find_comment.ilike(f"%{find_context}%"))
+        query = query.filter(
+            Inscriptions.find_comment.ilike(f"%{find_context}%"))
 
     if 'current_location' in request.values.keys() and (cur_loc := request.values.get('current_location')) != '':
         cur_loc = get_enum('CurrentLocations').query.get(cur_loc)
@@ -176,18 +179,23 @@ def _apply_advanced_filters(query, places, places_subquery):
     if 'object_type' in request.values.keys() and (object_type := request.values.get('object_type')) != '':
         object_type = get_enum('ObjectTypes').query.get(object_type)
         query = query.filter(Inscriptions.object_type == object_type)
-    
+
     if 'object_material' in request.values.keys() and (object_material := request.values.get('object_material')) != '':
-        object_material = get_enum('ObjectMaterials').query.get(object_material)
+        object_material = get_enum(
+            'ObjectMaterials').query.get(object_material)
         query = query.filter(Inscriptions.object_material == object_material)
 
     if 'object_preservation' in request.values.keys() and (object_preservation := request.values.get('object_preservation')) != '':
-        object_preservation = get_enum('ObjectPreservationStates').query.get(object_preservation)
-        query = query.filter(Inscriptions.object_preservation_state == object_preservation)
+        object_preservation = get_enum(
+            'ObjectPreservationStates').query.get(object_preservation)
+        query = query.filter(
+            Inscriptions.object_preservation_state == object_preservation)
 
     if 'object_execution' in request.values.keys() and (object_execution := request.values.get('object_execution')) != '':
-        object_execution = get_enum('ObjectExecutionTechniques').query.get(object_execution)
-        query = query.filter(Inscriptions.object_execution_technique == object_execution)
+        object_execution = get_enum(
+            'ObjectExecutionTechniques').query.get(object_execution)
+        query = query.filter(
+            Inscriptions.object_execution_technique == object_execution)
 
     if 'religion' in request.values.keys() and (religion := request.values.get('religion')) != '':
         religion = get_enum('Religions').query.get(religion)
@@ -198,7 +206,8 @@ def _apply_advanced_filters(query, places, places_subquery):
         searched_decoration_tags = []
 
         for decoration_tag in decoration_tags:
-            decoration_tag = get_enum('ObjectDecorationTags').query.filter_by(id=decoration_tag).one()
+            decoration_tag = get_enum('ObjectDecorationTags').query.filter_by(
+                id=decoration_tag).one()
             not_expanded += [decoration_tag]
 
         while len(not_expanded):
@@ -224,19 +233,22 @@ def _apply_advanced_filters(query, places, places_subquery):
         subquery = None
 
         for layout_tag in layout_tags:
-            layout_tag = get_enum('TextLayoutTags').query.filter_by(id=layout_tag).one()
+            layout_tag = get_enum('TextLayoutTags').query.filter_by(
+                id=layout_tag).one()
 
             if subquery is None:
-                subquery = Inscriptions.object_text_layout_tags.contains(layout_tag)
+                subquery = Inscriptions.object_text_layout_tags.contains(
+                    layout_tag)
             else:
-                subquery = subquery & Inscriptions.object_text_layout_tags.contains(layout_tag)
+                subquery = subquery & Inscriptions.object_text_layout_tags.contains(
+                    layout_tag)
 
         query = query.filter(subquery)
 
     if 'function' in request.values.keys() and (function := request.values.get('function')) != '':
         function = get_enum('TextFunctions').query.get(function)
         query = query.filter(Inscriptions.text_function == function)
-    
+
     if 'languages' in request.values.keys() and (languages := request.values.getlist('languages')) != ['']:
         subquery = None
 
@@ -249,9 +261,10 @@ def _apply_advanced_filters(query, places, places_subquery):
                 subquery = subquery & Inscriptions.languages.contains(language)
 
         query = query.filter(subquery)
-    
+
     if 'conditioned' in request.values.keys() and (conditioned := request.values.get('conditioned')) != '':
-        query = query.filter(Inscriptions.layout_conditioned_by_language == bool(int(conditioned)))
+        query = query.filter(
+            Inscriptions.layout_conditioned_by_language == bool(int(conditioned)))
 
     return query, places, places_subquery
 
@@ -277,16 +290,17 @@ def _apply_advanced_text_filters(query):
 
     text_method = request.values.get('text_method').upper()
 
-
     if text11 != '' or text12 != '':
         text11_query = text12_query = None
 
         if text11 != '':
-            text11_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text11}%")
-    
+            text11_query = Inscriptions.inscription_search_body_cached.ilike(
+                f"%{text11}%")
+
         if text12 != '':
-            text12_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text12}%")
-        
+            text12_query = Inscriptions.inscription_search_body_cached.ilike(
+                f"%{text12}%")
+
         if text1_conj == 'AND':
             text1_query = true_query
             if text11_query is not None:
@@ -305,16 +319,18 @@ def _apply_advanced_text_filters(query):
                 text1_query = text1_query & text11_query
             if text12_query is not None:
                 text1_query = text1_query & ~text12_query
-    
+
     if text21 != '' or text22 != '':
         text21_query = text22_query = None
 
         if text21 != '':
-            text21_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text21}%")
-    
+            text21_query = Inscriptions.inscription_search_body_cached.ilike(
+                f"%{text21}%")
+
         if text22 != '':
-            text22_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text22}%")
-        
+            text22_query = Inscriptions.inscription_search_body_cached.ilike(
+                f"%{text22}%")
+
         if text2_conj == 'AND':
             text2_query = true_query
             if text21_query is not None:
@@ -338,11 +354,13 @@ def _apply_advanced_text_filters(query):
         text31_query = text32_query = None
 
         if text31 != '':
-            text31_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text31}%")
-    
+            text31_query = Inscriptions.inscription_search_body_cached.ilike(
+                f"%{text31}%")
+
         if text32 != '':
-            text32_query = Inscriptions.inscription_search_body_cached.ilike(f"%{text32}%")
-        
+            text32_query = Inscriptions.inscription_search_body_cached.ilike(
+                f"%{text32}%")
+
         if text3_conj == 'AND':
             text3_query = true_query
             if text31_query is not None:
@@ -380,12 +398,6 @@ def _apply_advanced_text_filters(query):
         if text3_query is not None:
             subquery = subquery | text3_query
         query = query.filter(subquery)
-    
-    print("="*50)
-    print(query)
-    print("="*50)
-
-
 
     if 'ft' in request.values.keys() and (ft := request.values.get('ft')) != '':
         query = query.filter(
