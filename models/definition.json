@@ -30,7 +30,8 @@
         "WorkStatus",
         "TextLayoutTags",
         "InscriptionEdited",
-        "Images"
+        "Images",
+        "Translations"
     ],
     "enums": [
         "ObjectTypes",

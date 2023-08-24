@@ -205,6 +205,20 @@ def _apply_advanced_filters(query, places, places_subquery):
         rhythmisation = get_enum('VerseTimingTypes').query.get(rhythmisation)
         query = query.filter(Inscriptions.verse_timing_type == rhythmisation)
 
+    if 'translations' in request.values.keys() and (translations := request.values.get('translations')) != '':
+        Translations = get_enum('Translations')
+        query_on_inscr = Inscriptions.main_translation.ilike(f"%{translations}%")
+        query_on_transl = Translations.link_to_published_translation.ilike(f"%{translations}%")
+
+        translations = Translations.query.filter(query_on_transl).all()
+
+        subquery = query_on_inscr
+
+        for translation in translations:
+            subquery = subquery | Inscriptions.translations.contains(translation)
+
+        query = query.filter(subquery)
+
     if 'decoration_tags' in request.values.keys() and (decoration_tags := request.values.getlist('decoration_tags')) != ['']:
         not_expanded = []
         searched_decoration_tags = []
