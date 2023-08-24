@@ -321,6 +321,136 @@
         </tbody>
     </table>
 
+    <h2>Prosopography</h2>
+
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>name</th>
+                <td>
+                    <input id="q-pname" name="pname">
+                </td>
+            </tr>
+            <tr>
+                <th>gender</th>
+                <td>
+                    <select id="q-pgender" name="pgender" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleGenders').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>age range</th>
+                <td>
+                    <select id="q-page" name="page" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleAges').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>age expression</th>
+                <td>
+                    <select id="q-pageexpr" name="pageexpr" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleAgeExpressions').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>age precision</th>
+                <td>
+                    <select id="q-pageprec" name="pageprec" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleAgePrecision').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>origin</th>
+                <td>
+                    <select id="q-porigins" name="porigins" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleOrigins').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>legal status</th>
+                <td>
+                    <select id="q-plegal" name="plegal" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleLegalStatus').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>rank</th>
+                <td>
+                    <select id="q-prank" name="prank" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleRanks').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>profession</th>
+                <td>
+                    <select id="q-pprofession" name="pprofession" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleProfessions').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>role</th>
+                <td>
+                    <select id="q-prole" name="prole" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('PeopleRoles').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
     <h2>Full Text Search</h2>
 
     <table role="table">

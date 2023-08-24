@@ -1,5 +1,5 @@
 from flask import *
-from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications, inscriptions_to_json
+from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications, People, inscriptions_to_json
 from ..config import SETTINGS
 
 from sqlalchemy import select
@@ -60,6 +60,7 @@ def advanced_do():
             [i[0] for i in places.values(Places.id)]))
 
     query = _apply_advanced_text_filters(query)
+    query = _apply_advanced_people_filters(query)
 
     count = query.count()
     results = query.all()
@@ -421,4 +422,45 @@ def _apply_advanced_text_filters(query):
         query = query.filter(
             Inscriptions.full_text_cached.like(f"%{ft}%"))
 
+    return query
+
+
+def _apply_advanced_people_filters(query):
+    people = People.query
+    people_subquery = False
+
+    if 'pname' in request.values.keys() and (pname := request.values.get('pname')) != '':
+        people = people.filter(People.name.ilike(f"%{pname}%"))
+        people_subquery = True
+
+    for key, obj, crit in [['pgender', 'PeopleGenders', People.gender],
+                           ['page', 'PeopleAges', People.age],
+                           ['pageexpr', 'PeopleAgeExpressions', People.age_expression],
+                           ['pageprec', 'PeopleAgePrecision', People.age_precision],
+                           ['porigins', 'PeopleOrigins', People.origin],
+                           ['plegal', 'PeopleLegalStatus', People.legal_status],
+                           ['prank', 'PeopleRanks', People.rank],
+                           ['pprofession', 'PeopleProfessions', People.profession],
+                           ['prole', 'PeopleRoles', People.role]]:   
+        if key in request.values.keys() and (values := request.values.getlist(key)) != ['']:
+            subquery = None
+            for value in values:
+                value = get_enum(obj).query.filter_by(id=value).one()
+                if subquery is None:
+                    subquery = crit == value
+                else:
+                    subquery = subquery | (crit == value)
+            people = people.filter(subquery)
+            people_subquery = True
+
+    if people_subquery:
+        subquery = None
+        for person in people.all():
+            if subquery is None:
+                subquery = Inscriptions.people.contains(person)
+            else:
+                subquery = subquery | Inscriptions.people.contains(person)
+
+        query = query.filter(subquery)
+    
     return query
