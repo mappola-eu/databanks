@@ -205,6 +205,19 @@
                 </td>
             </tr>
             <tr>
+                <th>rhythmisation</th>
+                <td>
+                    <select id="q-rhythmisation" name="rhythmisation">
+                        <option selected></option>
+                        {% for e in get_enum('VerseTimingTypes').query.all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <th>text layout tags</th>
                 <td>
                     <select id="q-layout_tags" name="layout_tags" multiple>

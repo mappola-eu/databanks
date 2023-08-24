@@ -201,6 +201,10 @@ def _apply_advanced_filters(query, places, places_subquery):
         religion = get_enum('Religions').query.get(religion)
         query = query.filter(Inscriptions.religion == religion)
 
+    if 'rhythmisation' in request.values.keys() and (rhythmisation := request.values.get('rhythmisation')) != '':
+        rhythmisation = get_enum('VerseTimingTypes').query.get(rhythmisation)
+        query = query.filter(Inscriptions.verse_timing_type == rhythmisation)
+
     if 'decoration_tags' in request.values.keys() and (decoration_tags := request.values.getlist('decoration_tags')) != ['']:
         not_expanded = []
         searched_decoration_tags = []
