@@ -11,6 +11,11 @@ def apply_replacements(str):
     str = str.replace('<a id="al1" />', '<a id="al1"></a>')
     str = str.replace("""class="textpart">
     <""", 'class="textpart"><')
+    # EXPERIMENTAL
+    str = str.replace(' <a id="al1"></a>', '<a id="al1"></a>')
+    for i in range(2, 51):
+        str = str.replace(f' <br id="al{i}" />', f'<br id="al{i}">')
+    str = str.replace('<span class="ab"> ', '<span class="ab">')
 
     return str
 
