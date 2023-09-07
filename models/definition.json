@@ -31,7 +31,13 @@
         "TextLayoutTags",
         "InscriptionEdited",
         "Images",
-        "Translations"
+        "Translations",
+        "ProseVersePresences",
+        "ProseVerseDistinctions",
+        "LayoutTypes",
+        "VerseLineCorrespondences",
+        "CarmenReadingSigns",
+        "VerseLayouts"
     ],
     "enums": [
         "ObjectTypes",
@@ -55,7 +61,12 @@
         "DatingCriteria",
         "Religions",
         "WorkStatus",
-        "TextLayoutTags"
+        "TextLayoutTags",
+        "ProseVersePresences",
+        "ProseVerseDistinctions",
+        "LayoutTypes",
+        "VerseLineCorrespondences",
+        "CarmenReadingSigns"
     ],
     "relations": {
         "Translations": {
@@ -71,6 +82,10 @@
             "per": "inscription_id"
         },
         "Images": {
+            "on": "Inscriptions",
+            "per": "inscription_id"
+        },
+        "VerseLayouts": {
             "on": "Inscriptions",
             "per": "inscription_id"
         }
@@ -314,6 +329,21 @@
                 {
                     "name": "GeoNames-ID",
                     "value": "obj#enum_lod"
+                }
+            ]
+        },
+        "VerseLayouts": {
+            "create_op": "New Item",
+            "update_op": "Update",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Prose Verse Presence",
+                    "value": "obj#prose_verse_presence_display()"
                 }
             ]
         }
@@ -580,6 +610,17 @@
                                     "refersto": "VerseTimingTypes"
                                 }
                             ]
+                        },
+                        {
+                            "title": "Verse Layouts",
+                            "component": "standalone",
+                            "single": {
+                                "column": "verse_layouts",
+                                "label": "Verse Layouts",
+                                "type": "reference_func",
+                                "render": "display",
+                                "refersto": "VerseLayouts"
+                            }
                         }
                     ]
                 },
@@ -1176,6 +1217,48 @@
                                     "label": "Role",
                                     "type": "reference",
                                     "refersto": "PeopleRoles"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "VerseLayouts": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Verse Layout",
+            "delete_op": false,
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "prose_verse_presence",
+                                    "label": "Prose Verse Presence",
+                                    "type": "reference",
+                                    "refersto": "ProseVersePresences"
+                                },
+                                {
+                                    "column": "verse_line_correspondence",
+                                    "label": "Verse Line Correspondence",
+                                    "type": "reference",
+                                    "refersto": "VerseLineCorrespondences"
+                                },
+                                {
+                                    "column": "scriptio_continua_in_verse_part",
+                                    "label": "Scriptio Continua in verse part",
+                                    "type": "boolean_input"
+                                },
+                                {
+                                    "column": "abbreviations_in_verse_part",
+                                    "label": "Abbreviations in verse part",
+                                    "type": "boolean_input"
                                 }
                             ]
                         }

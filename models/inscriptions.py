@@ -697,7 +697,7 @@ class Religions(db.Model):
 class Images(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
-    image_link = db.Column(db.Text)#
+    image_link = db.Column(db.Text)
     image_alt = db.Column(db.Text)
     image_citation = db.Column(db.String(210))
 
@@ -758,7 +758,7 @@ class VerseLayouts(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
     prose_verse_presence_id = db.Column(db.Integer, db.ForeignKey('prose_verse_presences.id'))
-    verse_line_correspondence = db.Column(db.Integer, db.ForeignKey('verse_line_correspondences.id'))
+    verse_line_correspondence_id = db.Column(db.Integer, db.ForeignKey('verse_line_correspondences.id'))
 
     scriptio_continua_in_verse_part = db.Column(db.Boolean)
     abbreviations_in_verse_part = db.Column(db.Boolean)
@@ -768,7 +768,16 @@ class VerseLayouts(db.Model):
     prose_verse_presence = db.relationship('ProseVersePresences')
     verse_line_correspondence = db.relationship('VerseLineCorrespondences')
 
-    prose_verse_distinctions = db.relationship('ProseVerseDistinctions')
+    prose_verse_distinctions = db.relationship('ProseVerseDistinctions', secondary=verse_layout_prose_verse_distinction_assoc)
+
+    def display(self):
+        return "xoxoxo"
+    
+    def prose_verse_presence_display(self):
+        if self.prose_verse_presence:
+            return self.prose_verse_presence.title
+
+        return "-"
 
 
 def get_enum(enum):
