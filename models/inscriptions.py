@@ -791,7 +791,11 @@ def render_column(item, col):
 
     if col["type"] in ["input", "text", "numeric_input"]:
         if hasattr(item, col["column"]):
-            return ((getattr(item, col["column"]) or ""), linkage)
+            val = getattr(item, col["column"])
+            if val is None:
+                return ("", linkage)
+            else:
+                return (val, linkage)
     elif col["type"] == "boolean_input":
         if hasattr(item, col["column"]):
             return (getattr(item, col["column"]), linkage)
