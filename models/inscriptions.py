@@ -742,6 +742,33 @@ class CarmenReadingSigns(db.Model):
     enum_lod = db.Column(db.String(150))
 
 
+verse_layout_prose_verse_distinction_assoc = db.Table(
+    'verse_layout_prose_verse_distinction_assoc',
+    db.Column(
+        'verse_layout_id',
+        db.Integer(),
+        db.ForeignKey('verse_layouts.id')),
+    db.Column(
+        'prose_verse_distinction_id',
+        db.Integer(),
+        db.ForeignKey('prose_verse_distinctions.id')))
+
+
+class VerseLayouts(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    inscription_id = db.Column(db.Integer, db.ForeignKey('inscriptions.id'))
+    prose_verse_presence_id = db.Column(db.Integer, db.ForeignKey('prose_verse_presences.id'))
+    verse_line_correspondence = db.Column(db.Integer, db.ForeignKey('verse_line_correspondences.id'))
+
+    scriptio_continua_in_verse_part = db.Column(db.Boolean)
+    abbreviations_in_verse_part = db.Column(db.Boolean)
+
+
+    inscription = db.relationship('Inscriptions', backref='verse_layouts')
+    prose_verse_presence = db.relationship('ProseVersePresences')
+    verse_line_correspondence = db.relationship('VerseLineCorrespondences')
+
+    prose_verse_distinctions = db.relationship('ProseVerseDistinctions')
 
 
 def get_enum(enum):
