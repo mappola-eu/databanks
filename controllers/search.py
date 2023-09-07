@@ -1,5 +1,5 @@
 from flask import *
-from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications, People, inscriptions_to_json
+from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications, People, ObjectDecorationTags, inscription_decoration_tag_assoc, inscriptions_to_json
 from ..config import SETTINGS
 
 from sqlalchemy import select
@@ -225,28 +225,20 @@ def _apply_advanced_filters(query, places, places_subquery):
         searched_decoration_tags = []
 
         for decoration_tag in decoration_tags:
-            decoration_tag = get_enum('ObjectDecorationTags').query.filter_by(
+            decoration_tag = ObjectDecorationTags.query.filter_by(
                 id=decoration_tag).one()
             not_expanded += [decoration_tag]
 
         while len(not_expanded):
             dt = not_expanded.pop()
 
-            if dt in searched_decoration_tags:
+            if dt.id in searched_decoration_tags:
                 continue
 
-            searched_decoration_tags.append(dt)
+            searched_decoration_tags.append(dt.id)
             not_expanded += dt.children
 
-        subquery = None
-
-        for dt in searched_decoration_tags:
-            if subquery is None:
-                subquery = Inscriptions.decoration_tags.contains(dt)
-            else:
-                subquery = subquery | Inscriptions.decoration_tags.contains(dt)
-
-        query = query.filter(subquery)
+        query = query.join(Inscriptions.decoration_tags).filter(inscription_decoration_tag_assoc.c.object_decoration_tag_id.in_(searched_decoration_tags))
 
     if 'layout_tags' in request.values.keys() and (layout_tags := request.values.getlist('layout_tags')) != ['']:
         subquery = None
