@@ -712,6 +712,38 @@ class Images(db.Model):
         return figure
 
 
+class ProseVersePresences(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+
+
+class ProseVerseDistinctions(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+
+
+class LayoutTypes(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+
+
+class VerseLineCorrespondences(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+
+
+class CarmenReadingSigns(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(100))
+    enum_lod = db.Column(db.String(150))
+
+
+
+
 def get_enum(enum):
     if enum in defn["classes"]:
         return eval(enum)
