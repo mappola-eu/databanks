@@ -1251,6 +1251,18 @@
                                     "refersto": "ProseVerseDistinctions"
                                 },
                                 {
+                                    "column": "prose_layout_types",
+                                    "label": "Layout Types (Prose)",
+                                    "type": "reference_list",
+                                    "refersto": "LayoutTypes"
+                                },
+                                {
+                                    "column": "verse_layout_types",
+                                    "label": "Layout Types (Verse)",
+                                    "type": "reference_list",
+                                    "refersto": "LayoutTypes"
+                                },
+                                {
                                     "column": "verse_line_correspondence",
                                     "label": "Verse Line Correspondence",
                                     "type": "reference",

@@ -753,6 +753,28 @@ verse_layout_prose_verse_distinction_assoc = db.Table(
         db.Integer(),
         db.ForeignKey('prose_verse_distinctions.id')))
 
+verse_layout_prose_layout_type_assoc = db.Table(
+    'verse_layout_prose_layout_type_assoc',
+    db.Column(
+        'verse_layout_id',
+        db.Integer(),
+        db.ForeignKey('verse_layouts.id')),
+    db.Column(
+        'prose_verse_distinction_id',
+        db.Integer(),
+        db.ForeignKey('layout_types.id')))
+
+verse_layout_verse_layout_type_assoc = db.Table(
+    'verse_layout_verse_layout_type_assoc',
+    db.Column(
+        'verse_layout_id',
+        db.Integer(),
+        db.ForeignKey('verse_layouts.id')),
+    db.Column(
+        'layout_type_id',
+        db.Integer(),
+        db.ForeignKey('layout_types.id')))
+
 
 class VerseLayouts(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -769,6 +791,8 @@ class VerseLayouts(db.Model):
     verse_line_correspondence = db.relationship('VerseLineCorrespondences')
 
     prose_verse_distinctions = db.relationship('ProseVerseDistinctions', secondary=verse_layout_prose_verse_distinction_assoc)
+    prose_layout_types = db.relationship('LayoutTypes', secondary=verse_layout_prose_layout_type_assoc)
+    verse_layout_types = db.relationship('LayoutTypes', secondary=verse_layout_verse_layout_type_assoc)
 
     def display(self):
         return "xoxoxo"
