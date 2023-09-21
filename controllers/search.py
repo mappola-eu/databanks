@@ -62,6 +62,8 @@ def advanced_do():
     query = _apply_advanced_text_filters(query)
     query = _apply_advanced_people_filters(query)
 
+    print(query)
+
     count = query.count()
     results = query.all()
     mc = inscriptions_to_json(results)
@@ -238,7 +240,7 @@ def _apply_advanced_filters(query, places, places_subquery):
             searched_decoration_tags.append(dt.id)
             not_expanded += dt.children
 
-        query = query.join(Inscriptions.decoration_tags).filter(inscription_decoration_tag_assoc.c.object_decoration_tag_id.in_(searched_decoration_tags))
+        query = query.join(ObjectDecorationTags, Inscriptions.decoration_tags).filter(ObjectDecorationTags.id.in_(searched_decoration_tags))
 
     if 'layout_tags' in request.values.keys() and (layout_tags := request.values.getlist('layout_tags')) != ['']:
         subquery = None
