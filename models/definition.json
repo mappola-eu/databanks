@@ -1263,12 +1263,6 @@
                                     "refersto": "LayoutTypes"
                                 },
                                 {
-                                    "column": "verse_line_correspondence",
-                                    "label": "Verse Line Correspondence",
-                                    "type": "reference",
-                                    "refersto": "VerseLineCorrespondences"
-                                },
-                                {
                                     "column": "scriptio_continua_in_verse_part",
                                     "label": "Scriptio Continua in verse part",
                                     "type": "boolean_input"
@@ -1277,6 +1271,18 @@
                                     "column": "abbreviations_in_verse_part",
                                     "label": "Abbreviations in verse part",
                                     "type": "boolean_input"
+                                },
+                                {
+                                    "column": "verse_line_correspondence",
+                                    "label": "Verse Line Correspondence",
+                                    "type": "reference",
+                                    "refersto": "VerseLineCorrespondences"
+                                },
+                                {
+                                    "column": "carmen_reading_signs",
+                                    "label": "Graphic Signs for Easier Carmen Reading",
+                                    "type": "reference_list",
+                                    "refersto": "CarmenReadingSigns"
                                 }
                             ]
                         }

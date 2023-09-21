@@ -775,6 +775,17 @@ verse_layout_verse_layout_type_assoc = db.Table(
         db.Integer(),
         db.ForeignKey('layout_types.id')))
 
+verse_layout_carmen_reading_signs_assoc = db.Table(
+    'verse_layout_carmen_reading_signs_assoc',
+    db.Column(
+        'verse_layout_id',
+        db.Integer(),
+        db.ForeignKey('verse_layouts.id')),
+    db.Column(
+        'carmen_reading_sign_id',
+        db.Integer(),
+        db.ForeignKey('carmen_reading_signs.id')))
+
 
 class VerseLayouts(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -793,6 +804,7 @@ class VerseLayouts(db.Model):
     prose_verse_distinctions = db.relationship('ProseVerseDistinctions', secondary=verse_layout_prose_verse_distinction_assoc)
     prose_layout_types = db.relationship('LayoutTypes', secondary=verse_layout_prose_layout_type_assoc)
     verse_layout_types = db.relationship('LayoutTypes', secondary=verse_layout_verse_layout_type_assoc)
+    carmen_reading_signs = db.relationship('CarmenReadingSigns', secondary=verse_layout_carmen_reading_signs_assoc)
 
     def display(self):
         return "xoxoxo"
