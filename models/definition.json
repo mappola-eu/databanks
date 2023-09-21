@@ -1245,6 +1245,12 @@
                                     "refersto": "ProseVersePresences"
                                 },
                                 {
+                                    "column": "prose_verse_distinctions",
+                                    "label": "Prose Verse Distinction",
+                                    "type": "reference_list",
+                                    "refersto": "ProseVerseDistinctions"
+                                },
+                                {
                                     "column": "verse_line_correspondence",
                                     "label": "Verse Line Correspondence",
                                     "type": "reference",
