@@ -305,6 +305,7 @@ li table[role=table] {
 .prosopography ul {
     list-style: none;
     padding-left: 0;
+    margin: 0.5rem -1rem;
 }
 
 .images ul {
@@ -317,6 +318,15 @@ li table[role=table] {
 .images ul li {
     margin: 0.5rem;
     width: 300px;
+}
+
+.verse_layouts>ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.5rem -1rem;
+}
+.verse_layouts>ul ul {
+    list-style: disc;
 }
 
 li figure {

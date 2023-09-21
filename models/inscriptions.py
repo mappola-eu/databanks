@@ -807,7 +807,39 @@ class VerseLayouts(db.Model):
     carmen_reading_signs = db.relationship('CarmenReadingSigns', secondary=verse_layout_carmen_reading_signs_assoc)
 
     def display(self):
-        return "xoxoxo"
+        html = Markup("<table role=\"table\">")
+
+        def safe_title(o):
+            if not o:
+                return ""
+
+            return o.title
+
+        for col, val in [
+            ("Prose Verse Presence", safe_title(self.prose_verse_presence)),
+            ("Prose Verse Distinction", [safe_title(i) for i in self.prose_verse_distinctions]),
+            ("Layout Types (Prose)", [safe_title(i) for i in self.prose_layout_types]),
+            ("Layout Types (Verse)", [safe_title(i) for i in self.verse_layout_types]),
+            ("Scriptio Continua in verse part", "yes" if self.scriptio_continua_in_verse_part else "no"),
+            ("Abbreviations in verse part", "yes" if self.abbreviations_in_verse_part else "no"),
+            ("Verse Line Correspondence", safe_title(self.verse_line_correspondence)),
+            ("Graphic Signs for Easier Carmen Reading", [safe_title(i) for i in self.carmen_reading_signs])
+        ]:
+            if not val or (type(val) == list and not len(val)):
+                continue
+
+            html += Markup("<tr><th>" + col + "</th><td>")
+            if type(val) == list:
+                html += Markup("<ul>")
+                for i in val:
+                    html += Markup("<li>") + i + Markup("</li>")
+                html += Markup("</ul>")
+            else:
+                html += val
+            html += Markup("</td></tr>")
+
+        html += Markup("</table>")
+        return html
     
     def prose_verse_presence_display(self):
         if self.prose_verse_presence:

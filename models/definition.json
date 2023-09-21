@@ -614,6 +614,7 @@
                         {
                             "title": "Verse Layouts",
                             "component": "standalone",
+                            "class": "verse_layouts",
                             "single": {
                                 "column": "verse_layouts",
                                 "label": "Verse Layouts",
