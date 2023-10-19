@@ -335,7 +335,7 @@ class Inscriptions(db.Model):
                     Inscriptions.place == place
                 ).all()
         
-        chosen_items = set(chosen_items)
+        chosen_items = list(dict.fromkeys(chosen_items))
 
         return inscriptions_to_json(chosen_items)
 
