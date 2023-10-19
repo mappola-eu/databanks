@@ -308,7 +308,7 @@ class Inscriptions(db.Model):
     
     def close_inscriptions(self):
         chosen_items = [self]
-        coords_range = 2
+        coords_range = 2 # coords degree
 
         chosen_items += Inscriptions.query.filter_by(place=self.place).all()
 
