@@ -335,7 +335,7 @@
         "VerseLayouts": {
             "create_op": "New Item",
             "update_op": "Update",
-            "delete_op": false,
+            "delete_op": "Remove",
             "table": [
                 {
                     "name": "#",
@@ -1140,7 +1140,7 @@
             "update_action": "Update",
             "cancel_action": "Cancel",
             "update_op": "Edit This Person",
-            "delete_op": false,
+            "delete_op": "Remove",
             "title": "obj#name",
             "slides": [
                 {
@@ -1230,7 +1230,7 @@
             "update_action": "Update",
             "cancel_action": "Cancel",
             "update_op": "Edit This Verse Layout",
-            "delete_op": false,
+            "delete_op": "Remove",
             "slides": [
                 {
                     "title": null,
