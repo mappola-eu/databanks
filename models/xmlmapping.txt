@@ -5,7 +5,7 @@ current_location_details: /teiHeader/fileDesc/sourceDesc/msDesc/msIdentifier/rep
 find_comment: /teiHeader/fileDesc/sourceDesc/msDesc/history/provenance[@type="found"]/placeName[@type="locus"]->text
 object_type: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/objectType->ref.lod:ObjectTypes
 object_material: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/material->ref.lod:ObjectMaterials
-object_preservation_state: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/rs[@type="statPreserv"]->ref:ObjectPreservationStates
+object_preservation_state: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/rs[@type="statPreserv"]->ref.lod:ObjectPreservationStates
 object_dim_height: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/height->text
 object_dim_width: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/width->text
 object_dim_depth: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/depth->text

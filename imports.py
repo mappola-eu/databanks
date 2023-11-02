@@ -1,4 +1,5 @@
-import csv, json
+import csv
+import json
 import xml.etree.ElementTree as ET
 import click
 from flask import Blueprint
@@ -8,10 +9,12 @@ from .controllers.resource import apply_special_defn_to_item
 
 import_ = Blueprint('import', __name__)
 
+
 @import_.cli.command("prepare")
 def prepare():
     db.create_all()
     print("Success.")
+
 
 @import_.cli.command("enum")
 @click.argument("enum_name")
@@ -22,7 +25,7 @@ def enum(enum_name, from_file):
     with open(from_file, "r") as enum_data_file:
         data = csv.reader(enum_data_file, delimiter=";")
         data = [col for col in data]
-    
+
     for entry in data:
         print("Importing:", entry[0])
         item = enum(title=entry[0])
@@ -31,9 +34,10 @@ def enum(enum_name, from_file):
             item.enum_lod = entry[1]
 
         db.session.add(item)
-    
+
     db.session.commit()
     print("IMPORT END, Success.")
+
 
 @import_.cli.command("enum:complex")
 @click.argument("enum_name")
@@ -43,12 +47,13 @@ def enum_complex(enum_name, from_file):
     enum = get_enum(enum_name)
     with open(from_file, "r") as complex_data_file:
         data = json.loads(complex_data_file.read())
-    
+
     reftbl = {'': None}
 
     _load_complex_data('', data, reftbl, enum)
     db.session.commit()
     print("IMPORT END, Success.")
+
 
 def _load_complex_data(ok, odata, reftbl, enum):
     for k, data in odata.items():
@@ -57,18 +62,20 @@ def _load_complex_data(ok, odata, reftbl, enum):
         name, lod = data['name'], data['lod']
         print("Importing:", name)
 
-        item = enum(title=name, enum_lod=lod, parent_object_decoration_tag=reftbl[ok])
+        item = enum(title=name, enum_lod=lod,
+                    parent_object_decoration_tag=reftbl[ok])
         db.session.add(item)
 
         reftbl[lk] = item
 
         _load_complex_data(lk, data['children'], reftbl, enum)
 
+
 @import_.cli.command("cleanup_bom")
 def cleanup_bom():
     with open("models/definition.json", "r") as f:
         defn = json.load(f)
-    
+
     enums = defn['enums']
 
     for enum in enums:
@@ -77,7 +84,7 @@ def cleanup_bom():
             item.title = item.title.strip()
             item.title = item.title.encode("utf-8").decode("utf-8-sig")
             print(f"  {item.title}")
-    
+
     db.session.commit()
     print("Done.")
 
@@ -90,21 +97,23 @@ def rerender_insc_text():
         full_parse_on_inscription(i)
         if i.text_interpretative_cached == "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML":
             print(f"Inscription #{i.id} failed to render.")
-    
+
     db.session.commit()
     print("Done.")
 
+
 @import_.cli.command("inscription")
 @click.argument("from_file")
-def inscription(from_file):
+@click.argument("forcetitle")
+def inscription(from_file, forcetitle):
     with open("models/xmlmapping.txt", "r") as xmlmapfile:
         xmlmapraw = xmlmapfile.read()
-    
+
     tree = ET.iterparse(from_file)
     for _, el in tree:
         el.tag = el.tag.split('}', 1)[1]  # strip all namespaces
     root = tree.root
-    
+
     xmlmap = {}
     for line in xmlmapraw.split("\n"):
         col, expr = line.split(":", 1)
@@ -116,9 +125,9 @@ def inscription(from_file):
         if "->" in expr:
             path, mod = expr.rsplit("->", 1)
             path, mod = path.strip(), mod.strip()
-        
+
         xmlmap[col] = (path, mod)
-    
+
     outmap = {}
     conflicts = []
 
@@ -126,12 +135,15 @@ def inscription(from_file):
         node = root.find("." + path)
         value = import_mods(col, mod, node, conflicts)
 
+        if col == 'title' and forcetitle:
+            value += " - " + forcetitle
+
         outmap[col] = value
 
     print("Conflicts found:\n---\n\nCannot associate the following values")
     for c in conflicts:
-            print(f"{c[0]:24} = ({c[1]}) {c[2]}")
-    
+        print(f"{c[0]:24} = ({c[1]}) {c[2]}")
+
     print()
 
     if len(conflicts) >= 4:
@@ -143,7 +155,8 @@ def inscription(from_file):
     i = Inscriptions()
 
     for col, val in outmap.items():
-        if not val: continue
+        if not val:
+            continue
 
         if "@" in col:
             col, clspath = col.split("@")
@@ -159,31 +172,44 @@ def inscription(from_file):
 
     defn = get_defn('Inscriptions')
     apply_special_defn_to_item(defn, i, True, User.query.first())
-    
+
     db.session.add(i)
     db.session.commit()
 
 
 def import_mods(col, mod, node, conflicts):
     if mod == 'text':
+        if node.text is None:
+            return None
+
         return node.text.strip()
-    
+
     elif mod == 'minmaxmin':
+        if node.text is None:
+            return None
+
         return float(node.text.strip().split("-")[0].replace(",", "."))
-    
+
     elif mod == 'minmaxmax':
+        if node.text is None:
+            return None
+
         return float(node.text.strip().split("-")[-1].replace(",", "."))
-    
+
     elif mod == "outerXML":
         return ET.tostring(node, encoding="utf-8").decode("utf-8")
-    
+
     elif mod == "stripXML":
-        stripXML = lambda tag: (tag.text or '') + ''.join(stripXML(e) for e in tag) + (tag.tail or '')
+        def stripXML(tag): return (tag.text or '') + ''.join(stripXML(e)
+                                                             for e in tag) + (tag.tail or '')
 
         return stripXML(node).strip().replace("<br>", "\n")
-    
+
     elif mod.startswith("ref:") or mod.startswith("ref.lod:"):
         if mod.startswith("ref:"):
+            if node.text is None:
+                return None
+
             ref = mod[len("ref:"):]
             value = node.text.strip()
             col = 'title'
@@ -193,6 +219,9 @@ def import_mods(col, mod, node, conflicts):
         elif mod.startswith("ref.lod:"):
             ref = mod[len("ref.lod:"):]
             col = 'enum_lod'
+            if 'ref' not in node.attrib:
+                return None
+
             value = node.attrib['ref']
 
             if value.startswith("http:"):
@@ -215,11 +244,14 @@ def import_mods(col, mod, node, conflicts):
         match = R.query.filter(getattr(R, col).like(matcher)).all()
         if len(match) == 1:
             return match[0]
-        
+
         conflicts.append([ref, col, value])
-    
+
     elif mod.startswith("attr:@"):
         attr = mod[len("attr:@"):]
+        if attr not in node.attrib:
+            return None
+
         return node.attrib[attr]
-    
+
     return None
