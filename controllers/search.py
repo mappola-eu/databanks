@@ -275,10 +275,6 @@ def _apply_advanced_filters(query, places, places_subquery):
 
         query = query.filter(subquery)
 
-    if 'conditioned' in request.values.keys() and (conditioned := request.values.get('conditioned')) != '':
-        query = query.filter(
-            Inscriptions.layout_conditioned_by_language == bool(int(conditioned)))
-
     return query, places, places_subquery
 
 
