@@ -553,15 +553,11 @@
                                     }
                                 },
                                 {
-                                    "column": "object_text_layout_comment",
-                                    "label": "Text Layout",
-                                    "type": "text"
-                                },
-                                {
                                     "column": "object_text_layout_tags",
                                     "label": "Text Layout Tags",
                                     "type": "reference_list",
-                                    "refersto": "TextLayoutTags"
+                                    "refersto": "TextLayoutTags",
+                                    "show_only_in_edit": true
                                 }
                             ]
                         },

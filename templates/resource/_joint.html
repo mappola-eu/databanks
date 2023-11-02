@@ -55,10 +55,12 @@
 <table role="table">
     <tbody>
         {% for column in part.columns %}
+        {% if not column.show_only_in_edit %}
         <tr>
             <th>{{ column.label }}</th>
             <td>{{ rendel(postproc(render_column(item, column), column), column.type) }}</td>
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>
