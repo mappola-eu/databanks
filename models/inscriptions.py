@@ -124,8 +124,6 @@ class Inscriptions(db.Model):
     main_translation = db.Column(db.Text)
     translation_author = db.Column(db.String(150))
 
-    layout_conditioned_by_language = db.Column(db.Boolean)
-
     text_apparatus_criticus_comment = db.Column(db.Text)
     general_comment = db.Column(db.Text)
     date_begin = db.Column(db.Integer)

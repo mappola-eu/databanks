@@ -533,7 +533,7 @@
                             ]
                         },
                         {
-                            "title": "Decoration and Layout",
+                            "title": "Decoration",
                             "component": "table",
                             "columns": [
                                 {
@@ -564,6 +564,18 @@
                                     "refersto": "TextLayoutTags"
                                 }
                             ]
+                        },
+                        {
+                            "title": "Verse Layouts",
+                            "component": "standalone",
+                            "class": "verse_layouts",
+                            "single": {
+                                "column": "verse_layouts",
+                                "label": "Verse Layouts",
+                                "type": "reference_func",
+                                "render": "display",
+                                "refersto": "VerseLayouts"
+                            }
                         }
                     ]
                 },
@@ -587,12 +599,6 @@
                                     "refersto": "Languages"
                                 },
                                 {
-                                    "column": "layout_conditioned_by_language",
-                                    "label": "Layout Conditioned by Language?",
-                                    "type": "boolean_input",
-                                    "post_process": "bool"
-                                },
-                                {
                                     "column": "verse_types",
                                     "label": "Verse Type(s)",
                                     "type": "reference_list",
@@ -610,18 +616,6 @@
                                     "refersto": "VerseTimingTypes"
                                 }
                             ]
-                        },
-                        {
-                            "title": "Verse Layouts",
-                            "component": "standalone",
-                            "class": "verse_layouts",
-                            "single": {
-                                "column": "verse_layouts",
-                                "label": "Verse Layouts",
-                                "type": "reference_func",
-                                "render": "display",
-                                "refersto": "VerseLayouts"
-                            }
                         }
                     ]
                 },
