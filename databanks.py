@@ -13,6 +13,7 @@ import random
 app = Flask(__name__, instance_path=SETTINGS['INSTANCE_PATH'])
 app.config['SQLALCHEMY_DATABASE_URI'] = SETTINGS['SQL_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'pool_recycle': 280}  # prevent timeouts/500 errors on prod
 app.config['SECRET_KEY'] = 'mappola-databanks#secret_key'
 app.config['SECURITY_PASSWORD_SALT'] = 'mappola-databanks#salt'
 app.config['SECURITY_CHANGEABLE'] = True  # allow users to change their passwords
