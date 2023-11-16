@@ -140,11 +140,12 @@ def inscription(from_file, forcetitle):
 
         outmap[col] = value
 
-    print("Conflicts found:\n---\n\nCannot associate the following values")
-    for c in conflicts:
-        print(f"{c[0]:24} = ({c[1]}) {c[2]}")
+    if conflicts:
+        print("Conflicts found:\n---\n\nCannot associate the following values")
+        for c in conflicts:
+            print(f"{c[0]:24} = ({c[1]}) {c[2]}")
 
-    print()
+        print()
 
     if len(conflicts) >= 4:
         print("ATTENTION! There are more than four conflicts.")
@@ -170,8 +171,18 @@ def inscription(from_file, forcetitle):
         else:
             setattr(i, col, val)
 
+    # Determine, which user created this inscription
+    who = User.query.first()
+    who_node = root.find("./teiHeader/revisionDesc/change")
+
+    if who_node is not None:
+        who_name = who_node.attrib['who']
+        who_name = who_name.strip().upper().strip('0123456789')
+
+        who = User.query.filter(User.full_name.ilike(who_name)).one_or_none() or who
+
     defn = get_defn('Inscriptions')
-    apply_special_defn_to_item(defn, i, True, User.query.first())
+    apply_special_defn_to_item(defn, i, True, who)
 
     db.session.add(i)
     db.session.commit()
@@ -196,8 +207,13 @@ def import_mods(col, mod, node, conflicts):
 
         return float(node.text.strip().split("-")[-1].replace(",", "."))
 
-    elif mod == "outerXML":
-        return ET.tostring(node, encoding="utf-8").decode("utf-8")
+    elif mod == "childish.outerXML":
+        result = ""
+        for subnode in node:
+            if subnode.tag == "head": continue
+            result += ET.tostring(node, encoding="utf-8").decode("utf-8")
+
+        return result
 
     elif mod == "stripXML":
         def stripXML(tag): return (tag.text or '') + ''.join(stripXML(e)

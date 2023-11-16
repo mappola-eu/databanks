@@ -14,7 +14,7 @@ decoration_tags: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/suppo
 text_function: /teiHeader/profileDesc/textClass/keywords/term->ref.lod:TextFunctions
 letter_size_min: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/handDesc/handNote/height->minmaxmin
 letter_size_max: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/handDesc/handNote/height->minmaxmax
-text_epidoc_form: /text/body/div[@type="edition"]/ab->outerXML
+text_epidoc_form: /text/body/div[@type="edition"]->childish.outerXML
 text_apparatus_criticus_comment: /text/body/div[@type="apparatus"]->stripXML
 general_comment: /text/body/div[@type="commentary"]->stripXML
 date_begin: /teiHeader/fileDesc/sourceDesc/msDesc/history/origin/origDate->attr:@notBefore-custom
