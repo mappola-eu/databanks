@@ -771,6 +771,11 @@
                                     "label": "Work Status",
                                     "type": "reference",
                                     "refersto": "WorkStatus"
+                                },
+                                {
+                                    "column": "import_notice",
+                                    "label": "Import Notice",
+                                    "type": "text"
                                 }
                             ]
                         },

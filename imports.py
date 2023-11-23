@@ -2,6 +2,7 @@ import csv
 import json
 import xml.etree.ElementTree as ET
 import click
+from datetime import datetime as dt
 from flask import Blueprint
 from .models import db, get_enum, get_defn, Inscriptions, User
 from .linkage.epidoc import full_parse_on_inscription
@@ -183,6 +184,11 @@ def inscription(from_file, forcetitle):
 
     defn = get_defn('Inscriptions')
     apply_special_defn_to_item(defn, i, True, who)
+
+    source = root.find("./teiHeader/fileDesc/publicationStmt/authority").text.strip()
+    source_id = root.find("./teiHeader/fileDesc/publicationStmt/idno[@type=\"localID\"]").text.strip()
+
+    i.import_notice = f"Imported from {source} at {dt.now().isoformat()[:-7]}, ID there: {source_id}"
 
     db.session.add(i)
     db.session.commit()
