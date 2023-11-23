@@ -168,6 +168,8 @@ class Inscriptions(db.Model):
     work_status_id = db.Column(db.Integer, db.ForeignKey('work_status.id'))
     work_status = db.relationship('WorkStatus')
 
+    import_notice = db.Column(db.Text)
+
     def make_searchable_inscription_cache(self):
         text_base = self.text_epidoc_form + "\n\n"
 
