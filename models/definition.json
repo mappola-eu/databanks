@@ -60,7 +60,6 @@
         "PeopleRoles",
         "DatingCriteria",
         "Religions",
-        "WorkStatus",
         "TextLayoutTags",
         "ProseVersePresences",
         "ProseVerseDistinctions",
@@ -344,6 +343,21 @@
                 {
                     "name": "Prose Verse Presence",
                     "value": "obj#prose_verse_presence_display()"
+                }
+            ]
+        },
+        "WorkStatus": {
+            "create_op": "New Item",
+            "update_op": "Update",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Title",
+                    "value": "obj#title"
                 }
             ]
         }
@@ -1279,6 +1293,48 @@
                                     "label": "Graphic Signs for Easier Carmen Reading",
                                     "type": "reference_list",
                                     "refersto": "CarmenReadingSigns"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "WorkStatus": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#title",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "edit_prefix": "Choose a name, under which this item will be shown across this database:",
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "title",
+                                    "label": "Name",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "enum_lod",
+                                    "label": "LOD",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "is_complete",
+                                    "label": "Implies Completeness",
+                                    "type": "boolean_input"
+                                },
+                                {
+                                    "column": "is_incomplete",
+                                    "label": "Implies Incompleteness",
+                                    "type": "boolean_input"
                                 }
                             ]
                         }
