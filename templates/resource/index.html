@@ -10,12 +10,31 @@
     {% endif %}
 
     {% if (defn.show_only_own_op and defn.show_all_op and current_user.is_authenticated) %}
-    {% if request.values["filter"] == "own" %}
+    {% if request.values["own_filter"] == "own" %}
     {% set show_only_mine = true %}
-    <a href="?filter=all" role="button">{{ defn.show_all_op }}</a>
+    <a href="?own_filter=all" role="button">{{ defn.show_all_op }}</a>
     {% else %}
     {% set show_only_mine = false %}
-    <a href="?filter=own" role="button">{{ defn.show_only_own_op }}</a>
+    <a href="?own_filter=own" role="button">{{ defn.show_only_own_op }}</a>
+    {% endif %}
+    {% endif %}
+
+    {% if (defn.show_only_complete_op and defn.show_only_incomplete_op and defn.show_all_completeness_op and current_user.is_authenticated) %}
+    {% if request.values["status_filter"] == "complete" %}
+    {% set show_only_complete = true %}
+    {% set show_only_incomplete = false %}
+    <a href="?status_filter=all" role="button">{{ defn.show_all_completeness_op }}</a>
+    <a href="?status_filter=incomplete" role="button">{{ defn.show_only_incomplete_op }}</a>
+    {% elif request.values["status_filter"] == "incomplete" %}
+    {% set show_only_complete = false %}
+    {% set show_only_incomplete = true %}
+    <a href="?status_filter=all" role="button">{{ defn.show_all_completeness_op }}</a>
+    <a href="?status_filter=complete" role="button">{{ defn.show_only_complete_op }}</a>
+    {% else %}
+    {% set show_only_complete = false %}
+    {% set show_only_incomplete = false %}
+    <a href="?status_filter=complete" role="button">{{ defn.show_only_complete_op }}</a>
+    <a href="?status_filter=incomplete" role="button">{{ defn.show_only_incomplete_op }}</a>
     {% endif %}
     {% endif %}
 </div>
@@ -31,7 +50,11 @@
             <th></th>
             {% endif %}
         </tr>
-        {% for item in R.query.all() if not show_only_mine or item[defn.show_only_own_column] == current_user %}
+        {% for item in R.query.all() if (not show_only_mine or item[defn.show_only_own_column] == current_user)
+                                        and
+                                        (not show_only_incomplete or item[defn.show_completeness_column].is_incomplete)
+                                        and
+                                        (not show_only_complete or item[defn.show_completeness_column].is_complete) %}
         <tr>
             {% set primary_loop=loop %}
             {% for column in defn.table %}
