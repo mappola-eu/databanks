@@ -126,6 +126,7 @@ class Inscriptions(db.Model):
 
     text_apparatus_criticus_comment = db.Column(db.Text)
     general_comment = db.Column(db.Text)
+    internal_comment = db.Column(db.Text)
     date_begin = db.Column(db.Integer)
     date_end = db.Column(db.Integer)
 

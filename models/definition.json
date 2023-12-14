@@ -714,6 +714,16 @@
                             }
                         },
                         {
+                            "title": null,
+                            "component": "standalone",
+                            "single": {
+                                "column": "internal_comment",
+                                "label": "Edit Comment",
+                                "type": "text",
+                                "show_only_in_edit": true
+                            }
+                        },
+                        {
                             "title": "Squeeze",
                             "component": "table",
                             "columns": [
