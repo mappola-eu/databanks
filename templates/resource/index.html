@@ -36,6 +36,9 @@
     <a href="?status_filter=complete" role="button">{{ defn.show_only_complete_op }}</a>
     <a href="?status_filter=incomplete" role="button">{{ defn.show_only_incomplete_op }}</a>
     {% endif %}
+    {% elif defn.show_only_complete_op and defn.show_only_incomplete_op and defn.show_all_completeness_op and not current_user.is_authenticated %}
+    {% set show_only_complete = true %}
+    {% set show_only_incomplete = false %}
     {% endif %}
 </div>
 {% endif %}
