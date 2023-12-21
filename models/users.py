@@ -26,3 +26,11 @@ class User(db.Model, UserMixin):
             return False
 
         return self in devrole[0].users
+    
+    def unknown(self):
+        unknownrole = Role.query.filter_by(name='unknown').all()
+
+        if len(unknownrole) != 1:
+            return False
+
+        return self in unknownrole[0].users
