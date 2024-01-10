@@ -193,12 +193,12 @@
             </th>
             <td>
                 <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}">
-                    <option {{ 'disabled' if column.refreq }} {{ 'selected' if item[column.column] == None }}></option>
+                    <option {{ 'disabled' if column.refreq }} {{ 'selected' if item[column.column] == None and not column.defaults_to }}></option>
                     {% if column.reference_grouping %}
                     {% for og in get_enum_with_grouping(column.refersto, column.reference_grouping) %}
                     <optgroup label="{{ og.label }}">
                         {% for e in og.entities %}
-                        <option value="{{ e.id }}" {{ 'selected' if e==item[column.column] }}>
+                        <option value="{{ e.id }}" {{ 'selected' if e==item[column.column] or e[column.defaults_to] }}>
                             {{ e.title }}
                         </option>
                         {% endfor %}
@@ -206,7 +206,7 @@
                     {% endfor %}
                     {% else %}
                     {% for e in get_enum(column.refersto).query.order_by("title").all() %}
-                    <option value="{{ e.id }}" {{ 'selected' if e==item[column.column] }}>
+                    <option value="{{ e.id }}" {{ 'selected' if e==item[column.column] or e[column.defaults_to] }}>
                         {{ e.title }}
                     </option>
                     {% endfor %}

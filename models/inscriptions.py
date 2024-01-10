@@ -375,6 +375,7 @@ class WorkStatus(db.Model):
     enum_lod = db.Column(db.String(150))
     is_complete = db.Column(db.Boolean)
     is_incomplete = db.Column(db.Boolean)
+    is_default = db.Column(db.Boolean)
 
 
 class ObjectTypes(db.Model):

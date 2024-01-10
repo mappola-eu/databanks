@@ -798,7 +798,8 @@
                                     "column": "work_status",
                                     "label": "Work Status",
                                     "type": "reference",
-                                    "refersto": "WorkStatus"
+                                    "refersto": "WorkStatus",
+                                    "defaults_to": "is_default"
                                 },
                                 {
                                     "column": "import_notice",
@@ -1348,6 +1349,11 @@
                                 {
                                     "column": "is_incomplete",
                                     "label": "Implies Incompleteness",
+                                    "type": "boolean_input"
+                                },
+                                {
+                                    "column": "is_default",
+                                    "label": "Default Status For New Inscriptions?",
                                     "type": "boolean_input"
                                 }
                             ]
