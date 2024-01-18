@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import click
 from datetime import datetime as dt
 from flask import Blueprint
-from .models import db, get_enum, get_defn, Inscriptions, User
+from .models import db, get_enum, get_defn, Inscriptions, User, Publications
 from .linkage.epidoc import full_parse_on_inscription
 from .controllers.resource import apply_special_defn_to_item
 
@@ -277,3 +277,38 @@ def import_mods(col, mod, node, conflicts):
         return node.attrib[attr]
 
     return None
+
+
+
+@import_.cli.command("biblfix")
+@click.argument("from_file")
+@click.argument("forcetitle")
+def biblfix(from_file, forcetitle):
+    inscription = Inscriptions.query.filter(Inscriptions.title.like(f'% - {forcetitle}')).one_or_none()
+
+    if not inscription:
+        print("No inscription found, aborting.")
+        return
+
+    with open("models/xmlmapping.txt", "r") as xmlmapfile:
+        xmlmapraw = xmlmapfile.read()
+
+    tree = ET.iterparse(from_file)
+    for _, el in tree:
+        el.tag = el.tag.split('}', 1)[1]  # strip all namespaces
+    root = tree.root
+    
+    bibliography = root.findall('./text/body/div[@type="bibliography"]/listBibl/bibl')
+    all_bibliography = []
+
+    for bibl in bibliography:
+        bibl = bibl.text.strip()
+        all_bibliography.append(bibl)
+    
+    all_bibliography.append(forcetitle)
+
+    for entry in all_bibliography[1:]:
+        db.session.add(Publications(inscription=inscription, reference_comment=entry))
+
+    db.session.commit()
+    print(f"Fixed {forcetitle} bibliography")
