@@ -222,6 +222,7 @@
             </th>
             <td>
                 <select id="{{ name }}-{{ column.column }}" name="{{ column.column }}" multiple>
+                    <option {{ 'disabled' if column.refreq }} {{ 'selected' if item[column.column]|length == 0 and not column.defaults_to }}></option>
                     {% if column.reference_grouping %}
                     {% for og in get_enum_with_grouping(column.refersto, column.reference_grouping) %}
                     <optgroup label="{{ og.label }}">

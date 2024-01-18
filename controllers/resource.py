@@ -335,10 +335,13 @@ def apply_defn_post_data_to_obj(defn, obj, is_create=False):
                         else:
                             setattr(obj, column['column'], other)
                     elif column['type'] == 'reference_list':
-                        cls = get_enum(column['refersto'])
-                        data = [cls.query.get(
-                            i) for i in request.form.getlist(column['column'])]
-                        setattr(obj, column['column'], data)
+                        if request.form.getlist(column['column']) != ['']:
+                            cls = get_enum(column['refersto'])
+                            data = [cls.query.get(
+                                i) for i in request.form.getlist(column['column']) if i != '']
+                            setattr(obj, column['column'], data)
+                        else:
+                            setattr(obj, column['column'], [])
                 elif column['type'] in ['dimension']:
                     # Special Dimension type
                     for colname in column['column']:
