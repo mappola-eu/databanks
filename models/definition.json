@@ -1305,7 +1305,7 @@
                                 },
                                 {
                                     "column": "carmen_reading_signs",
-                                    "label": "Graphic Signs for Easier Carmen Reading",
+                                    "label": "Graphic Signs and Spaces for Easier Carmen Reading",
                                     "type": "reference_list",
                                     "refersto": "CarmenReadingSigns"
                                 }

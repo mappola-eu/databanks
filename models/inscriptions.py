@@ -827,7 +827,7 @@ class VerseLayouts(db.Model):
             ("Scriptio Continua in verse part", "yes" if self.scriptio_continua_in_verse_part else "no"),
             ("Abbreviations in verse part", "yes" if self.abbreviations_in_verse_part else "no"),
             ("Verse Line Correspondence", safe_title(self.verse_line_correspondence)),
-            ("Graphic Signs for Easier Carmen Reading", [safe_title(i) for i in self.carmen_reading_signs])
+            ("Graphic Signs and Spaces for Easier Carmen Reading", [safe_title(i) for i in self.carmen_reading_signs])
         ]:
             if not val or (type(val) == list and not len(val)):
                 continue
