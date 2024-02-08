@@ -34,9 +34,13 @@ def _apply_stylesheet(proc, xml_intro, props=None):
     if props['internal-app-style'] != 'none':
         app_output_element = tree.find(".//*[@id=\"apparatus\"]")
 
-        if app_output_element:
+        if app_output_element is None:
+            app_output_element = tree.find(".//*[@class=\"miniapp\"]")
+
+        if app_output_element is not None:
             app_output = ET.tostring(app_output_element, short_empty_elements=False).decode()
             app_output = app_output.replace("></br>", "/>")
+            app_output = app_output.replace(" | l.", "<br/>l.")
 
             output = output + '~~~APP BELOW~~~' + app_output
 
@@ -54,7 +58,7 @@ def convert_to_diplomatic(proc, xml_intro):
 def convert_to_interpretative(proc, xml_intro):
     return _apply_stylesheet(proc, _prepare(xml_intro), { "edition-type": "interpretive",
                                                           "leiden-style": "panciera",
-                                                          "internal-app-style": "ddbdp"
+                                                          "internal-app-style": "minex"
                                                         })
 
 def convert_to_metrics_visualised(proc, xml_intro):
