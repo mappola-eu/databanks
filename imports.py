@@ -136,8 +136,22 @@ def inscription(from_file, forcetitle):
         node = root.find("." + path)
         value = import_mods(col, mod, node, conflicts)
 
+        if value is None:
+            continue
+
         if col == 'title' and forcetitle:
             value += " - " + forcetitle
+
+        if "&amp;ndash;" in value or "&amp;amp;" in value or "&amp;quot;" in value \
+            or "&amp;lt;" in value or "&amp;gt;" in value:
+            value = value.replace("&amp;", "&") # first pass
+
+            # second pass:
+            value = value.replace("&ndash;", '–')
+            value = value.replace("&amp;", '&')
+            value = value.replace("&quot;", '"')
+            value = value.replace("&lt;", '<')
+            value = value.replace("&gt;", '>')
 
         outmap[col] = value
 
