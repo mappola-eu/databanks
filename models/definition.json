@@ -410,6 +410,7 @@
             "add_revisions_to_table": "InscriptionEdited:inscription",
             "perform_epidoc_update": true,
             "perform_fulltext_update": true,
+            "cancel_returns_to_show": true,
             "slides": [
                 {
                     "title": "Identification",

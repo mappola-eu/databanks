@@ -11,7 +11,11 @@
         <button type="submit" class="primary-btn">{{ defn.update_action }}</button>
         {% endif %}
         {% if defn.cancel_action %}
+        {% if defn.cancel_returns_to_show %}
+        <a href="{{ url_for('resource.show', name=name, id=item.id) }}" role="button">{{ defn.cancel_action }}</a>
+        {% else %}
         <a href="{{ url_for('resource.index', name=name) }}" role="button">{{ defn.cancel_action }}</a>
+        {% endif %}
         {% endif %}
     </div>
 
