@@ -27,8 +27,11 @@ def _apply_stylesheet(proc, xml_intro, props=None):
     transformed_xml = xsltproc.transform_to_string()
     
     tree = ET.fromstring(transformed_xml)
-    output_element = tree.find(".//*[@id=\"edition\"]/*[@class='textpart']")
-    output = ET.tostring(output_element, short_empty_elements=False).decode()
+    output_elements = tree.findall(".//*[@id=\"edition\"]/*[@class='textpart']")
+    output = ""
+
+    for output_element in output_elements:
+        output += ET.tostring(output_element, short_empty_elements=False).decode()
     output = output.replace("></br>", "/>")
 
     if props['internal-app-style'] != 'none':

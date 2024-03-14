@@ -195,7 +195,10 @@ def inscription(from_file, forcetitle):
 
 
 def import_mods(col, mod, node, conflicts):
-    if mod == 'text':
+    if node is None:
+        return None
+
+    elif mod == 'text':
         if node.text is None:
             return None
 
