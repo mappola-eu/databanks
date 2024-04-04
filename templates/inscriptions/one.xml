@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://epidoc.stoa.org/schema/latest/tei-epidoc.rng" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:space="preserve" xml:lang="en">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>{{ insc.title }}</title>
+            </titleStmt>
+            <respStmt>
+                <resp>{{ insc.last_updated_by.full_name }}</resp>
+                <author>{{ insc.import_notice }}</author>
+            </respStmt>
+            <publicationStmt>
+                <authority>MAPPOLA Database</authority>
+                <availability>
+                    <licence target="http://creativecommons.org/licenses/by-sa/4.0/">This file is licensed under the Creative Commons Attribution-ShareAlike 4.0 license.
+                    </licence>
+                </availability>
+                <idno type="localID">{{ insc.long_id() }}</idno>
+                <idno type="TM">{{ insc.trismegistos_nr }}</idno>
+                <idno type="URI">{{ url_for('resource.show', name='Inscription', id=insc.id, _external=True) }}</idno>
+            </publicationStmt>
+            <sourceDesc>
+                <msDesc>
+                    <msIdentifier>
+                        <repository>{{ insc.current_location.title if insc.current_location }}</repository>
+                        <idno>{{ insc.current_location_inventory }}</idno>
+                    </msIdentifier>
+                    <physDesc>
+                        <objectDesc>
+                            <supportDesc>
+                                <support>
+                                    <objectType ref="{{ insc.object_type.enum_lod if insc.object_type }}">{{ insc.object_type.title if insc.object_type }}</objectType>
+                                    <material ref="{{ insc.object_material.enum_lod if insc.object_material }}">{{ insc.object_material.title if insc.object_material }}</material>
+                                    <rs type="statPreserv">{{ insc.object_preservation_state.title if insc.object_preservation_state }}</rs>
+                                    <dimensions unit="cm">
+                                        <width>{{ insc.object_dim_width }}</width>
+                                        <height>{{ insc.object_dim_height }}</height>
+                                        <depth>{{ insc.object_dim_depth }}</depth>
+                                    </dimensions>
+                                    <rs type="decoration" ref="">{{ insc.object_decoration_comment }}</rs>
+                                </support>
+                            </supportDesc>
+                            <layoutDesc>
+                                <layout>
+                                    <rs type="execution" ref="{{ insc.object_execution_technique.enum_lod if insc.object_execution_technique }}">{{ insc.object_execution_technique.title if insc.object_execution_technique }}</rs>
+                                </layout>
+                            </layoutDesc>
+                        </objectDesc>
+                        <handDesc>
+                            <handNote>
+                                <height ranging="min">{{ insc.letter_size_min }}</height>
+                                <height ranging="max">{{ insc.letter_size_max }}</height>
+                            </handNote>
+                        </handDesc>
+                    </physDesc>
+                    <history>
+                        <origin>
+                            <origPlace>
+                                <placeName type="ancient">{{ insc.place.ancient_name if insc.place }}</placeName>
+                            </origPlace>
+                            <origDate notBefore-custom="" notAfter-custom="" datingMethod="http://en.wikipedia.org/wiki/Julian_calendar">{{ insc.date_begin }} {{ insc.date_end }}</origDate>
+                        </origin>
+                        <provenance type="found">
+                            <placeName type="ancient">{{ insc.place.title if insc.place }}</placeName>
+                            <placeName type="findspot">{{ insc.find_comment }}</placeName>
+                            <geo>{{ insc.full_coords()[0] }} {{ insc.full_coords()[1] }}</geo>
+                        </provenance>
+                        <provenance type="observed">{{ insc.current_location_details }}</provenance>
+                        <provenance type="observed" subtype="squeeze-taken">{{ 'yes' if insc.have_squeeze else 'no' }}</provenance>
+                    </history>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <p>Encoded following EpiDoc guidelines 9.5</p>
+        </encodingDesc>
+        <profileDesc>
+            <langUsage>
+                <language ident="grc">Greek</language>
+                <language ident="grc-la?">Greek-Latin</language>
+                <language ident="la">Latin</language>
+                <language ident="mul">Multilingual</language>
+                <language ident="grc-Latn">Ancient Greek written in Latin script</language>
+                <language ident="la-Grek">Latin written in Greek script</language>
+            </langUsage>
+            <textClass>
+                <keywords>
+                    <term ref="{{ insc.text_function.enum_lod if insc.text_function }}">{{ insc.text_function.title if insc.text_function }}</term>
+                </keywords>
+            </textClass>
+            <particDesc>
+                <p>
+                    <listPerson>
+                    {% for person in insc.people %}
+                        <person gender="{{ person.gender.title if person.gender }}" age="{{ person.age.title if person.age }}" role="{{ person.role.title if person.role }}">
+                            <persName>
+                                <name>{{ person.name }}</name>
+                            </persName>
+                        </person>
+                    {% endfor %}
+                    </listPerson>
+                </p>
+            </particDesc>
+        </profileDesc>
+        <revisionDesc>
+            {% for rev in insc.revisions %}
+            <change when="{{ rev.revision_at }}" who="{{ rev.user.full_name }}">{{ rev.revision_comment or '' }}</change>
+            {% endfor %}
+        </revisionDesc>
+    </teiHeader>
+    <facsimile>
+        {% for img in insc.images %}
+        <graphic url="{{ img.image_link }}">{{ img.image_citation }}</graphic>
+        {% endfor %}
+    </facsimile>
+    <text>
+        <body>
+            <div type="edition" xml:space="preserve">
+                {{ insc.text_epidoc_form|safe }}
+            </div>
+            <div type="apparatus">
+                <p>{{ insc.text_apparatus_criticus_comment }}</p>
+            </div>
+            <div type="translation" xml:lang="en" resp="{{ insc.translation_author }}">
+                <p>{{ insc.main_translation }}</p>
+            </div>
+            {% for tr in insc.translations %}
+            <div type="translation" xml:lang="{{ tr.language_title() }}" resp="{{ insc.translation_author }}">
+                <p>{{ tr.link_to_published_translation }}</p>
+            </div>
+            {% endfor %}
+            <div type="commentary">
+                <p>{{ insc.general_comment }}</p>
+            </div>
+            <div type="bibliography">
+                <listBibl>
+                {% for pub in insc.publications.order_by('order_number').all() %}
+                    <bibl>{{ pub.reference_comment }}</bibl>
+                {% endfor %}
+                </listBibl>
+            </div>
+        </body>
+    </text>
+</TEI>

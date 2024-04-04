@@ -609,7 +609,7 @@ class Publications(db.Model):
     reference_comment = db.Column(db.Text)
     zotero_item_id = db.Column(db.String(20))
 
-    inscription = db.relationship('Inscriptions', backref='publications')
+    inscription = db.relationship('Inscriptions', backref=db.backref('publications', lazy='dynamic'))
 
     order_number = db.Column(db.Integer)
 
