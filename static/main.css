@@ -200,3 +200,81 @@ button.block-btn {
 .__epidoc_render .textpartnumber + br + br {
     display: none;
 }
+
+
+.epidoc-input .bar-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.35rem 0.5rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    align-items: stretch;
+}
+
+.epidoc-input .bar-button-row .bar-button,
+.epidoc-input .bar-button-row .bar-counter,
+.epidoc-input .bar-button-row .bar-choice {
+    margin: 0.15rem;
+}
+
+.epidoc-input .bar-button-row .bar-button {
+    margin: 0.3rem 0.15rem;
+}
+
+.epidoc-input .bar-button-row .bar-button,
+.epidoc-input .bar-button-row .bar-counter .bar-counter-button,
+.epidoc-input .bar-button-row .bar-choice .bar-choice-button {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background-color: white;
+    cursor: pointer;
+    padding: 0.125rem 0.25rem;
+}
+
+.epidoc-input .bar-button-row .bar-counter .bar-counter-input,
+.epidoc-input .bar-button-row .bar-choice .bar-choice-select {
+    margin-right: 0.3rem;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background-color: white;
+    padding: 0.125rem 0.25rem;
+    max-width: 50px;
+    height: 100%;
+}
+.epidoc-input .bar-button-row .bar-choice .bar-choice-select {
+    max-width: 20px;
+}
+.epidoc-input .bar-button-row .bar-counter .bar-counter-button + .bar-counter-button {
+    margin-left: 0.2rem;
+}
+
+.epidoc-input .bar-button-row .bar-counter,
+.epidoc-input .bar-button-row .bar-choice {
+    padding: 0.15rem;
+    background-color: rgba(0, 0, 0, 0.075);
+    border-radius: 3px;
+    display: flex;
+    align-items: stretch;
+}
+
+.epidoc-input .bar-validator {
+    padding: 0.15rem;
+    background-color: #f0f0f0;
+    align-items: center;   
+}
+
+.epidoc-input .bar-validator .bar-validator-result {
+    font-weight: bold;
+}
+
+.epidoc-input .bar-validator .bar-validator-result.result-is-positive {
+    color: green;
+}
+
+.epidoc-input .bar-validator .bar-validator-result.result-is-negative {
+    color: red;
+}
+
+.epidoc-input .bar-validator .bar-validator-msg.result-is-negative {
+    color: red;
+    margin: 0.15rem 0;
+}

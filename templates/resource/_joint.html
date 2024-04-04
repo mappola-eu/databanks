@@ -350,8 +350,10 @@
         <tr>
             <th><label for="{{ name }}-{{ part.columns.epidoc }}">EpiDoc</label></th>
             <td>
-                <textarea id="{{ name }}-{{ part.columns.epidoc }}" class="raw-epidoc" data-ext-hint='epidoc-target'
+                <div class="epidoc-input" data-epidoc-bar="#{{ name }}-{{ part.columns.epidoc }}">
+                    <textarea id="{{ name }}-{{ part.columns.epidoc }}" class="raw-epidoc" data-ext-hint='epidoc-target'
                     name="{{ part.columns.epidoc }}">{{ item[part.columns.epidoc] or "" }}</textarea>
+                </div>
                 
                 <div class="up-arrow"></div>
                 <textarea id="{{ name }}-{{ part.columns.epidoc }}-fromformatted"  data-ext-hint='epidoc-source'
