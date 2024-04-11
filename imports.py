@@ -142,17 +142,6 @@ def inscription(from_file, forcetitle):
         if col == 'title' and forcetitle:
             value += " - " + forcetitle
 
-        if "&amp;ndash;" in value or "&amp;amp;" in value or "&amp;quot;" in value \
-            or "&amp;lt;" in value or "&amp;gt;" in value:
-            value = value.replace("&amp;", "&") # first pass
-
-            # second pass:
-            value = value.replace("&ndash;", '–')
-            value = value.replace("&amp;", '&')
-            value = value.replace("&quot;", '"')
-            value = value.replace("&lt;", '<')
-            value = value.replace("&gt;", '>')
-
         outmap[col] = value
 
     if conflicts:
@@ -216,7 +205,20 @@ def import_mods(col, mod, node, conflicts):
         if node.text is None:
             return None
 
-        return node.text.strip()
+        value = node.text.strip()
+
+        if "&amp;ndash;" in value or "&amp;amp;" in value or "&amp;quot;" in value \
+            or "&amp;lt;" in value or "&amp;gt;" in value:
+            value = value.replace("&amp;", "&") # first pass
+
+        # second pass:
+        value = value.replace("&ndash;", '–')
+        value = value.replace("&amp;", '&')
+        value = value.replace("&quot;", '"')
+        value = value.replace("&lt;", '<')
+        value = value.replace("&gt;", '>')
+
+        return value
 
     elif mod == 'minmaxmin':
         if node.text is None:
@@ -319,7 +321,11 @@ def biblfix(from_file, forcetitle):
     all_bibliography = []
 
     for bibl in bibliography:
-        bibl = bibl.text.strip()
+        if bibl.text:
+            bibl = bibl.text.strip()
+        else:
+            continue
+
         all_bibliography.append(bibl)
     
     all_bibliography.append(forcetitle)
