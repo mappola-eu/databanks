@@ -201,7 +201,7 @@ def import_mods(col, mod, node, conflicts):
     if node is None:
         return None
 
-    elif mod == 'text':
+    elif mod == 'text' or mod == 'num':
         if node.text is None:
             return None
 
@@ -217,6 +217,12 @@ def import_mods(col, mod, node, conflicts):
         value = value.replace("&quot;", '"')
         value = value.replace("&lt;", '<')
         value = value.replace("&gt;", '>')
+
+        if mod == 'num' and value.startswith('('):
+            value = value[1:]
+        
+        if mod == 'num' and value.endswith(')'):
+            value = value[:-1]
 
         return value
 

@@ -6,9 +6,9 @@ find_comment: /teiHeader/fileDesc/sourceDesc/msDesc/history/provenance[@type="fo
 object_type: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/objectType->ref.lod:ObjectTypes
 object_material: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/material->ref.lod:ObjectMaterials
 object_preservation_state: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/rs[@type="statPreserv"]->ref.lod:ObjectPreservationStates
-object_dim_height: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/height->text
-object_dim_width: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/width->text
-object_dim_depth: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/depth->text
+object_dim_height: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/height->num
+object_dim_width: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/width->num
+object_dim_depth: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/dimensions/depth->num
 object_execution_technique: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/layoutDesc/layout/rs[@type="execution"]->ref.lod:ObjectExecutionTechniques
 decoration_tags: /teiHeader/fileDesc/sourceDesc/msDesc/physDesc/objectDesc/supportDesc/support/rs[@type="decoration"]->ref.lod:ObjectDecorationTags
 text_function: /teiHeader/profileDesc/textClass/keywords/term->ref.lod:TextFunctions
