@@ -143,7 +143,7 @@ if(zotero = document.querySelector('[data-ext-hint=zotero]')) {
             let pages = response.data.pages
             let volume = response.data.volume
 
-            citation += ", " + journal + " " + edition + " (" + date + "), Vol. " + volume + ", " + pages + "."
+            citation += ", " + journal + " " + edition + " " + volume + " (" + date + "), " + pages + "."
         } else if (response.data.itemType == "book") {
             let place = response.data.place
             let date = response.data.date
