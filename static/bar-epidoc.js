@@ -7,13 +7,13 @@ document.querySelectorAll("[data-epidoc-bar]").forEach((item) => {
                 {
                     "label": "(lb)", "description": "New line marker",
                     "modify": (before, inner, after, n) => {
-                        return before + inner + '<lb n="' + n + '" />' + after
+                        return before + inner + '<lb n="' + n + '"/>' + after
                     }
                 },
                 {
                     "label": "in word", "description": "New line (in word) marker",
                     "modify": (before, inner, after, n) => {
-                        return before + inner + '<lb n="' + n + '" break="no" />' + after
+                        return before + inner + '<lb n="' + n + '" break="no"/>' + after
                     }
                 },
             ]
@@ -158,16 +158,16 @@ document.querySelectorAll("[data-epidoc-bar]").forEach((item) => {
             },
             "modify": (before, inner, after, c) => {
                 let choices = {
-                    "let_unknown": '<gap reason="lost" extent="unknown" unit="character" />',
-                    "let_approx": '<gap reason="lost" quantity="5" unit="character" precision="low" />',
-                    "let_range": '<gap reason="lost" atLeast="5" atMost="7" unit="character" />',
-                    "let1": '<gap reason="lost" quantity="1" unit="character" />',
-                    "let2": '<gap reason="lost" quantity="2" unit="character" />',
-                    "let3": '<gap reason="lost" quantity="3" unit="character" />',
-                    "let4": '<gap reason="lost" quantity="4" unit="character" />',
-                    "let5": '<gap reason="lost" quantity="5" unit="character" />',
-                    "line_unknown": '<gap reason="lost" extent="unknown" unit="line" />',
-                    "line1": '<gap reason="lost" quantity="1" unit="line" />'
+                    "let_unknown": '<gap reason="lost" extent="unknown" unit="character"/>',
+                    "let_approx": '<gap reason="lost" quantity="5" unit="character" precision="low"/>',
+                    "let_range": '<gap reason="lost" atLeast="5" atMost="7" unit="character"/>',
+                    "let1": '<gap reason="lost" quantity="1" unit="character"/>',
+                    "let2": '<gap reason="lost" quantity="2" unit="character"/>',
+                    "let3": '<gap reason="lost" quantity="3" unit="character"/>',
+                    "let4": '<gap reason="lost" quantity="4" unit="character"/>',
+                    "let5": '<gap reason="lost" quantity="5" unit="character"/>',
+                    "line_unknown": '<gap reason="lost" extent="unknown" unit="line"/>',
+                    "line1": '<gap reason="lost" quantity="1" unit="line"/>'
                 }
                 return before + inner + choices[c] + after
             }
@@ -193,11 +193,11 @@ document.querySelectorAll("[data-epidoc-bar]").forEach((item) => {
             },
             "modify": (before, inner, after, c) => {
                 let choices = {
-                    "let1": '<gap reason="illegible" quantity="1" unit="character" />',
-                    "let2": '<gap reason="illegible" quantity="2" unit="character" />',
-                    "let3": '<gap reason="illegible" quantity="3" unit="character" />',
-                    "let4": '<gap reason="illegible" quantity="4" unit="character" />',
-                    "let5": '<gap reason="illegible" quantity="5" unit="character" />',
+                    "let1": '<gap reason="illegible" quantity="1" unit="character"/>',
+                    "let2": '<gap reason="illegible" quantity="2" unit="character"/>',
+                    "let3": '<gap reason="illegible" quantity="3" unit="character"/>',
+                    "let4": '<gap reason="illegible" quantity="4" unit="character"/>',
+                    "let5": '<gap reason="illegible" quantity="5" unit="character"/>',
                 }
                 return before + inner + choices[c] + after
             }
@@ -205,7 +205,7 @@ document.querySelectorAll("[data-epidoc-bar]").forEach((item) => {
         {
             "type": "insert", "label": "Vacat", "description": "Undetermined vacat",
             "modify": (before, inner, after) => {
-                return before + inner + '<space extent="unknown" unit="character" />' + after
+                return before + inner + '<space extent="unknown" unit="character"/>' + after
             }
         },
         {
@@ -218,7 +218,7 @@ document.querySelectorAll("[data-epidoc-bar]").forEach((item) => {
                 "siglum": "siglum",
             },
             "modify": (before, inner, after, c) => {
-                return before + inner + '<g type="' + c + '" />' + after
+                return before + inner + '<g type="' + c + '"/>' + after
             }
         }
     ],
