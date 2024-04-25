@@ -811,6 +811,10 @@
                         },
                         {
                             "component": "revisions"
+                        },
+                        {
+                            "component": "download_button",
+                            "label": "Download as XML"
                         }
                     ]
                 }

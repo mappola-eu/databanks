@@ -354,6 +354,12 @@ class Inscriptions(db.Model):
             return None
         
         return self.images[0].image_link
+    
+    def download_link(self):
+        return flask.url_for('inscriptions.render_xml', id=self.id)
+    
+    def download_name(self):
+        return self.long_id().replace('?', '_') + '.xml'
 
 
 class InscriptionEdited(db.Model):

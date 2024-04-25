@@ -122,6 +122,9 @@
     </li>
     {% endfor %}
 </ol>
+{% elif part.component == "download_button" %}
+<h5 style="margin-top: 1rem;">Download</h5>
+<a href="{{ item.download_link() }}" download="{{ item.download_name() }}" class="download-btn">{{ part.label }}</a>
 {% endif %}
 
 {% if part.view_postfix %}

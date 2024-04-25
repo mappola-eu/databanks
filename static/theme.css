@@ -238,7 +238,8 @@ form table[role="table"] {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .toolbar a[role="button"],
-.toolbar button {
+.toolbar button,
+a.download-btn {
     padding: 0.5rem 1rem;
     border: none;
     font: inherit;
