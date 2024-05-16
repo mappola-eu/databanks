@@ -1,7 +1,7 @@
-flask=2.2.5
+flask==2.2.5
 flask-sqlalchemy
 flask-migrate
-flask-security
+flask-security-too
 email_validator
 
 pyzotero

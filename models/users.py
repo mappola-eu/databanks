@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     full_name = db.Column(db.String(255))
     active = db.Column(db.Boolean())
+    fs_uniquifier = db.Column(db.String(64), unique=True, nullable=True)
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
     
