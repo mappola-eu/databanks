@@ -31,8 +31,8 @@
                         <objectDesc>
                             <supportDesc>
                                 <support>
-                                    <objectType ref="{{ insc.object_type.enum_lod if insc.object_type }}">{{ insc.object_type.title if insc.object_type }}</objectType>
-                                    <material ref="{{ insc.object_material.enum_lod if insc.object_material }}">{{ insc.object_material.title if insc.object_material }}</material>
+                                    <objectType ref="{{ insc.object_type.enum_lod if insc.object_type else 'none' }}">{{ insc.object_type.title if insc.object_type }}</objectType>
+                                    <material ref="{{ insc.object_material.enum_lod if insc.object_material else 'none' }}">{{ insc.object_material.title if insc.object_material }}</material>
                                     <rs type="statPreserv">{{ insc.object_preservation_state.title if insc.object_preservation_state }}</rs>
                                     <dimensions unit="cm">
                                         <width>{{ insc.object_dim_width }}</width>
@@ -44,7 +44,7 @@
                             </supportDesc>
                             <layoutDesc>
                                 <layout>
-                                    <rs type="execution" ref="{{ insc.object_execution_technique.enum_lod if insc.object_execution_technique }}">{{ insc.object_execution_technique.title if insc.object_execution_technique }}</rs>
+                                    <rs type="execution" ref="{{ insc.object_execution_technique.enum_lod if insc.object_execution_technique else 'none' }}">{{ insc.object_execution_technique.title if insc.object_execution_technique }}</rs>
                                 </layout>
                             </layoutDesc>
                         </objectDesc>
@@ -88,18 +88,20 @@
             </langUsage>
             <textClass>
                 <keywords>
-                    <term ref="{{ insc.text_function.enum_lod if insc.text_function }}">{{ insc.text_function.title if insc.text_function }}</term>
+                    <term ref="{{ insc.text_function.enum_lod if insc.text_function else 'none' }}">{{ insc.text_function.title if insc.text_function }}</term>
                 </keywords>
             </textClass>
             <particDesc>
                 <p>
                     <listPerson>
                     {% for person in insc.people %}
-                        <person gender="{{ person.gender.title if person.gender }}" age="{{ person.age.lod if person.age }}" role="{{ person.role.title if person.role }}">
+                        <person gender="{{ person.gender.title if person.gender else 'none' }}" age="{{ person.age.lod if person.age else 'none' }}" role="{{ person.role.title if person.role else 'none' }}">
                             <persName>
                                 <name>{{ person.name }}</name>
                             </persName>
                         </person>
+                    {% else %}
+                    <person></person>
                     {% endfor %}
                     </listPerson>
                 </p>
@@ -114,6 +116,8 @@
     <facsimile>
         {% for img in insc.images %}
         <graphic url="{{ img.image_link }}">{{ img.image_citation }}</graphic>
+        {% else %}
+        <graphic url="#" />
         {% endfor %}
     </facsimile>
     <text>
