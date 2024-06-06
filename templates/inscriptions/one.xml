@@ -39,7 +39,7 @@
                                         <height>{{ insc.object_dim_height }}</height>
                                         <depth>{{ insc.object_dim_depth }}</depth>
                                     </dimensions>
-                                    <rs type="decoration" ref="">{{ insc.object_decoration_comment }}</rs>
+                                    <rs type="decoration" ref="none">{{ insc.object_decoration_comment }}</rs>
                                 </support>
                             </supportDesc>
                             <layoutDesc>
