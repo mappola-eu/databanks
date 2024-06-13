@@ -95,7 +95,7 @@
                 <p>
                     <listPerson>
                     {% for person in insc.people %}
-                        <person gender="{{ person.gender.title if person.gender else 'none' }}" age="{{ person.age.lod if person.age else 'none' }}" role="{{ person.role.title if person.role else 'none' }}">
+                        <person gender="{{ person.gender.title if person.gender else 'none' }}" age="{{ person.age.enum_lod if person.age else 'none' }}" role="{{ person.role.title if person.role else 'none' }}">
                             <persName>
                                 <name>{{ person.name }}</name>
                             </persName>
