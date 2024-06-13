@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import click
 from datetime import datetime as dt
 from flask import Blueprint
-from .models import db, get_enum, get_defn, Inscriptions, User, Publications
+from .models import db, get_enum, get_defn, Inscriptions, User, Publications, Images, People, PeopleGenders
 from .linkage.epidoc import full_parse_on_inscription
 from .controllers.resource import apply_special_defn_to_item
 
@@ -315,9 +315,6 @@ def biblfix(from_file, forcetitle):
         print("No inscription found, aborting.")
         return
 
-    with open("models/xmlmapping.txt", "r") as xmlmapfile:
-        xmlmapraw = xmlmapfile.read()
-
     tree = ET.iterparse(from_file)
     for _, el in tree:
         el.tag = el.tag.split('}', 1)[1]  # strip all namespaces
@@ -341,3 +338,93 @@ def biblfix(from_file, forcetitle):
 
     db.session.commit()
     print(f"Fixed {forcetitle} bibliography")
+
+
+@import_.cli.command("imgfix")
+@click.argument("from_file")
+@click.argument("forcetitle")
+def imgfix(from_file, forcetitle):
+    inscription = Inscriptions.query.filter(Inscriptions.title.like(f'% - {forcetitle}')).one_or_none()
+
+    if not inscription:
+        print("No inscription found, aborting.")
+        return
+
+    tree = ET.iterparse(from_file)
+    for _, el in tree:
+        el.tag = el.tag.split('}', 1)[1]  # strip all namespaces
+    root = tree.root
+    
+    graphics = root.findall('./facsimile/graphic')
+    all_graphic = []
+
+    for img in graphics:
+        img_url = img.attrib['url']
+
+        if not img_url:
+            continue
+
+        all_graphic.append(img_url)
+
+    for img_url in all_graphic:
+        db.session.add(Images(inscription=inscription,
+                              image_link=img_url, image_alt='', image_citation=''))
+
+    db.session.commit()
+    print(f"Fixed {forcetitle} images")
+
+
+@import_.cli.command("pplfix")
+@click.argument("from_file")
+@click.argument("forcetitle")
+def pplfix(from_file, forcetitle):
+    inscription = Inscriptions.query.filter(Inscriptions.title.like(f'% - {forcetitle}')).one_or_none()
+
+    if not inscription:
+        print("No inscription found, aborting.")
+        return
+
+    tree = ET.iterparse(from_file)
+    for _, el in tree:
+        el.tag = el.tag.split('}', 1)[1]  # strip all namespaces
+    root = tree.root
+
+    gender = PeopleGenders.query.all()
+    gender_mapping = { g.title[0]: g for g in gender }
+    
+    people = root.findall('./teiHeader/profileDesc/particDesc/p/listPerson/person')
+    all_people = []
+
+    for person in people:
+        pc = {}
+
+        if 'sex' in person.attrib:
+            pc['sex'] = gender_mapping[person.attrib['sex']]
+
+        if (praenomen_obj := person.find('persName/name[@type="praenomen"]')) is not None:
+            praenomen = praenomen_obj.text
+        else:
+            praenomen = ''
+
+        if (nomen_obj := person.find('persName/name[@type="nomen"]')) is not None:
+            nomen = nomen_obj.text
+        else:
+            nomen = ''
+
+        if (cognomen_obj := person.find('persName/name[@type="cognomen"]')) is not None:
+            cognomen = cognomen_obj.text
+        else:
+            cognomen = ''
+
+        if praenomen or nomen or cognomen:
+            pc['name'] = " ".join([_ for _ in (praenomen, nomen, cognomen) if _])
+
+        if pc.items():
+            all_people.append(pc)
+
+    for pc in all_people:
+        db.session.add(People(inscription=inscription,
+                              name=pc.get('name', '[unnamed]'), gender=pc.get('sex', None)))
+
+    db.session.commit()
+    print(f"Fixed {forcetitle} people")
