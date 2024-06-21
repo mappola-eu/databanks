@@ -106,8 +106,12 @@ def rerender_insc_text():
 @import_.cli.command("inscription")
 @click.argument("from_file")
 @click.argument("forcetitle")
-def inscription(from_file, forcetitle):
-    with open("models/xmlmapping.txt", "r") as xmlmapfile:
+@click.argument("mapping", required=False)
+def inscription(from_file, forcetitle, mapping):
+    if mapping is None:
+        mapping = 'models/xmlmapping.txt'
+
+    with open(mapping, "r") as xmlmapfile:
         xmlmapraw = xmlmapfile.read()
 
     tree = ET.iterparse(from_file)
