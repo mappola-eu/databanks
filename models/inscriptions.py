@@ -172,20 +172,27 @@ class Inscriptions(db.Model):
     import_notice = db.Column(db.Text)
 
     def make_searchable_inscription_cache(self):
-        text_base = self.text_epidoc_form + "\n\n"
+        text = ''
 
-        tree = html.fromstring(self.text_interpretative())
-        text = tree.text_content().strip() + "\n\n"
+        if self.text_epidoc_form:
+            text_base = self.text_epidoc_form + "\n\n"
 
-        text += re.subn(r"\(.*?\)|\⸢.*?\⸣", "", text.strip())[0] + "\n\n"
-        text += re.subn(r" *\((.*?)\) *| *\⸢(.*?)\⸣ *", r"\1\2", text.strip())[0] + "\n\n"
+            tree = html.fromstring(self.text_interpretative())
+            text = tree.text_content().strip() + "\n\n"
 
-        tree = html.fromstring(self.text_diplomatic())
-        text += tree.text_content().strip()
+            text += re.subn(r"\(.*?\)|\⸢.*?\⸣", "", text.strip())[0] + "\n\n"
+            text += re.subn(r" *\((.*?)\) *| *\⸢(.*?)\⸣ *", r"\1\2", text.strip())[0] + "\n\n"
+
+            tree = html.fromstring(self.text_diplomatic())
+            text += tree.text_content().strip()
 
         if self.text_metrics_visualised_cached:
             tree = html.fromstring(self.text_with_metrics_visualised())
             text += "\n\n" + tree.text_content().strip()
+
+        if not text:
+            self.inscription_search_body_cached = ''
+            return ''
 
         text = re.subn(r"[0-9]+", "", text)[0]
 
@@ -278,6 +285,9 @@ class Inscriptions(db.Model):
         return self.text_metrics_visualised_cached
 
     def text_only_preview(self):
+        if not self.text_interpretative():
+            return ''
+
         tree = html.fromstring(self.text_interpretative())
         text = tree.text_content().strip()
 

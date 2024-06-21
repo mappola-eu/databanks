@@ -33,6 +33,14 @@ def full_parse(epidoc):
 
 def full_parse_on_inscription(inscription):
     epidoc = inscription.text_epidoc_form
+
+    # Do not attempt to parse empty epidoc file
+    if len(epidoc.strip()) == 0:
+        inscription.text_interpretative_cached = ''
+        inscription.text_diplomatic_cached = ''
+        inscription.text_metrics_visualised_cached = ''
+        return inscription
+
     encoded = b64encode(epidoc.encode())
 
     pipe = Popen(['python3', __file__], stdin=PIPE, stdout=PIPE)
