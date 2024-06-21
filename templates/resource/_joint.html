@@ -165,7 +165,7 @@
         <tr>
             <th><label for="{{ name }}-{{ column.column }}">{{ column.label }}</label></th>
             <td><input id="{{ name }}-{{ column.column }}" value="{{ render_column(item, column)[0] }}"
-                    name="{{ column.column }}" type="number" step="{{ column.step }}"></td>
+                    name="{{ column.column or 0 }}" type="number" step="{{ column.step }}"></td>
         </tr>
         {% elif column.type == "text" %}
         <tr>
