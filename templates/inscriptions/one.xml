@@ -7,8 +7,9 @@
             <titleStmt>
                 <title>{{ insc.title }}</title>
                 <respStmt>
-                    <resp>{{ insc.last_updated_by.full_name }}</resp>
-                    <name>{{ insc.import_notice }}</name>
+                    <resp>created by</resp>
+                    <name>{{ insc.last_updated_by.full_name }}</name>
+                    <note>{{ insc.import_notice }}</note>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
@@ -51,7 +52,7 @@
                         <handDesc>
                             <handNote>
                                 <dimensions>
-                                    <height unit="cm">{{ insc.object_dim_height }}-{{ insc.letter_size_max }}</height>
+                                    <height unit="cm">{{ insc.letter_size_min }}-{{ insc.letter_size_max }}</height>
                                 </dimensions>
                             </handNote>
                         </handDesc>
@@ -61,7 +62,7 @@
                             <origPlace>
                                 <placeName type="ancient">{{ insc.place.ancient_name if insc.place }}</placeName>
                             </origPlace>
-                            <origDate notBefore-custom="{{ insc.date_begin }}" notAfter-custom="{{ insc.date_end }}" datingMethod="http://en.wikipedia.org/wiki/Julian_calendar">{{ insc.date_begin }} {{ insc.date_end }}</origDate>
+                            <origDate notBefore-custom="{{ insc.date_begin }}" notAfter-custom="{{ insc.date_end }}" datingMethod="http://en.wikipedia.org/wiki/Julian_calendar">{{ insc.date_begin }}-{{ insc.date_end }}</origDate>
                         </origin>
                         <provenance type="found">
                             <placeName type="ancient">{{ insc.place.title if insc.place }}</placeName>
@@ -94,13 +95,13 @@
             <particDesc>
                 <p>
                     <listPerson>
-                    {% for person in insc.people %}
+                        {% for person in insc.people -%}
                         <person gender="{{ person.gender.title if person.gender else 'none' }}" age="{{ person.age.enum_lod if person.age else 'none' }}" role="{{ person.role.title if person.role else 'none' }}">
                             <persName>
                                 <name>{{ person.name }}</name>
                             </persName>
                         </person>
-                    {% else %}
+                        {% else %}
                     <person></person>
                     {% endfor %}
                     </listPerson>
@@ -108,13 +109,13 @@
             </particDesc>
         </profileDesc>
         <revisionDesc>
-            {% for rev in insc.revisions %}
+            {% for rev in insc.revisions -%}
             <change when="{{ rev.revision_at.isoformat() }}" who="{{ rev.user.full_name }}">{{ rev.revision_comment or '' }}</change>
             {% endfor %}
         </revisionDesc>
     </teiHeader>
     <facsimile>
-        {% for img in insc.images %}
+        {% for img in insc.images -%}
         <graphic url="{{ img.image_link }}">{{ img.image_citation }}</graphic>
         {% else %}
         <graphic url="#" />
@@ -131,7 +132,7 @@
             <div type="translation" xml:lang="en" resp="{{ insc.translation_author }}">
                 <p>{{ insc.main_translation }}</p>
             </div>
-            {% for tr in insc.translations %}
+            {% for tr in insc.translations -%}
             <div type="translation" xml:lang="{{ tr.language_title() }}" resp="{{ insc.translation_author }}">
                 <p>{{ tr.link_to_published_translation }}</p>
             </div>
@@ -141,7 +142,7 @@
             </div>
             <div type="bibliography">
                 <listBibl>
-                {% for pub in insc.publications.order_by('order_number').all() %}
+                {% for pub in insc.publications.order_by('order_number').all() -%}
                     <bibl>{{ pub.reference_comment }}</bibl>
                 {% endfor %}
                 </listBibl>
