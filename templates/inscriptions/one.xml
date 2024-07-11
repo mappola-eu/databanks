@@ -9,7 +9,7 @@
                 <respStmt>
                     <resp>created by</resp>
                     <name>{{ insc.last_updated_by.full_name }}</name>
-                    <note>{{ insc.import_notice }}</note>
+                    <note>{{ insc.import_notice or '' }}</note>
                 </respStmt>
             </titleStmt>
             <publicationStmt>
@@ -142,9 +142,9 @@
             </div>
             <div type="bibliography">
                 <listBibl>
-                {% for pub in insc.publications.order_by('order_number').all() -%}
+                    {% for pub in insc.publications.order_by('order_number').all() -%}
                     <bibl>{{ pub.reference_comment }}</bibl>
-                {% endfor %}
+                    {% endfor %}
                 </listBibl>
             </div>
         </body>
