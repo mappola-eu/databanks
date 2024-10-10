@@ -39,7 +39,7 @@
                 <td>
                     <select id="q-province" name="province">
                         <option selected></option>
-                        {% for e in get_enum('Provinces').query.all() %}
+                        {% for e in get_enum('Provinces').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -52,7 +52,7 @@
                 <td>
                     <select id="q-state" name="state">
                         <option selected></option>
-                        {% for e in get_enum('ModernStates').query.all() %}
+                        {% for e in get_enum('ModernStates').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -65,7 +65,7 @@
                 <td>
                     <select id="q-find_place" name="find_place">
                         <option selected></option>
-                        {% for e in get_enum('Places').query.all() %}
+                        {% for e in get_enum('Places').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -84,7 +84,7 @@
                 <td>
                     <select id="q-current_location" name="current_location">
                         <option selected></option>
-                        {% for e in get_enum('CurrentLocations').query.all() %}
+                        {% for e in get_enum('CurrentLocations').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -111,7 +111,7 @@
                 <td>
                     <select id="q-object_type" name="object_type">
                         <option selected></option>
-                        {% for e in get_enum('ObjectTypes').query.all() %}
+                        {% for e in get_enum('ObjectTypes').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -124,7 +124,7 @@
                 <td>
                     <select id="q-object_material" name="object_material">
                         <option selected></option>
-                        {% for e in get_enum('ObjectMaterials').query.all() %}
+                        {% for e in get_enum('ObjectMaterials').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -137,7 +137,7 @@
                 <td>
                     <select id="q-object_preservation" name="object_preservation">
                         <option selected></option>
-                        {% for e in get_enum('ObjectPreservationStates').query.all() %}
+                        {% for e in get_enum('ObjectPreservationStates').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -150,7 +150,7 @@
                 <td>
                     <select id="q-object_execution" name="object_execution">
                         <option selected></option>
-                        {% for e in get_enum('ObjectExecutionTechniques').query.all() %}
+                        {% for e in get_enum('ObjectExecutionTechniques').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -163,7 +163,7 @@
                 <td>
                     <select id="q-religion" name="religion">
                         <option selected></option>
-                        {% for e in get_enum('Religions').query.all() %}
+                        {% for e in get_enum('Religions').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -176,7 +176,7 @@
                 <td>
                     <select id="q-decoration_tags" name="decoration_tags" multiple>
                         <option selected></option>
-                        {% for e in get_enum('ObjectDecorationTags').query.all() %}
+                        {% for e in get_enum('ObjectDecorationTags').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -189,7 +189,7 @@
                 <td>
                     <select id="q-layout_tags" name="layout_tags" multiple>
                         <option selected></option>
-                        {% for e in get_enum('TextLayoutTags').query.all() %}
+                        {% for e in get_enum('TextLayoutTags').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -209,7 +209,7 @@
                 <td>
                     <select id="q-verse_type" name="verse_type" multiple>
                         <option selected></option>
-                        {% for e in get_enum('VerseTypes').query.all() %}
+                        {% for e in get_enum('VerseTypes').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -222,7 +222,7 @@
                 <td>
                     <select id="q-rhythmisation" name="rhythmisation">
                         <option selected></option>
-                        {% for e in get_enum('VerseTimingTypes').query.all() %}
+                        {% for e in get_enum('VerseTimingTypes').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -235,7 +235,7 @@
                 <td>
                     <select id="q-function" name="function">
                         <option selected></option>
-                        {% for e in get_enum('TextFunctions').query.all() %}
+                        {% for e in get_enum('TextFunctions').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -248,7 +248,7 @@
                 <td>
                     <select id="q-language" name="languages" multiple>
                         <option selected></option>
-                        {% for e in get_enum('Languages').query.all() %}
+                        {% for e in get_enum('Languages').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -326,7 +326,7 @@
                 <td>
                     <select id="q-pgender" name="pgender" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleGenders').query.all() %}
+                        {% for e in get_enum('PeopleGenders').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -339,7 +339,7 @@
                 <td>
                     <select id="q-page" name="page" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleAges').query.all() %}
+                        {% for e in get_enum('PeopleAges').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -352,7 +352,7 @@
                 <td>
                     <select id="q-pageexpr" name="pageexpr" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleAgeExpressions').query.all() %}
+                        {% for e in get_enum('PeopleAgeExpressions').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -365,7 +365,7 @@
                 <td>
                     <select id="q-pageprec" name="pageprec" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleAgePrecision').query.all() %}
+                        {% for e in get_enum('PeopleAgePrecision').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -378,7 +378,7 @@
                 <td>
                     <select id="q-porigins" name="porigins" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleOrigins').query.all() %}
+                        {% for e in get_enum('PeopleOrigins').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -391,7 +391,7 @@
                 <td>
                     <select id="q-plegal" name="plegal" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleLegalStatus').query.all() %}
+                        {% for e in get_enum('PeopleLegalStatus').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -404,7 +404,7 @@
                 <td>
                     <select id="q-prank" name="prank" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleRanks').query.all() %}
+                        {% for e in get_enum('PeopleRanks').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -417,7 +417,7 @@
                 <td>
                     <select id="q-pprofession" name="pprofession" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleProfessions').query.all() %}
+                        {% for e in get_enum('PeopleProfessions').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -430,7 +430,7 @@
                 <td>
                     <select id="q-prole" name="prole" multiple>
                         <option selected></option>
-                        {% for e in get_enum('PeopleRoles').query.all() %}
+                        {% for e in get_enum('PeopleRoles').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>

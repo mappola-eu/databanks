@@ -23,7 +23,7 @@
                 <td>
                     <select id="q-province" name="province">
                         <option selected></option>
-                        {% for e in get_enum('Provinces').query.all() %}
+                        {% for e in get_enum('Provinces').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -36,7 +36,7 @@
                 <td>
                     <select id="q-state" name="state">
                         <option selected></option>
-                        {% for e in get_enum('ModernStates').query.all() %}
+                        {% for e in get_enum('ModernStates').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
@@ -49,7 +49,7 @@
                 <td>
                     <select id="q-verse_type" name="verse_type">
                         <option selected></option>
-                        {% for e in get_enum('VerseTypes').query.all() %}
+                        {% for e in get_enum('VerseTypes').query.order_by("title").all() %}
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
