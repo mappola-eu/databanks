@@ -147,9 +147,13 @@ def merge(name, id):
     if request.method == "POST":
         other = R.query.get(request.form['target'])
         rels = inspect(R).relationships.items()
-        for rk, _ in rels:
+        for rk, ro in rels:
             here = getattr(item, rk)
             there = getattr(other, rk)
+
+            # This is probably a 1:n relationship, which we can't cover here
+            if ro.secondary is None and str(type(ro)) != 'RelationshipProperty':
+                continue
 
             for entry in here:
                 if entry not in there:
