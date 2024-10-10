@@ -69,6 +69,16 @@
                         <option value="{{ e.id }}">
                             {{ e.title }}
                         </option>
+                        {% if e.ancient_name and e.ancient_name != e.title %}
+                        <option value="{{ e.id }}">
+                            {{ e.ancient_name }}
+                        </option>
+                        {% endif %}
+                        {% if e.modern_name and e.modern_name != e.ancient_name and e.modern_name != e.title %}
+                        <option value="{{ e.id }}">
+                            {{ e.modern_name }}
+                        </option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </td>
