@@ -1,7 +1,8 @@
-from flask import Blueprint, url_for, render_template, make_response, abort
-from ..models import Inscriptions, db, get_enum, inscriptions_to_json
-from ..models import ObjectDecorationTags, Languages, VerseTypes, DatingCriteria
+from flask import Blueprint, render_template, make_response, abort, send_file
+from ..models import Inscriptions, inscriptions_to_json, inscriptions_to_csv
 from flask_security import login_required
+
+import csv, io
 
 inscriptions = Blueprint('inscriptions', __name__)
 
@@ -28,3 +29,20 @@ def render_xml(id):
 
     return response
 
+
+@login_required
+@inscriptions.route("/.unknown/alex.csv")
+def alex_export():
+    inscs = Inscriptions.query.all()
+
+    csvdata = inscriptions_to_csv(inscs)
+
+    csv_io = io.StringIO()
+    csvwriter = csv.writer(csv_io, delimiter=',', quotechar='\"')
+    csvwriter.writerows(csvdata)
+
+    mem_io = io.BytesIO()
+    mem_io.write(csv_io.getvalue().encode())
+    mem_io.seek(0)
+
+    return send_file(mem_io, mimetype='text/csv')

@@ -1082,3 +1082,15 @@ def inscriptions_to_json(inscs):
         }]
     
     return mc
+
+def inscriptions_to_csv(inscs):
+    mc = [('MAPPOLA-No', 'Title', 'Bibliography...')]
+
+    for insc in inscs:
+        mc += [(
+            insc.long_id(),
+            insc.title.strip(),
+            *[p.display().strip() for p in insc.publications]
+        )]
+    
+    return mc
