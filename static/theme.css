@@ -408,3 +408,8 @@ li figure {
 li figure img {
     width: 100%;
 }
+
+em, i {
+    font-family: 'Lato', 'Roboto', -apple-system, BlinkMacSystemFont, Arial, sans-serif !important;
+    font-weight: normal !important;
+}
