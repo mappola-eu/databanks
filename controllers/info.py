@@ -20,3 +20,6 @@ def acknowledgements(): return render_template("info/project/acknowledgements.ht
 
 @info.route("/data")
 def data(): return render_template("info/data.html")
+
+@info.route("/bibliography")
+def bibliography(): return render_template("info/bibliography.html")
