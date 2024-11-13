@@ -1,5 +1,8 @@
 <header>
     <a href="{{ url_for('index') }}" role="heading">MAPPOLA</a>
+    <a href="">
+        Project
+    </a>
     <a href="{{ url_for('resource.index', name='Inscriptions') }}">
         Inscriptions
     </a>
@@ -9,13 +12,16 @@
     <a href="{{ url_for('inscriptions.map') }}">
         Map
     </a>
+    <a href="">
+        Data
+    </a>
+    <a href="">
+        Bibliography
+    </a>
 
     <div role="separator"></div>
 
     {% if current_user.is_authenticated %}
-    <a href="">
-        Settings
-    </a>
     <a href="{{ url_for('security.change_password') }}">
         User
         ({{ current_user.full_name }})
