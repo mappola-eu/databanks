@@ -17,3 +17,6 @@ def events_and_presentations(): return render_template("info/project/events_and_
 
 @info.route("/project/acknowledgements")
 def acknowledgements(): return render_template("info/project/acknowledgements.html")
+
+@info.route("/data")
+def data(): return render_template("info/data.html")

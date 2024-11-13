@@ -1,8 +1,16 @@
 <header>
     <a href="{{ url_for('index') }}" role="heading">MAPPOLA</a>
-    <a href="">
-        Project
-    </a>
+    <div class="dropdown">
+        <a href="">Project</a>
+        <div class="dropdown-area">
+            <a href="{{ url_for('info.concept_and_aim') }}">Concept and aim</a>
+            <a href="{{ url_for('info.team') }}">Team</a>
+            <a href="{{ url_for('info.partners') }}">Partners</a>
+            <a href="{{ url_for('info.events_and_presentations') }}">Events and presentations</a>
+            <a href="{{ url_for('info.acknowledgements') }}">Acknowledgements</a>
+            <a href="mailto:mappola.erc@gmail.com">Contact us</a>
+        </div>
+    </div>
     <a href="{{ url_for('resource.index', name='Inscriptions') }}">
         Inscriptions
     </a>
@@ -12,7 +20,7 @@
     <a href="{{ url_for('inscriptions.map') }}">
         Map
     </a>
-    <a href="">
+    <a href="{{ url_for('info.data') }}">
         Data
     </a>
     <a href="">

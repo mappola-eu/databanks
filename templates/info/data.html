@@ -1,0 +1,12 @@
+{% set title = "Data" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Data</h1>
+
+<p>The MAPPOLA database follows the <a href="https://www.go-fair.org/fair-principles/">FAIR principles</a>: All data can be reused under the <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 licence</a>.</p>
+
+<img src="{{ url_for('static', filename='by-sa.png') }}" alt="" width="100">
+
+<p>All data of the MAPPOLA database can be downloaded in EpiDoc-XML format.</p>
+{% endblock %}
