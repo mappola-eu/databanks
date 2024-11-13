@@ -23,9 +23,14 @@
     <a href="{{ url_for('info.data') }}">
         Data
     </a>
-    <a href="{{ url_for('info.bibliography') }}">
-        Bibliography
-    </a>
+
+    <div class="dropdown">
+        <a href="">Bibliography</a>
+        <div class="dropdown-area">
+            <a href="{{ url_for('info.bibliography') }}">Abbreviation of corpora</a>
+            <a href="https://www.zotero.org/groups/4706630/mappola_library/library" target="_blank">MAPPOLA Library</a>
+        </div>
+    </div>
 
     <div role="separator"></div>
 
