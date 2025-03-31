@@ -180,8 +180,8 @@ class Inscriptions(db.Model):
             tree = html.fromstring(self.text_interpretative())
             text = tree.text_content().strip() + "\n\n"
 
-            text += re.subn(r"\(.*?\)|\⸢.*?\⸣", "", text.strip())[0] + "\n\n"
-            text += re.subn(r" *\((.*?)\) *| *\⸢(.*?)\⸣ *", r"\1\2", text.strip())[0] + "\n\n"
+            text += re.subn(r"\[.*?\]|\{.*?\}|\(.*?\)|\⸢.*?\⸣", "", text.strip())[0] + "\n\n"
+            text += re.subn(r" *\[(.*?)\] *| *\{(.*?)\} *| *\((.*?)\) *| *\⸢(.*?)\⸣ *", r"\1\2\3\4", text.strip())[0] + "\n\n"
 
             tree = html.fromstring(self.text_diplomatic())
             text += tree.text_content().strip()
