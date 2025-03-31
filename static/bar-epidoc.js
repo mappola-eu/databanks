@@ -125,6 +125,12 @@ document.querySelectorAll("[data-epidoc-bar]").forEach((item) => {
             }
         },
         {
+            "type": "insert", "label": "a(bc)", "description": "Expansion of an abbreviation",
+            "modify": (before, inner, after) => {
+                return before + '<expan><abbr>' + inner + '</abbr><ex></ex></expan>' + after
+            }
+        },
+        {
             "type": "insert", "label": "a(bc?)", "description": "Tentative expansion of an abbreviation",
             "modify": (before, inner, after) => {
                 return before + '<expan><abbr>' + inner + '</abbr><ex cert="low"></ex></expan>' + after
