@@ -44,7 +44,7 @@ def full_parse_on_inscription(inscription):
     encoded = b64encode(epidoc.encode())
 
     pipe = Popen(['python3', __file__], stdin=PIPE, stdout=PIPE)
-    response = pipe.communicate(encoded + b'\n', timeout=4)
+    response = pipe.communicate(encoded + b'\n', timeout=6)
 
     if not len(response[0]):
         inscription.text_interpretative_cached = "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML"
