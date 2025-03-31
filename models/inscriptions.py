@@ -173,6 +173,7 @@ class Inscriptions(db.Model):
 
     def make_searchable_inscription_cache(self):
         text = ''
+        text_base = ''
 
         if self.text_epidoc_form:
             text_base = self.text_epidoc_form + "\n\n"
