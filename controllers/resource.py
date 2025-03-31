@@ -152,10 +152,13 @@ def merge(name, id):
             there = getattr(other, rk)
 
             # This is probably a 1:n relationship, which we can't cover here
-            if ro.secondary is None and str(type(ro)) != 'RelationshipProperty':
+            if ro.secondary is None and str(type(ro)) != "<class 'sqlalchemy.orm.relationships.RelationshipProperty'>":
                 continue
 
+            here = [*here] # Save current state
+
             for entry in here:
+                print(entry, entry not in there)
                 if entry not in there:
                     there.append(entry)
             
