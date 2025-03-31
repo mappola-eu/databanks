@@ -737,7 +737,7 @@
                             ]
                         },
                         {
-                            "title": "Dating Information",
+                            "title": "Dating",
                             "component": "table",
                             "edit_prefix": "Begin the number with a '-' for dates B.C.",
                             "columns": [
