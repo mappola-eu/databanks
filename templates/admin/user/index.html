@@ -1,0 +1,40 @@
+{% set title = "Admin" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Admin tools &ndash; User management</h1>
+
+<div class="toolbar">
+    <a href="{{ url_for('admin.new_user') }}" role="button">Add User</a>
+</div>
+
+<h3>{{ users.count() }} total items</h3>
+
+<table role="table">
+    <tr>
+        <th>#</th>
+        <th>Email</th>
+        <th>Full Name</th>
+        <th>Active</th>
+        <th>Roles</th>
+        <th></th>
+    </tr>
+    <tbody>
+        {% for user in users.all() %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.full_name }}</td>
+            <td>{{ "yes" if user.active else "no" }}</td>
+            <td>
+                <ul>{% for role in user.roles %}<li>{{ role.name }}</li>{% endfor %}</ul>
+            </td>
+            <td>
+                <a href="{{ url_for('admin.edit_user', u=user.id) }}" role="button">Update</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

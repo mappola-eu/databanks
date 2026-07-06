@@ -26,6 +26,7 @@ app.db = db
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+app.security = security
 
 @app.route("/")
 def index():

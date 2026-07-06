@@ -1,0 +1,17 @@
+{% set title = "Admin" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Admin tools &ndash; New user</h1>
+
+<form action="" method="post">
+
+    <div class="toolbar">
+        <button type="submit" class="primary-btn">Create</button>
+        <a href="{{ url_for('admin.user') }}" role="button">Cancel</a>
+    </div>
+
+    {% include "admin/user/_form.html" %}
+</form>
+
+{% endblock %}

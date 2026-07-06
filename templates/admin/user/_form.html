@@ -1,0 +1,47 @@
+<section role="doc-part">
+    <table role="table">
+        <tbody>
+            {% if existing %}
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <th><label for="user-email">Email</label></th>
+                <td><input id="user-email" value="{{ user.email }}"
+                        name="email" type="email"></td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th><label for="user-password">Password {{ "(leave empty to keep current password)" if existing }}</label></th>
+                <td><input id="user-password" name="password" type="password"></td>
+            </tr>
+            <tr>
+                <th><label for="user-full_name">Full Name</label></th>
+                <td><input id="user-full_name" value="{{ user.full_name }}"
+                        name="full_name" type="text"></td>
+            </tr>
+            <tr>
+                <th><label for="user-active">Active?</label></th>
+                <td><input id="user-active" {{ 'checked' if user.active }}
+                        name="active" type="checkbox"></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section role="doc-part">
+    <h2>Roles</h2>
+    <table role="table">
+        <tbody>
+            {% for role in roles %}
+            <tr>
+                <th><label for="user-role-{{ role.id }}">{{ role.name }}</label></th>
+                <td><input id="user-role-{{ role.id }}" {{ 'checked' if user in role.users }}
+                        name="roles" type="checkbox" value="{{ role.id }}"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
