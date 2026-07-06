@@ -4,3 +4,4 @@ from .resource import resource
 from .search import search
 from .ext_zotero import ext_zotero
 from .info import info
+from .admin import admin

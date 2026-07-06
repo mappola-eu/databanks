@@ -28,6 +28,14 @@ class User(db.Model, UserMixin):
 
         return self in devrole[0].users
     
+    def has_admin_permissions(self):
+        adminrole = Role.query.filter_by(name='admin').all()
+
+        if len(adminrole) != 1:
+            return False
+
+        return self in adminrole[0].users
+    
     def unknown(self):
         unknownrole = Role.query.filter_by(name='unknown').all()
 

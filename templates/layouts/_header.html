@@ -35,6 +35,13 @@
     <div role="separator"></div>
 
     {% if current_user.is_authenticated %}
+
+    {% if current_user.has_admin_permissions() %}
+    <a href="{{ url_for('admin.index') }}">
+        Admin
+    </a>
+    {% endif %}
+    
     <a href="{{ url_for('security.change_password') }}">
         User
         ({{ current_user.full_name }})

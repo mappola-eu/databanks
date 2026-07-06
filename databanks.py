@@ -53,5 +53,7 @@ app.register_blueprint(controllers.resource, url_prefix='/r')
 app.register_blueprint(controllers.search, url_prefix='/s')
 app.register_blueprint(controllers.ext_zotero, url_prefix='/ext/zotero')
 app.register_blueprint(controllers.info, url_prefix='/info')
+app.register_blueprint(controllers.admin, url_prefix='/admin')
+
 app.register_blueprint(import_)
 app.register_blueprint(maintenance)
