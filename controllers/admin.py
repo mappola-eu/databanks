@@ -1,6 +1,6 @@
 from flask import *
 from flask_security import login_required, current_user, hash_password
-from ..models import db, User, Role
+from ..models import db, User, Role, Inscriptions
 
 admin = Blueprint('admin', __name__)
 
@@ -12,6 +12,27 @@ def index():
 
     return render_template("admin/index.html")
 
+
+
+@admin.route("/inscription-reassign", methods=["GET", "POST"])
+@login_required
+def inscription_reassign():
+    if not current_user.has_admin_permissions():
+        abort(404)
+
+    ok = False
+
+    if request.method == "POST":
+        inscription = Inscriptions.query.get_or_404(request.form['inscription'])
+        user = User.query.get_or_404(request.form['user'])
+
+        inscription.last_updated_by = user
+        db.session.commit()
+
+        ok = True
+
+    users = User.query.all()
+    return render_template("admin/inscription_reassign.html", users=users, ok=ok)
 
 
 # ########################################################

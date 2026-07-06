@@ -1,0 +1,42 @@
+{% set title = "Admin" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Admin tools &ndash; Reassign inscription</h1>
+
+{% if ok %}
+<p><strong>Success.</strong> The inscription has been successfully reassigned.</p>
+{% endif %}
+
+<form action="" method="post">
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>
+                    <label for="inscription">Inscription ID</label>
+                </th>
+                <td>
+                    <input type="number" name="inscription" id="inscription">
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label for="user">User</label>
+                </th>
+                <td>
+                    <select name="user" id="user">
+                        {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.full_name }} ({{ user.email }})</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <button type="submit">Reassign inscription</button>
+    </p>
+</form>
+
+{% endblock %}
