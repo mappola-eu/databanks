@@ -37,8 +37,9 @@ def basic_do():
 
     query = _apply_basic_text_filters(query)
 
-    count = query.count()
     results = query.all()
+    results = [*filter(lambda i: not i.work_status or not i.work_status.is_deleted, results)]
+    count = len(results)
     mc = inscriptions_to_json(results)
 
     return render_template("search/do.html", results=results, count=count, mc=mc, origin='basic')
@@ -62,10 +63,9 @@ def advanced_do():
     query = _apply_advanced_text_filters(query)
     query = _apply_advanced_people_filters(query)
 
-    print(query)
-
-    count = query.count()
     results = query.all()
+    results = [*filter(lambda i: not i.work_status or not i.work_status.is_deleted, results)]
+    count = len(results)
     mc = inscriptions_to_json(results)
 
     return render_template("search/do.html", results=results, count=count, mc=mc, origin='advanced')

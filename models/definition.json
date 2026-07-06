@@ -121,6 +121,7 @@
             "show_only_incomplete_op": "Show only incomplete",
             "show_all_completeness_op": "Show all",
             "show_completeness_column": "work_status",
+            "soft_deletion_column": "work_status",
             "table": [
                 {
                     "name": "#",
@@ -1379,6 +1380,11 @@
                                 {
                                     "column": "is_default",
                                     "label": "Default Status For New Inscriptions?",
+                                    "type": "boolean_input"
+                                },
+                                {
+                                    "column": "is_deleted",
+                                    "label": "Soft Deletion",
                                     "type": "boolean_input"
                                 }
                             ]

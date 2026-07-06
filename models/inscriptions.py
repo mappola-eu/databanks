@@ -393,6 +393,7 @@ class WorkStatus(db.Model):
     is_complete = db.Column(db.Boolean)
     is_incomplete = db.Column(db.Boolean)
     is_default = db.Column(db.Boolean)
+    is_deleted = db.Column(db.Boolean)
 
 
 class ObjectTypes(db.Model):

@@ -40,6 +40,7 @@
     {% set show_only_complete = true %}
     {% set show_only_incomplete = false %}
     {% endif %}
+    {% set has_soft_deletion = not not defn.soft_deletion_column %}
 </div>
 {% endif %}
 
@@ -59,7 +60,9 @@
                                         and
                                         (not show_only_incomplete or item[defn.show_completeness_column].is_incomplete)
                                         and
-                                        (not show_only_complete or item[defn.show_completeness_column].is_complete) %}
+                                        (not show_only_complete or item[defn.show_completeness_column].is_complete)
+                                        and
+                                        (not has_soft_deletion or not item[defn.soft_deletion_column] or not item[defn.soft_deletion_column].is_deleted) %}
         <tr>
             {% set primary_loop=loop %}
             {% for column in defn.table %}
