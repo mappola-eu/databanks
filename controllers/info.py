@@ -22,4 +22,6 @@ def acknowledgements(): return render_template("info/project/acknowledgements.ht
 def data(): return render_template("info/data.html")
 
 @info.route("/bibliography")
-def bibliography(): return render_template("info/bibliography.html")
+def bibliography():
+    site_abbreviations = get_enum('SiteAbbreviations').query.order_by('abbreviation').all()
+    return render_template("info/bibliography.html", site_abbreviations=site_abbreviations)

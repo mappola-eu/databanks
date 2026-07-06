@@ -37,7 +37,8 @@
         "LayoutTypes",
         "VerseLineCorrespondences",
         "CarmenReadingSigns",
-        "VerseLayouts"
+        "VerseLayouts",
+        "SiteAbbreviations"
     ],
     "enums": [
         "ObjectTypes",
@@ -362,6 +363,25 @@
                 {
                     "name": "Title",
                     "value": "obj#title"
+                }
+            ]
+        },
+        "SiteAbbreviations": {
+            "create_op": "New Item",
+            "update_op": "Update",
+            "delete_op": false,
+            "table": [
+                {
+                    "name": "#",
+                    "value": "loop#index"
+                },
+                {
+                    "name": "Abbreviation",
+                    "value": "obj#abbreviation"
+                },
+                {
+                    "name": "Description",
+                    "value": "obj#description"
                 }
             ]
         }
@@ -1360,6 +1380,37 @@
                                     "column": "is_default",
                                     "label": "Default Status For New Inscriptions?",
                                     "type": "boolean_input"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "SiteAbbreviations": {
+            "create_action": "Create",
+            "update_action": "Update",
+            "cancel_action": "Cancel",
+            "update_op": "Edit This Item",
+            "delete_op": false,
+            "title": "obj#abbreviation",
+            "slides": [
+                {
+                    "title": null,
+                    "parts": [
+                        {
+                            "title": null,
+                            "component": "table",
+                            "columns": [
+                                {
+                                    "column": "abbreviation",
+                                    "label": "Abbreviation",
+                                    "type": "input"
+                                },
+                                {
+                                    "column": "description",
+                                    "label": "Description",
+                                    "type": "text"
                                 }
                             ]
                         }

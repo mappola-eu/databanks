@@ -4,6 +4,16 @@
 {% block body %}
 <h1>Abbreviation of corpora</h1>
 
+{% for corpus in site_abbreviations %}
+<p><strong>{{ corpus.abbreviation }}:</strong> {{ corpus.description }}</p>
+{% endfor %}
+
+{% if current_user.is_authenticated and current_user.has_admin_permissions() %}
+
+<hr>
+
+<p>the old entries (only visible to you):</p>
+
 <p><strong>AE:</strong> L'Année Épigraphique, Paris 1888- (es. AE 2010, 00123)</p>
 <p><strong>CIL:</strong> Corpus Inscriptionum Latinarum (es. CIL 06, 00123)</p>
 <p><strong>CLE:</strong> Carmina Latina Epigraphica (es. CLE 00123)</p>
@@ -34,5 +44,7 @@
 <p><strong>SEG:</strong> Supplementum Epigraphicum Graecum (es. SEG 14, 00555)</p>
 <p><strong>SGO:</strong> R. Merkelbach, J. Stauber, Steinepigramme aus dem griechischen Osten, München, Leipzig 1998–2004. (es. SGO 02 10/02/32 Kaisareia/Hadrianupolis)</p>
 <p><strong>TitAq:</strong> Tituli Aquicenses, Budapest 2009–2011 (es. TitAq 01, 00519)</p>
+
+{% endif %}
 
 {% endblock %}

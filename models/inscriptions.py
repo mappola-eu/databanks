@@ -869,6 +869,12 @@ class VerseLayouts(db.Model):
         return "-"
 
 
+class SiteAbbreviations(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    abbreviation = db.Column(db.String(30))
+    description = db.Column(db.Text)
+
+
 def get_enum(enum):
     if enum in defn["classes"]:
         return eval(enum)
