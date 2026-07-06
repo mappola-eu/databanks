@@ -10,6 +10,7 @@ inscriptions = Blueprint('inscriptions', __name__)
 @inscriptions.route("/map")
 def map():
     inscs = Inscriptions.query.all()
+    inscs = [*filter(lambda i: not i.work_status or not i.work_status.is_deleted, inscs)]
 
     mc = inscriptions_to_json(inscs)
 
@@ -34,6 +35,7 @@ def render_xml(id):
 @inscriptions.route("/.unknown/alex.csv")
 def alex_export():
     inscs = Inscriptions.query.all()
+    inscs = [*filter(lambda i: not i.work_status or not i.work_status.is_deleted, inscs)]
 
     csvdata = inscriptions_to_csv(inscs)
 
