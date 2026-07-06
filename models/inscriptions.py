@@ -604,7 +604,7 @@ class Translations(db.Model):
     language = db.relationship('Languages')
 
     def language_title(self):
-        return self.language.title
+        return self.language.title if self.language is not None else "NO LANGUAGE"
 
     def display(self):
         if self.translation_author:
