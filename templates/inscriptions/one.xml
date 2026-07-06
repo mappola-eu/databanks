@@ -40,7 +40,12 @@
                                         <height>{{ insc.object_dim_height }}</height>
                                         <depth>{{ insc.object_dim_depth }}</depth>
                                     </dimensions>
-                                    <rs type="decoration" ref="none">{{ insc.object_decoration_comment }}</rs>
+                                    {% if insc.object_decoration_comment %}
+                                    <rs type="decoration">{{ insc.object_decoration_comment }}</rs>
+                                    {% endif %}
+                                    {% for tag in insc.decoration_tags %}
+                                    <rs type="decoration" ref="{{ tag.lod or url_for('resource.show', name='ObjectDecorationTags', id=tag.id, _external=True) }}">{{ tag.title }}</rs>
+                                    {% endfor %}
                                 </support>
                             </supportDesc>
                             <layoutDesc>
@@ -60,12 +65,22 @@
                     <history>
                         <origin>
                             <origPlace>
-                                <placeName type="ancient">{{ insc.place.ancient_name if insc.place }}</placeName>
+                                <placeName type="ancient"
+                                    ref="{{ ('https://pleiades.stoa.org/places/' ~ insc.place.pleiades_id) if insc.place.pleiades_id else
+                                    ('https://www.geonames.org/' ~ insc.place.geonames_id) if insc.place.geonames_id else 
+                                    url_for('resource.show', name='Places', id=insc.place.id, _external=True) }}">
+                                    {{ insc.place.ancient_name if insc.place }}
+                                </placeName>
                             </origPlace>
                             <origDate notBefore-custom="{{ insc.date_begin }}" notAfter-custom="{{ insc.date_end }}" datingMethod="http://en.wikipedia.org/wiki/Julian_calendar">{{ insc.date_begin }}-{{ insc.date_end }}</origDate>
                         </origin>
                         <provenance type="found">
-                            <placeName type="ancient">{{ insc.place.title if insc.place }}</placeName>
+                            <placeName type="ancient"
+                                ref="{{ ('https://pleiades.stoa.org/places/' ~ insc.place.pleiades_id) if insc.place.pleiades_id else
+                                ('https://www.geonames.org/' ~ insc.place.geonames_id) if insc.place.geonames_id else 
+                                url_for('resource.show', name='Places', id=insc.place.id, _external=True) }}">
+                                {{ insc.place.title if insc.place }}
+                            </placeName>
                             <placeName type="findspot">{{ insc.find_comment }}</placeName>
                             <geo>{{ insc.full_coords()[0] }} {{ insc.full_coords()[1] }}</geo>
                         </provenance>
@@ -116,7 +131,7 @@
     </teiHeader>
     <facsimile>
         {% for img in insc.images -%}
-        <graphic url="{{ img.image_link }}">{{ img.image_citation }}</graphic>
+        <graphic url="{{ img.image_link }}"><desc>{{ img.image_citation }}</desc></graphic>
         {% else %}
         <graphic url="#" />
         {% endfor %}
@@ -129,11 +144,13 @@
             <div type="apparatus">
                 <p>{{ insc.text_apparatus_criticus_comment }}</p>
             </div>
-            <div type="translation" xml:lang="en" resp="{{ insc.translation_author }}">
+            {% if insc.main_translation %}
+            <div type="translation" xml:lang="en" resp="{{ insc.translation_author or 'MAPPOLA' }}">
                 <p>{{ insc.main_translation }}</p>
             </div>
+            {% endif %}
             {% for tr in insc.translations -%}
-            <div type="translation" xml:lang="{{ tr.language_title() }}" resp="{{ insc.translation_author }}">
+            <div type="translation" xml:lang="{{ tr.language_title() }}" resp="{{ tr.translation_author }}">
                 <p>{{ tr.link_to_published_translation }}</p>
             </div>
             {% endfor %}
