@@ -1,0 +1,16 @@
+{% set title = "Download all Inscriptions" %}
+{% extends "layouts/application.html" %}
+
+{% block body %}
+<h1>Download all inscriptions</h1>
+
+<form action="" method="post">
+    <p>Before you may use this feature, you need to confirm that you are human.</p>
+    <p>Please enter below the exact title of the inscription with the ID <strong>{{ captcha_insc.long_id() }}</strong>:</p>
+
+
+    <input type="hidden" name="cid" value="{{ captcha_insc.id }}">
+    <input type="text" name="ctitle">
+    <button type="submit">Confirm</button>
+</form>
+{% endblock %}

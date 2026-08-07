@@ -8,5 +8,10 @@
 
 <img src="{{ url_for('static', filename='by-sa.png') }}" alt="" width="100">
 
-<p>All data of the MAPPOLA database can be downloaded in EpiDoc-XML format.</p>
+<p>All data of the MAPPOLA database can be downloaded in EpiDoc-XML format:</p>
+
+<ul>
+    <li>You can download individual inscriptions using the <strong>Download as XML</strong> button at the end of the inscription page.</li>
+    <li>You can also <a href="{{ url_for('inscriptions.download_xml') }}">download a ZIP file with all inscriptions</a>.</li>
+</ul>
 {% endblock %}
