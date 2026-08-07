@@ -44,7 +44,11 @@
 </div>
 {% endif %}
 
+{% if has_soft_deletion %}
+<h3>{{ R.query.count() - defn_parse_raw(defn.soft_deletion_counter, R, default=0) }} total items</h3>
+{% else %}
 <h3>{{ R.query.count() }} total items</h3>
+{% endif %}
 
 <table role="table">
     <tbody>

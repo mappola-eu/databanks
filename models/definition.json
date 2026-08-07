@@ -122,6 +122,7 @@
             "show_all_completeness_op": "Show all",
             "show_completeness_column": "work_status",
             "soft_deletion_column": "work_status",
+            "soft_deletion_counter": "obj#deleted_count()",
             "table": [
                 {
                     "name": "#",

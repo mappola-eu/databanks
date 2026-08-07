@@ -371,6 +371,11 @@ class Inscriptions(db.Model):
     
     def download_name(self):
         return self.long_id().replace('?', '_') + '.xml'
+    
+    @classmethod
+    def deleted_count(cls):
+        deleted_work_status = WorkStatus.query.filter_by(is_deleted=True).one_or_none()
+        return cls.query.filter(cls.work_status == deleted_work_status).count()
 
 
 class InscriptionEdited(db.Model):
@@ -915,7 +920,7 @@ def get_rel_defn(rel):
         raise NameError("Relation not found: ", rel)
 
 
-def defn_parse_raw(code, item, **args):
+def defn_parse_raw(code, item, default="", **args):
     on, key = code.split("#")
     if on == "obj":
         on_obj = item
@@ -937,7 +942,7 @@ def defn_parse_raw(code, item, **args):
             key_obj = key_obj()
         return key_obj
     else:
-        return ""
+        return default
 
 
 def defn_parse(*args, **kwargs):
