@@ -1,5 +1,5 @@
 from flask import *
-from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications, People, ObjectDecorationTags, inscription_decoration_tag_assoc, inscriptions_to_json
+from ..models import db, get_enum, Inscriptions, Places, VerseTypes, Publications, People, ObjectDecorationTags, inscription_decoration_tag_assoc, inscriptions_to_json, VerseLayouts
 from ..config import SETTINGS
 
 from sqlalchemy import select
@@ -62,6 +62,7 @@ def advanced_do():
 
     query = _apply_advanced_text_filters(query)
     query = _apply_advanced_people_filters(query)
+    query = _apply_advanced_verse_layout_filters(query)
 
     results = query.all()
     results = [*filter(lambda i: not i.work_status or not i.work_status.is_deleted, results)]
@@ -241,22 +242,6 @@ def _apply_advanced_filters(query, places, places_subquery):
             not_expanded += dt.children
 
         query = query.join(ObjectDecorationTags, Inscriptions.decoration_tags).filter(ObjectDecorationTags.id.in_(searched_decoration_tags))
-
-    if 'layout_tags' in request.values.keys() and (layout_tags := request.values.getlist('layout_tags')) != ['']:
-        subquery = None
-
-        for layout_tag in layout_tags:
-            layout_tag = get_enum('TextLayoutTags').query.filter_by(
-                id=layout_tag).one()
-
-            if subquery is None:
-                subquery = Inscriptions.object_text_layout_tags.contains(
-                    layout_tag)
-            else:
-                subquery = subquery & Inscriptions.object_text_layout_tags.contains(
-                    layout_tag)
-
-        query = query.filter(subquery)
 
     if 'function' in request.values.keys() and (function := request.values.get('function')) != '':
         function = get_enum('TextFunctions').query.get(function)
@@ -446,6 +431,46 @@ def _apply_advanced_people_filters(query):
     if people_subquery:
         subquery = None
         for person in people.all():
+            if subquery is None:
+                subquery = Inscriptions.people.contains(person)
+            else:
+                subquery = subquery | Inscriptions.people.contains(person)
+
+        query = query.filter(subquery)
+    
+    return query
+
+
+def _apply_advanced_verse_layout_filters(query):
+    verses = VerseLayouts.query
+    verses_subquery = False
+
+    for key, crit in [['vscriptio_continua_in_verse_part', VerseLayouts.scriptio_continua_in_verse_part],
+                      ['vabbreviations_in_verse_part', VerseLayouts.abbreviations_in_verse_part]]:
+        if key in request.values.keys() and (values := request.values.get(key)) != '':
+            verses = verses.filter(crit == (request.values.get(key) == "1"))
+            verses_subquery = True
+
+    for key, obj, crit in [['vprose_verse_presence', 'ProseVersePresences', VerseLayouts.prose_verse_presence],
+                           ['vprose_verse_distinction', 'ProseVerseDistinctions', VerseLayouts.prose_verse_distinctions],
+                           ['vlayout_type_prose', 'LayoutTypes', VerseLayouts.prose_layout_types],
+                           ['vlayout_type_verse', 'LayoutTypes', VerseLayouts.verse_layout_types],
+                           ['vverse_line_correspondence', 'VerseLineCorrespondences', VerseLayouts.verse_line_correspondence],
+                           ['vcarmen_reading_signs', 'CarmenReadingSigns', VerseLayouts.carmen_reading_signs]]:   
+        if key in request.values.keys() and (values := request.values.getlist(key)) != ['']:
+            subquery = None
+            for value in values:
+                value = get_enum(obj).query.filter_by(id=value).one()
+                if subquery is None:
+                    subquery = crit == value
+                else:
+                    subquery = subquery | (crit == value)
+            verses = verses.filter(subquery)
+            verses_subquery = True
+
+    if verses_subquery:
+        subquery = None
+        for person in verses.all():
             if subquery is None:
                 subquery = Inscriptions.people.contains(person)
             else:

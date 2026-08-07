@@ -592,13 +592,6 @@
                                         "id_if_equal": true,
                                         "representation": "obj#parent_object_decoration_tag_name()"
                                     }
-                                },
-                                {
-                                    "column": "object_text_layout_tags",
-                                    "label": "Text Layout Tags",
-                                    "type": "reference_list",
-                                    "refersto": "TextLayoutTags",
-                                    "show_only_in_edit": true
                                 }
                             ]
                         },

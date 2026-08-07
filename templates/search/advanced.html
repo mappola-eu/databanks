@@ -194,19 +194,6 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <th>text layout tags</th>
-                <td>
-                    <select id="q-layout_tags" name="layout_tags" multiple>
-                        <option selected></option>
-                        {% for e in get_enum('TextLayoutTags').query.order_by("title").all() %}
-                        <option value="{{ e.id }}">
-                            {{ e.title }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </td>
-            </tr>
         </tbody>
     </table>
 
@@ -316,6 +303,111 @@
                         <option>AND NOT</option>
                     </select>
                     <input id="q-text-32" name="text32">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Verse Layout</h2>
+
+    <table role="table">
+        <tbody>
+            <tr>
+                <th>prose verse presence</th>
+                <td>
+                    <select id="q-vprose_verse_presence" name="vprose_verse_presence" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('ProseVersePresences').query.order_by("title").all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>prose verse distinction</th>
+                <td>
+                    <select id="q-vprose_verse_distinction" name="vprose_verse_distinction" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('ProseVerseDistinctions').query.order_by("title").all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>layout type (prose)</th>
+                <td>
+                    <select id="q-vlayout_type_prose" name="vlayout_type_prose" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('LayoutTypes').query.order_by("title").all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>layout type (verse)</th>
+                <td>
+                    <select id="q-vlayout_type_verse" name="vlayout_type_verse" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('LayoutTypes').query.order_by("title").all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>scriptio continua in verse part</th>
+                <td>
+                    <select id="q-vscriptio_continua_in_verse_part" name="vscriptio_continua_in_verse_part">
+                        <option selected></option>
+                        <option value="1">yes</option>
+                        <option value="0">no</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>abbreviations in verse part</th>
+                <td>
+                    <select id="q-vabbreviations_in_verse_part" name="vabbreviations_in_verse_part">
+                        <option selected></option>
+                        <option value="1">yes</option>
+                        <option value="0">no</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>verse line correspondence</th>
+                <td>
+                    <select id="q-vverse_line_correspondence" name="vverse_line_correspondence" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('VerseLineCorrespondences').query.order_by("title").all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>graphic signs and spaces for easier carmen reading</th>
+                <td>
+                    <select id="q-vcarmen_reading_signs" name="vcarmen_reading_signs" multiple>
+                        <option selected></option>
+                        {% for e in get_enum('CarmenReadingSigns').query.order_by("title").all() %}
+                        <option value="{{ e.id }}">
+                            {{ e.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
                 </td>
             </tr>
         </tbody>
