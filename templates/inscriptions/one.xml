@@ -72,7 +72,9 @@
                                     {{ insc.place.ancient_name if insc.place }}
                                 </placeName>
                             </origPlace>
-                            <origDate notBefore-custom="{{ insc.date_begin }}" notAfter-custom="{{ insc.date_end }}" datingMethod="http://en.wikipedia.org/wiki/Julian_calendar">{{ insc.date_begin }}-{{ insc.date_end }}</origDate>
+                            <origDate notBefore-custom="{{ insc.nice_begin_date() }}" notAfter-custom="{{ insc.nice_end_date() }}"
+                                datingMethod="http://en.wikipedia.org/wiki/Julian_calendar"
+                                evidence="{{ insc.nice_dating_criteria_titles() }}">{{ insc.date_begin }}-{{ insc.date_end }}</origDate>
                         </origin>
                         <provenance type="found">
                             <placeName type="ancient"

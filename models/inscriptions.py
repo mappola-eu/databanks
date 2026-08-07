@@ -308,6 +308,15 @@ class Inscriptions(db.Model):
 
         return itt[1]
 
+    def nice_begin_date(self):
+        return f"{self.date_begin: 05}".strip()
+    
+    def nice_end_date(self):
+        return f"{self.date_end: 05}".strip()
+    
+    def nice_dating_criteria_titles(self):
+        return " ".join(map(lambda c: c.title, self.dating_criteria))
+
     def full_coords(self):
         if self.coordinates_lat not in (0, None) and self.coordinates_long not in (0, None):
             return [self.coordinates_lat, self.coordinates_long]
