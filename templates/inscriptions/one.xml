@@ -51,6 +51,29 @@
                             <layoutDesc>
                                 <layout>
                                     <rs type="execution" ref="{{ insc.object_execution_technique.enum_lod if insc.object_execution_technique else 'none' }}">{{ insc.object_execution_technique.title if insc.object_execution_technique }}</rs>
+                                    {% for vl in insc.verse_layouts %}
+
+                                    {% if vl.prose_verse_presence %}
+                                    <rs type="execution" ref="{{ vl.prose_verse_presence.enum_lod or
+                                        url_for('resource.show', name='ProseVersePresences', id=vl.prose_verse_presence.id, _external=True) }}">{{ vl.prose_verse_presence.title }}</rs>
+                                    {% endif %}
+
+                                    {% for pvd in vl.prose_verse_distinctions %}
+                                    <rs type="execution" ref="{{ pvd.enum_lod or
+                                        url_for('resource.show', name='ProseVerseDistinctions', id=pvd.id, _external=True) }}">{{ pvd.title }}</rs>
+                                    {% endfor %}
+
+                                    {% if vl.verse_line_correspondence %}
+                                    <rs type="execution" ref="{{ vl.verse_line_correspondence.enum_lod or
+                                        url_for('resource.show', name='VerseLineCorrespondences', id=vl.verse_line_correspondence.id, _external=True) }}">{{ vl.verse_line_correspondence.title }}</rs>
+                                    {% endif %}
+
+                                    {% for crs in vl.carmen_reading_signs %}
+                                    <rs type="execution" ref="{{ crs.enum_lod or
+                                        url_for('resource.show', name='CarmenReadingSigns', id=crs.id, _external=True) }}">{{ crs.title }}</rs>
+                                    {% endfor %}
+
+                                    {% endfor %}
                                 </layout>
                             </layoutDesc>
                         </objectDesc>
@@ -140,7 +163,7 @@
     </facsimile>
     <text>
         <body>
-            <div type="edition" xml:space="preserve">
+            <div type="edition" xml:space="preserve" xml:lang="{{ insc.languages[0].enum_lod if insc.languages|length == 1 else 'mul' }}">
                 {{ insc.text_epidoc_form|safe }}
             </div>
             <div type="apparatus">

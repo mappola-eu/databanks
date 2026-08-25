@@ -232,6 +232,10 @@
                 {
                     "name": "Zotero ID",
                     "value": "obj#zotero_item_id"
+                },
+                {
+                    "name": "Order",
+                    "value": "obj#order_number"
                 }
             ]
         },
