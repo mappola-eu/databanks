@@ -12,11 +12,14 @@ def rerender():
 
     for i in insc.query.all():
         print("Starting", i.id)
-        i = full_parse_on_inscription(i)
-        if i.text_interpretative_cached == "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML":
-            print(f"\tInscription #{i.id} failed to render.")
-        else:
-            print("\tDone.")
+        try:
+            i = full_parse_on_inscription(i, timeout=10)
+            if i.text_interpretative_cached == "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML":
+                print(f"\tInscription #{i.id} failed to render.")
+            else:
+                print("\tDone.")
+        except e:
+            print("\tFailed with error:", e)
     
     db.session.commit()
     print(f"Rerendered {insc.count()} inscriptions.")
