@@ -11,12 +11,15 @@ def rerender():
     insc = get_enum('Inscriptions')
 
     for i in insc.query.all():
+        print("Starting", i.id)
         i = full_parse_on_inscription(i)
         if i.text_interpretative_cached == "EPIDOC IS INVALID; UPDATE WITH WELL-FORMED XML":
-            print(f"Inscription #{i.id} failed to render.")
+            print(f"\tInscription #{i.id} failed to render.")
+        else:
+            print("\tDone.")
     
     db.session.commit()
-    print("Done.")
+    print(f"Rerendered {insc.count()} inscriptions.")
 
 @maintenance.cli.command("rebuild_inscription_search")
 def rebuild_inscription_search():
