@@ -888,6 +888,7 @@ class SiteAbbreviations(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     abbreviation = db.Column(db.String(30))
     description = db.Column(db.Text)
+    enum_lod = db.Column(db.String(150))
 
 
 def get_enum(enum):

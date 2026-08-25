@@ -1415,6 +1415,11 @@
                                     "column": "description",
                                     "label": "Description",
                                     "type": "text"
+                                },
+                                {
+                                    "column": "enum_lod",
+                                    "label": "LOD",
+                                    "type": "input"
                                 }
                             ]
                         }
