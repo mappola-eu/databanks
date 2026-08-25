@@ -7,10 +7,15 @@ from .linkage.epidoc import full_parse_on_inscription
 maintenance = Blueprint('maintenance', __name__)
 
 @maintenance.cli.command("rerender")
-def rerender():
+@click.argument("start_id", required=False)
+def rerender(start_id=None):
     insc = get_enum('Inscriptions')
+    iq = insc.query
 
-    for i in insc.query.all():
+    if start_id:
+        iq = iq.filter(insc.id >= int(start_id))
+
+    for i in iq.all():
         print("Starting", i.id)
         try:
             i = full_parse_on_inscription(i, timeout=10)
