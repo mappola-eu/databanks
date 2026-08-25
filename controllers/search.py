@@ -451,12 +451,9 @@ def _apply_advanced_verse_layout_filters(query):
             verses = verses.filter(crit == (request.values.get(key) == "1"))
             verses_subquery = True
 
+
     for key, obj, crit in [['vprose_verse_presence', 'ProseVersePresences', VerseLayouts.prose_verse_presence],
-                           ['vprose_verse_distinction', 'ProseVerseDistinctions', VerseLayouts.prose_verse_distinctions],
-                           ['vlayout_type_prose', 'LayoutTypes', VerseLayouts.prose_layout_types],
-                           ['vlayout_type_verse', 'LayoutTypes', VerseLayouts.verse_layout_types],
-                           ['vverse_line_correspondence', 'VerseLineCorrespondences', VerseLayouts.verse_line_correspondence],
-                           ['vcarmen_reading_signs', 'CarmenReadingSigns', VerseLayouts.carmen_reading_signs]]:   
+                           ['vverse_line_correspondence', 'VerseLineCorrespondences', VerseLayouts.verse_line_correspondence]]:
         if key in request.values.keys() and (values := request.values.getlist(key)) != ['']:
             subquery = None
             for value in values:
@@ -467,6 +464,23 @@ def _apply_advanced_verse_layout_filters(query):
                     subquery = subquery | (crit == value)
             verses = verses.filter(subquery)
             verses_subquery = True
+
+
+    for key, obj, crit in [['vprose_verse_distinction', 'ProseVerseDistinctions', VerseLayouts.prose_verse_distinctions],
+                           ['vlayout_type_prose', 'LayoutTypes', VerseLayouts.prose_layout_types],
+                           ['vlayout_type_verse', 'LayoutTypes', VerseLayouts.verse_layout_types],
+                           ['vcarmen_reading_signs', 'CarmenReadingSigns', VerseLayouts.carmen_reading_signs]]:   
+        if key in request.values.keys() and (values := request.values.getlist(key)) != ['']:
+            subquery = None
+            for value in values:
+                value = get_enum(obj).query.filter_by(id=value).one()
+                if subquery is None:
+                    subquery = crit.contains(value)
+                else:
+                    subquery = subquery | (crit.contains(value))
+            verses = verses.filter(subquery)
+            verses_subquery = True
+
 
     if verses_subquery:
         subquery = None
